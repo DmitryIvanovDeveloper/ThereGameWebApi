@@ -1,12 +1,6 @@
-
-using Microsoft.Extensions.Primitives;
-using ThereGame.Buisness.Communication.Dialogue;
-using ThereGame.Buisness.Communication.Libraries.Tenses;
-using ThereGame.Buisness.Interactor;
-
-var BDService = new BDService();
-
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddThereGame(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,11 +14,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
-app.MapGet("/api/levels/{id}/dialogs", () =>
-{
-    return BDService.GetDialogues();
-});
+app.UseThereGame();
 
 app.Run();

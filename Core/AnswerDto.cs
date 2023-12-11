@@ -1,7 +1,7 @@
-using ThereGame.Buisness.Communication.Dialogue;
+using ThereGame.Business.Communication.Dialogue;
 
 
-namespace ThereGame.Buisness.Interactor
+namespace ThereGame.Business.Interactor
 {
     public class AnswerDto : IAnswerDto
     {

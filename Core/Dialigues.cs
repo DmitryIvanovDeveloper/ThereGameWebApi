@@ -1,4 +1,4 @@
-using ThereGame.Buisness.Interactor;
+using ThereGame.Business.Interactor;
 
 public class Dialogues : IDialogues
 {

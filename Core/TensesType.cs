@@ -1,4 +1,4 @@
-namespace ThereGame.Buisness.Communication.Libraries.Tenses
+namespace ThereGame.Business.Communication.Libraries.Tenses
 {
     public enum TensesType
     {

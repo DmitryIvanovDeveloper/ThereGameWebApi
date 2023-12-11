@@ -1,5 +1,5 @@
-using ThereGame.Buisness.Communication.Libraries.Tenses;
-using ThereGame.Buisness.Interactor;
+using ThereGame.Business.Communication.Libraries.Tenses;
+using ThereGame.Business.Interactor;
 
 public interface IDialogueSettingsDto
     {

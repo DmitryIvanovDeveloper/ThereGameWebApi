@@ -1,7 +1,7 @@
 
-using ThereGame.Buisness.Communication.Dialogue;
-using ThereGame.Buisness.Communication.Libraries.Tenses;
-using ThereGame.Buisness.Interactor;
+using ThereGame.Business.Communication.Dialogue;
+using ThereGame.Business.Communication.Libraries.Tenses;
+using ThereGame.Business.Interactor;
 
 
 public class BDService : IBDService

@@ -1,6 +1,6 @@
-using ThereGame.Buisness.Communication.Libraries.Tenses;
+using ThereGame.Business.Communication.Libraries.Tenses;
 
-namespace ThereGame.Buisness.Interactor
+namespace ThereGame.Business.Interactor
 {
     public class AnswersSettingsDto : IAnswersSettingsDto
     {

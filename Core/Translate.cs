@@ -1,6 +1,6 @@
 using System;
 
-namespace ThereGame.Buisness.Communication.Dialogue
+namespace ThereGame.Business.Communication.Dialogue
 {
     public class Translate
     {

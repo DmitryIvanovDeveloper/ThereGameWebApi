@@ -19,7 +19,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<PhraseModel> Phrases { get; set; }
     public DbSet<AnswerModel> Answers { get; set; }
     public DbSet<DialogueModel> Dialogues { get; set; }
-
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
@@ -47,9 +46,9 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         phraseBuilder.HasKey(p => p.Id);
 
         phraseBuilder
-            .HasOne(p => p.Answer)
+            .HasOne(p => p.ParentAnswer)
             .WithMany(a => a.Phrases)
-            .HasForeignKey(p => p.AnswerId)
+            .HasForeignKey(p => p.ParentAnswerId)
             .IsRequired()
         ;
         // </- Phrase -->
@@ -61,11 +60,26 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         answerBuilder.HasKey(p => p.Id);
 
         answerBuilder
-            .HasOne(a => a.Phrase)
+            .HasOne(a => a.ParentPhrase)
             .WithMany(p => p.Answers)
-            .HasForeignKey(a => a.PhraseId)
+            .HasForeignKey(a => a.ParentPhraseId)
+            .IsRequired()
+        ;
+
+        answerBuilder
+            .HasMany(a => a.MistakeExplanations)
+            .WithOne(m => m.Answer)
+            .HasForeignKey(m => m.AnswerId)
+            .IsRequired()
+        ;
+
+        answerBuilder
+            .HasMany(a => a.Translates)
+            .WithOne(t => t.Answer)
+            .HasForeignKey(t => t.AnswerId)
             .IsRequired()
         ;
         // </- Answer -->
+        
     }
 }

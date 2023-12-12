@@ -8,9 +8,13 @@ public class PhraseModel
 {
     public Guid Id { get; set; }
     public string Text { get; set; } = "";
+    public string Comments { get; set; } = "";
+    public string[] Tenses { get; set; } = [];
 
-    public Guid AnswerId { get; set; }
-    public AnswerModel? Answer { get; set; } = null;
+
+    public Guid ParentAnswerId { get; set; }
+    public AnswerModel? ParentAnswer { get; set; } = null;
+
 
     public ICollection<AnswerModel> Answers { get; } = new List<AnswerModel>();
     public ICollection<DialogueModel> Dialogues { get; } = new List<DialogueModel>();

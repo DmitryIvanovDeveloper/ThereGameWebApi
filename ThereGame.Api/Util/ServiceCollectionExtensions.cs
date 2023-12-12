@@ -21,12 +21,21 @@ public static class ServiceCollectionExtensions
         // MediatR
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
             typeof(Program).Assembly
-            // InspirerBusinessAssembly.GetAssembly() TODO: Use business assembly after refactoring
+        // InspirerBusinessAssembly.GetAssembly() TODO: Use business assembly after refactoring
         ));
 
         // Custom Services
         services.AddTransient<IThereGameDataService, ThereGameDbContext>();
 
+        // Cors
+        services.AddCors(options => options.AddPolicy("corspolicy",
+                       builder =>
+                       {
+                           builder.AllowAnyMethod().AllowAnyHeader()
+                               .WithOrigins("http://localhost:3000")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                       }));
         return services;
     }
 }

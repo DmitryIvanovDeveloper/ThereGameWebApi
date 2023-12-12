@@ -17,8 +17,8 @@ public class GetDialogueById(IThereGameDataService dataService) : IRequestHandle
     {
         return await _dataService.Dialogues
             .Include(d => d.Phrase)
-            .ThenInclude(p => p == null ? null : p.Answer)
-            .ThenInclude(a => a == null ? null : a.Phrase)
+            .ThenInclude(p => p == null ? null : p.ParentAnswer)
+            .ThenInclude(a => a == null ? null : a.ParentPhrase)
             .SingleOrDefaultAsync(d => d.Id == request.Id)
         ;
     }

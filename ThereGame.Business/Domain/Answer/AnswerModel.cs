@@ -7,9 +7,13 @@ public class AnswerModel
 {
     public Guid Id { get; set; }
     public string Text { get; set; } = "";
+    public string[] Tenses { get; set; } = [];
+    public string[] WordsToUse { get; set; } = [];
 
-    public Guid PhraseId { get; set; }
-    public PhraseModel Phrase { get; set; } = null!;
+    public Guid ParentPhraseId { get; set; }
+    public PhraseModel ParentPhrase { get; set; } = null!;
     
+    public ICollection<TranslateModel> Translates { get; set; } = new List<TranslateModel>();
+    public ICollection<MistakeExplanationModel> MistakeExplanations { get; set; } = new List<MistakeExplanationModel>();
     public ICollection<PhraseModel> Phrases { get; } = new List<PhraseModel>();
 }

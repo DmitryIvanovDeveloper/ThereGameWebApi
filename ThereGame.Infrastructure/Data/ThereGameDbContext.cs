@@ -26,6 +26,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         // <-- Dialogue -->
         var dialogueBuilder = modelBuilder.Entity<DialogueModel>();
 

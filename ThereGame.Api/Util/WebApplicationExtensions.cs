@@ -12,7 +12,23 @@ public static class WebApplicationExtensions
         // Dialogue
         var dialoguesGroup = apiGroup.MapGroup("/dialogues");
         dialoguesGroup.MapGet("{id:guid}", GetDialogueByIdQueryApi.Handler);
-        dialoguesGroup.MapPost("", CreateDialogueQueryApi.Handler);
+        dialoguesGroup.MapPost("/", CreateDialogueQueryApi.Handler);
+        dialoguesGroup.MapDelete("{id:guid}", DeleteDialogueQueryApi.Handler);
+        dialoguesGroup.MapPut("/", UpdateDialogueQueryApi.Handler);
+
+        // Phrase
+        var phraseGroup = apiGroup.MapGroup("/pharses");
+        phraseGroup.MapGet("{id:guid}", GetPhraseByIdQueryApi.Handler);
+        phraseGroup.MapGet("/", CreatePhraseQueryApi.Handler);
+        phraseGroup.MapDelete("{id:guid}", DeletePhraseQueryApi.Handler);
+        phraseGroup.MapPut("{id:guid}", UpdatePhraseQueryApi.Handler);
+
+         // Phrase
+        var answerGroup = apiGroup.MapGroup("/answers");
+        answerGroup.MapGet("{id:guid}", GetAnswerByIdQueryApi.Handler);
+        answerGroup.MapGet("/", CreateAnswerQueryApi.Handler);
+        answerGroup.MapDelete("{id:guid}", DeleteAnswerQueryApi.Handler);
+        answerGroup.MapPut("{id:guid}", UpdateAnswerQueryApi.Handler);
 
         return app;
     }

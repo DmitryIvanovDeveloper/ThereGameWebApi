@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ThereGameWebAPI.ThereGame.Infrastructure.Data.Migrations
+namespace ThereGameWebAPI.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231212140707___EFMigrationsHistory")]
-    partial class __EFMigrationsHistory
+    [Migration("20231213074828___serivce")]
+    partial class __serivce
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

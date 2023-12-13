@@ -8,9 +8,8 @@ public class InspirerDbContextFactory : IDesignTimeDbContextFactory<ThereGameDbC
     public ThereGameDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ThereGameDbContext>();
-
-        optionsBuilder.UseNpgsql("User ID=admin;Password=XDd1UeO2uAtp2oPj9Pe2SVsFpQXzf4Zn;Host=dpg-cl30qfot3kic73d59ppg-a.frankfurt-postgres.render.com;Port=5432;Database=main_bh1v;Pooling=true;");
-
+        
+        optionsBuilder.UseNpgsql("User ID=admin;Password=zN81fUfa1SZxcYHvp1IoaaHBtL7mE7IY;Host=dpg-clsanntetvis73b7cjv0-a.frankfurt-postgres.render.com;Port=5432;Database=maindb_cxi8;Pooling=true;");
         return new ThereGameDbContext(optionsBuilder.Options);
     }
 }

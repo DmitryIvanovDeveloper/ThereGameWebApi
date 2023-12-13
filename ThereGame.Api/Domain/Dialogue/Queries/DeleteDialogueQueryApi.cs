@@ -5,18 +5,16 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
-public static class CreateDialogueQueryApi
+public static class DeleteDialogueQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] DialogueDto dialogue,
+        [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     )
     {
-        Console.WriteLine(DialogueMapping.MapDtoToModel(dialogue));
-        
-        var dialogue1 = await mediator.Send(new CreateDialogueRequest() {
-            Dialogue = DialogueMapping.MapDtoToModel(dialogue)
+        var dialogue = await mediator.Send(new DeleteDialogueRequest() {
+            Id = id
         });
         
         if (dialogue == null)
@@ -24,6 +22,6 @@ public static class CreateDialogueQueryApi
             return TypedResults.NoContent();
         }
 
-        return TypedResults.Ok(dialogue1);
+        return TypedResults.Ok(dialogue);
     }
 }

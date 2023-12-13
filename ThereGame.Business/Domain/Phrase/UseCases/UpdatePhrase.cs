@@ -3,21 +3,20 @@ namespace ThereGame.Business.Domain.Dialogue.UseCases;
 using Inspirer.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ThereGame.Business.Domain.Phrase;
 
-public class CreateDialogueRequest : IRequest<DialogueModel?>
+public class UpdatePhraseRequest : IRequest<DialogueModel?>
 {
-    public DialogueModel Dialogue { get; set; }
+    public PhraseModel Phrase { get; set; }
 }
 
-public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler<CreateDialogueRequest, DialogueModel?>
+public class UpdatePhrase(IThereGameDataService dataService) : IRequestHandler<UpdatePhraseRequest, DialogueModel?>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task<DialogueModel?> Handle(CreateDialogueRequest request, CancellationToken cancellationToken)
+    public async Task<DialogueModel?> Handle(UpdatePhraseRequest request, CancellationToken cancellationToken)
     {
-        Console.WriteLine(request.Dialogue.Id);
-
-        if(request.Dialogue == null) {
+        if(request.Phrase == null) {
             return null;
         }
 
@@ -25,7 +24,7 @@ public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)
             .ThenInclude(a => a == null ? null : a.ParentPhrase)
-            .SingleOrDefaultAsync(d => d.Id == request.Dialogue.Id)
+            .SingleOrDefaultAsync(d => d.Id == request.Phrase.Id)
         ;
     }
 }

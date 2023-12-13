@@ -21,14 +21,14 @@ public static class WebApplicationExtensions
         phraseGroup.MapGet("{id:guid}", GetPhraseByIdQueryApi.Handler);
         phraseGroup.MapGet("/", CreatePhraseQueryApi.Handler);
         phraseGroup.MapDelete("{id:guid}", DeletePhraseQueryApi.Handler);
-        phraseGroup.MapPut("{id:guid}", UpdatePhraseQueryApi.Handler);
+        phraseGroup.MapPut("{/}", UpdatePhraseQueryApi.Handler);
 
-         // Phrase
+         // Answer
         var answerGroup = apiGroup.MapGroup("/answers");
         answerGroup.MapGet("{id:guid}", GetAnswerByIdQueryApi.Handler);
         answerGroup.MapGet("/", CreateAnswerQueryApi.Handler);
         answerGroup.MapDelete("{id:guid}", DeleteAnswerQueryApi.Handler);
-        answerGroup.MapPut("{id:guid}", UpdateAnswerQueryApi.Handler);
+        answerGroup.MapPut("{/}", UpdateAnswerQueryApi.Handler);
 
         return app;
     }

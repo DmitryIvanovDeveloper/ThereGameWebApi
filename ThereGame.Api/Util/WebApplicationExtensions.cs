@@ -21,7 +21,7 @@ public static class WebApplicationExtensions
         phraseGroup.MapGet("{id:guid}", GetPhraseByIdQueryApi.Handler);
         phraseGroup.MapGet("/", CreatePhraseQueryApi.Handler);
         phraseGroup.MapDelete("{id:guid}", DeletePhraseQueryApi.Handler);
-        phraseGroup.MapPut("d/", UpdatePhraseQueryApi.Handler);
+        phraseGroup.MapPut("/", UpdatePhraseQueryApi.Handler);
 
          // Answer
         var answerGroup = apiGroup.MapGroup("/answers");

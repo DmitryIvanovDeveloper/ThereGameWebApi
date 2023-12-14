@@ -1,6 +1,13 @@
-# Migrations
+# Run locally
 
 ```
-> dotnet ef migrations add <migration-name> -o ThereGame.Infrastructure/Data/Migrations -v
-> dotnet ef database update
+# IMPORTANT: run from project root
+> ./deploy/run-server.sh
+```
+
+# Create and apply migrations
+
+```
+# IMPORTANT: run from project root
+> ./deploy/create-and-apply-migrations.sh <migration-name>
 ```

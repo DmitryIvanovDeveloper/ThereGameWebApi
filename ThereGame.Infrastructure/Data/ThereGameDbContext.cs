@@ -1,11 +1,11 @@
-namespace Inspirer.Infrastructure.Data;
+namespace ThereGame.Infrastructure.Data;
 
 using System.Threading.Tasks;
-using Inspirer.Business.Util.Services;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
+using ThereGame.Business.Util.Services;
 
 public class ThereGameDbContext : DbContext, IThereGameDataService
 {
@@ -19,6 +19,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<PhraseModel> Phrases { get; set; }
     public DbSet<AnswerModel> Answers { get; set; }
     public DbSet<DialogueModel> Dialogues { get; set; }
+    
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
@@ -54,6 +55,17 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         ;
         // </- Phrase -->
 
+        // <-- MistakeExplanations -->
+        var mistakeExplanationBuilder = modelBuilder.Entity<MistakeExplanationModel>();
+
+        mistakeExplanationBuilder.HasKey(m => m.Id);
+        // </- MistakeExplanations -->
+
+        // <-- Translates -->
+        var transaleBuilder = modelBuilder.Entity<TranslateModel>();
+
+        transaleBuilder.HasKey(m => m.Id);
+        // </- Translates -->
 
         // <-- Answer -->
         var answerBuilder = modelBuilder.Entity<AnswerModel>();
@@ -81,6 +93,5 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired()
         ;
         // </- Answer -->
-        
     }
 }

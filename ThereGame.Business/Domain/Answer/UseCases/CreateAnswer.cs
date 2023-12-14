@@ -1,13 +1,13 @@
 namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
-using Inspirer.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
+using ThereGame.Business.Util.Services;
 
 public class CreateAnswerRequest : IRequest<DialogueModel?>
 {
-    public AnswerModel Answer { get; set; }
+    public required AnswerModel Answer { get; set; }
 }
 
 public class CreateAnswer(IThereGameDataService dataService) : IRequestHandler<CreateAnswerRequest, DialogueModel?>

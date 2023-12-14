@@ -16,4 +16,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseThereGame();
 app.UseCors("corspolicy");
+
 app.Run();

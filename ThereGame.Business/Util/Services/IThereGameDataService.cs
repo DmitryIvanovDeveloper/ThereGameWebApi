@@ -1,4 +1,4 @@
-namespace Inspirer.Business.Util.Services;
+namespace ThereGame.Business.Util.Services;
 
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;

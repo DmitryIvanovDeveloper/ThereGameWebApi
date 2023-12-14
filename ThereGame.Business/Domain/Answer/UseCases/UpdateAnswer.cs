@@ -1,6 +1,6 @@
 namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
-using Inspirer.Business.Util.Services;
+using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
@@ -8,7 +8,7 @@ using ThereGame.Business.Domain.Phrase;
 
 public class UpdateAnswerRequest : IRequest<DialogueModel?>
 {
-    public AnswerModel Answer { get; set; }
+    public required AnswerModel Answer { get; set; }
 }
 
 public class UpdateAnswer(IThereGameDataService dataService) : IRequestHandler<UpdateAnswerRequest, DialogueModel?>

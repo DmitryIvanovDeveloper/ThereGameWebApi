@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ThereGameWebAPI.Migrations
+namespace ThereGameWebAPI.ThereGame.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class __serivce : Migration
+    public partial class ThereGameMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,9 +1,9 @@
-namespace Inspirer.Infrastructure.Data;
+namespace ThereGame.Infrastructure.Data;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-public class InspirerDbContextFactory : IDesignTimeDbContextFactory<ThereGameDbContext>
+public class ThereGameDbContextFactory : IDesignTimeDbContextFactory<ThereGameDbContext>
 {
     public ThereGameDbContext CreateDbContext(string[] args)
     {

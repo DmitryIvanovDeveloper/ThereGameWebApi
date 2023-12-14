@@ -9,7 +9,7 @@ public class DialogueModel
 
     public string Name { get; set; } = "";
 
-    public Guid PhraseId { get; set; }
+    public Guid? PhraseId { get; set; }
 
     public PhraseModel? Phrase { get; set; } = null;
 }

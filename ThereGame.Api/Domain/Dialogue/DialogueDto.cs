@@ -1,13 +1,20 @@
-using System.Collections.ObjectModel;
+namespace ThereGame.Api.Domain.Dialogue;
 
-public class DialogueDto
+public class DialogueCreateRequestApiDto
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
-    public PhraseDto Phrase { get; set; }
+    public string Name { get; set; } = "";
+    public Guid PhraseId { get; set; }
 }
 
-public class AnswerDto
+public class DialogueGetResponseApiDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = "";
+    public PhraseGetResponseApiDto? Phrase { get; set; }
+}
+
+public class AnswerGetResponseApiDto
 {
     public Guid Id { get; set; }
     public Guid ParentPhraseId { get; set; }
@@ -15,27 +22,29 @@ public class AnswerDto
     public string[] TensesList { get; set; } = [];
     public string[] WordsToUse { get; set; } = [];
 
-    public ICollection<MistakeExplanationDto>  Explanations { get; set; } = new List<MistakeExplanationDto>();
+    public ICollection<MistakeExplanationGetResponseApiDto> Explanations { get; set; } = new List<MistakeExplanationGetResponseApiDto>();
     public ICollection<Translate> Translates { get; set; } = new List<Translate>();
-    public ICollection<PhraseDto> Phrases { get; set; } = new List<PhraseDto>();
+    public ICollection<PhraseGetResponseApiDto> Phrases { get; set; } = new List<PhraseGetResponseApiDto>();
 }
 
-public class Translate() {
+public class Translate()
+{
     public LanguageType Language { get; set; } = LanguageType.Russian;
     public string Text { get; set; } = "";
 }
 
-public class PhraseDto
+public class PhraseGetResponseApiDto
 {
     public Guid Id { get; set; }
     public Guid ParentAnswerId { get; set; }
     public string Text { get; set; } = "";
-    public ICollection<AnswerDto> Answers { get; set; } = new List<AnswerDto>();
+    public ICollection<AnswerGetResponseApiDto> Answers { get; set; } = new List<AnswerGetResponseApiDto>();
     public string[] TensesList { get; set; } = [];
     public string comments { get; set; } = "";
 }
 
-public class MistakeExplanationDto() {
+public class MistakeExplanationGetResponseApiDto()
+{
     public string Word { get; set; } = "";
     public string Explanation { get; set; } = "";
 }

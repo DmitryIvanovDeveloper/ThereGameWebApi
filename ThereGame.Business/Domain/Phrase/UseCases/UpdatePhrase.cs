@@ -1,13 +1,13 @@
 namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
-using Inspirer.Business.Util.Services;
+using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Phrase;
 
 public class UpdatePhraseRequest : IRequest<DialogueModel?>
 {
-    public PhraseModel Phrase { get; set; }
+    public required PhraseModel Phrase { get; set; }
 }
 
 public class UpdatePhrase(IThereGameDataService dataService) : IRequestHandler<UpdatePhraseRequest, DialogueModel?>

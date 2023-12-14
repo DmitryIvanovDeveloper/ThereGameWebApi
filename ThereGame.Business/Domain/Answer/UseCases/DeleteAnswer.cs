@@ -1,6 +1,6 @@
 namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
-using Inspirer.Business.Util.Services;
+using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

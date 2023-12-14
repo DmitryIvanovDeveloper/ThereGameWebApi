@@ -1,6 +1,6 @@
-using AutoMapper;
+namespace ThereGame.Api.Util.Mapper;
 
-namespace Inspirer.Api.Util.Mapper;
+using AutoMapper;
 
 
 public class ThereGameMappingProfile : Profile

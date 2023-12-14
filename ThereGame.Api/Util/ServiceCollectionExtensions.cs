@@ -1,10 +1,10 @@
 namespace Microsoft.AspNetCore.Builder;
 
-using Inspirer.Api.Util.Mapper;
-using Inspirer.Business.Util.Services;
-using Inspirer.Infrastructure.Data;
+using ThereGame.Api.Util.Mapper;
+using ThereGame.Business.Util.Services;
+using ThereGame.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-
+using ThereGame.Business.Util;
 
 public static class ServiceCollectionExtensions
 {
@@ -20,8 +20,8 @@ public static class ServiceCollectionExtensions
 
         // MediatR
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-            typeof(Program).Assembly
-        // InspirerBusinessAssembly.GetAssembly() TODO: Use business assembly after refactoring
+            typeof(Program).Assembly,
+            ThereGameBusinessAssembly.GetAssembly()
         ));
 
         // Custom Services
@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
                        builder =>
                        {
                            builder.AllowAnyMethod().AllowAnyHeader()
-                               .WithOrigins("http://localhost:3000")
+                               .WithOrigins("*")
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                        }));

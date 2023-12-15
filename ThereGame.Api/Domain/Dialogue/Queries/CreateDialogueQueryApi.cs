@@ -15,8 +15,6 @@ public static class CreateDialogueQueryApi
         [FromServices] IMediator mediator
     )
     {
-        Console.WriteLine(DialogueMapping.MapDtoToModel(dialogueCreateRequestApiDto));
-        
         var dialogue = await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
             Name = dialogueCreateRequestApiDto.Name,

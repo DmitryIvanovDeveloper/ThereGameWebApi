@@ -4,7 +4,6 @@ using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
-using ThereGame.Business.Domain.Phrase;
 
 public class UpdateAnswerRequest : IRequest<DialogueModel?>
 {
@@ -20,6 +19,8 @@ public class UpdateAnswer(IThereGameDataService dataService) : IRequestHandler<U
         if(request.Answer == null) {
             return null;
         }
+
+        _dataService.Answers.Update(request.Answer);
 
         return await _dataService.Dialogues
             .Include(d => d.Phrase)

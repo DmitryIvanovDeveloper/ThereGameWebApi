@@ -16,6 +16,14 @@ public class CreatePhrase(IThereGameDataService dataService) : IRequestHandler<C
 
     public async Task<DialogueModel?> Handle(CreatePhraseRequest request, CancellationToken cancellationToken)
     {
+        if (request.Phrase == null)
+        {
+            return null;
+        }
+        
+        await _dataService.Phrases.AddAsync(request.Phrase, cancellationToken);
+        await _dataService.SaveChanges(cancellationToken);
+
         return await _dataService.Dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)

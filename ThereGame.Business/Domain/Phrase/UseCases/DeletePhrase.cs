@@ -15,6 +15,14 @@ public class DeletePhrase(IThereGameDataService dataService) : IRequestHandler<D
     
     public async Task<DialogueModel?> Handle(DeletePhraseRequest request, CancellationToken cancellationToken)
     {
+        var phrase = _dataService.Phrases.Find(request.Id);
+        if (phrase == null) {
+            return null;
+        }
+
+        _dataService.Phrases.Remove(phrase);
+
+        await _dataService.SaveChanges(cancellationToken);
 
         return await _dataService.Dialogues
             .Include(d => d.Phrase)

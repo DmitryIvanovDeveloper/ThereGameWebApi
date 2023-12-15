@@ -20,6 +20,8 @@ public class UpdatePhrase(IThereGameDataService dataService) : IRequestHandler<U
             return null;
         }
 
+        _dataService.Phrases.Update(request.Phrase);
+        
         return await _dataService.Dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)

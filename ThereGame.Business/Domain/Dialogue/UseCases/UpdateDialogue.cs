@@ -19,6 +19,10 @@ public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler
             return null;
         }
 
+        _dataService.Dialogues.Update(request.Dialogue);
+
+        await _dataService.SaveChanges(cancellationToken);
+        
         return await _dataService.Dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)

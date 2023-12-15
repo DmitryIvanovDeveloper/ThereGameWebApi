@@ -15,7 +15,15 @@ public class DeleteAnswer(IThereGameDataService dataService) : IRequestHandler<D
     
     public async Task<DialogueModel?> Handle(DeleteAnswerRequest request, CancellationToken cancellationToken)
     {
+        var answer = _dataService.Answers.Find(request.Id);
+        if (answer == null) {
+            return null;
+        }
 
+        _dataService.Answers.Remove(answer);
+
+        await _dataService.SaveChanges(cancellationToken);
+        
         return await _dataService.Dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)

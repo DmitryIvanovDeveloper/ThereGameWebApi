@@ -4,7 +4,6 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Domain.Dialogue;
-using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
 public static class CreateDialogueQueryApi

@@ -4,26 +4,21 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Domain.Dialogue;
-using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
 public static class UpdateDialogueQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] DialogueGetResponseApiDto dialogue,
+        [FromBody] DialogueUpdateRequestApiDto dialogueUpdateRequestApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
-        var dialogue1 = await mediator.Send(new UpdateDialogueRequest() {
-            Dialogue = DialogueMapping.MapDtoToModel(dialogue)
+    ) {
+        await mediator.Send(new UpdateDialogueRequest() {
+            Id = dialogueUpdateRequestApiDto.Id,
+            Name = dialogueUpdateRequestApiDto.Name,
+            PhraseId = dialogueUpdateRequestApiDto.PhraseId
         });
         
-        if (dialogue == null)
-        {
-            return TypedResults.NoContent();
-        }
-
-        return TypedResults.Ok(dialogue1);
+        return TypedResults.Ok();
     }
 }

@@ -63,8 +63,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         name: "FK_Phrases_Answers_ParentAnswerId",
                         column: x => x.ParentAnswerId,
                         principalTable: "Answers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

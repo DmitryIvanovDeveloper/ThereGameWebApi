@@ -11,17 +11,11 @@ public static class DeleteAnswerQueryApi
         [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
-        var updatedAnswer = await mediator.Send(new DeleteAnswerRequest() {
+    ) {
+        await mediator.Send(new DeleteAnswerRequest() {
             Id = id
         });
-        
-        if (updatedAnswer == null)
-        {
-            return TypedResults.NoContent();
-        }
 
-        return TypedResults.Ok(updatedAnswer);
+        return TypedResults.Ok();
     }
 }

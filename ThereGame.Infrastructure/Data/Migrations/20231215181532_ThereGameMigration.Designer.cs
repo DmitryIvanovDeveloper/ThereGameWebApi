@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231215125530_ThereGameMigration")]
+    [Migration("20231215181532_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -186,9 +186,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "ParentAnswer")
                         .WithMany("Phrases")
-                        .HasForeignKey("ParentAnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParentAnswerId");
 
                     b.Navigation("ParentAnswer");
                 });

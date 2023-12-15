@@ -2,32 +2,31 @@ namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-public class UpdateDialogueRequest : IRequest<DialogueModel?>
+public class UpdateDialogueRequest : IRequest
 {
-    public required DialogueModel Dialogue { get; set; }
+    public required Guid Id { get; set;}
+    public required string Name { get; set;}
+    public required Guid PhraseId { get; set;}
 }
 
-public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler<UpdateDialogueRequest, DialogueModel?>
+public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler<UpdateDialogueRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task<DialogueModel?> Handle(UpdateDialogueRequest request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateDialogueRequest request, CancellationToken cancellationToken)
     {
-        if(request.Dialogue == null) {
-            return null;
+        var dialogue = await _dataService.Dialogues.FindAsync(request.Id);
+        if (dialogue == null) {
+            return;
         }
 
-        _dataService.Dialogues.Update(request.Dialogue);
+        dialogue.Id = request.Id;
+        dialogue.Name = request.Name;
+        dialogue.PhraseId = request.PhraseId;
+
+        _dataService.Dialogues.Update(dialogue);
 
         await _dataService.SaveChanges(cancellationToken);
-        
-        return await _dataService.Dialogues
-            .Include(d => d.Phrase)
-            .ThenInclude(p => p == null ? null : p.ParentAnswer)
-            .ThenInclude(a => a == null ? null : a.ParentPhrase)
-            .SingleOrDefaultAsync(d => d.Id == request.Dialogue.Id)
-        ;
     }
 }

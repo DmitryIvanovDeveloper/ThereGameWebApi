@@ -10,19 +10,14 @@ using ThereGame.Business.Domain.Dialogue.UseCases;
 public static class UpdateAnswerQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] AnswerGetResponseApiDto answer,
+        [FromBody] AnswerUpdateRequestApiDto answerUpdateRequestApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
-        var updatedAnswer = await mediator.Send(new UpdateAnswerRequest() {
-            Answer = DialogueMapping.MapDtoToModel(answer)
+    ) {
+        await mediator.Send(new UpdateAnswerRequest() {
+            Answer = DialogueMapping.Request(answerUpdateRequestApiDto)
         });
-        if (updatedAnswer == null)
-        {
-            return TypedResults.NoContent();
-        }
 
-        return TypedResults.Ok(updatedAnswer);
+        return TypedResults.Ok();
     }
 }

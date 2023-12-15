@@ -183,9 +183,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "ParentAnswer")
                         .WithMany("Phrases")
-                        .HasForeignKey("ParentAnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParentAnswerId");
 
                     b.Navigation("ParentAnswer");
                 });

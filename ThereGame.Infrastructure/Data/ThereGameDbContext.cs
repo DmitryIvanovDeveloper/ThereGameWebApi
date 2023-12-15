@@ -1,5 +1,6 @@
 namespace ThereGame.Infrastructure.Data;
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
@@ -20,6 +21,10 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<AnswerModel> Answers { get; set; }
     public DbSet<DialogueModel> Dialogues { get; set; }
     
+    public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
+    {
+        return await Dialogues.GetFullDialogueById(id, cancellationToken);
+    }
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
@@ -51,7 +56,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasOne(p => p.ParentAnswer)
             .WithMany(a => a.Phrases)
             .HasForeignKey(p => p.ParentAnswerId)
-            .IsRequired()
+            .IsRequired(false)
         ;
 
         phraseBuilder.Property(p => p.ParentAnswerId).IsRequired(false);
@@ -96,4 +101,5 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         ;
         // </- Answer -->
     }
+
 }

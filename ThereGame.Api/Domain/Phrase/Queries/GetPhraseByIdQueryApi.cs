@@ -3,18 +3,18 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
 public static class GetPhraseByIdQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromRoute] Guid id,
+        [FromRoute] Guid Id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
+    ) {
         var phrase = await mediator.Send(new GetPhraseByIdRequest() {
-            Id = id
+            Id = Id
         });
         
         if (phrase == null)
@@ -22,6 +22,8 @@ public static class GetPhraseByIdQueryApi
             return TypedResults.NoContent();
         }
 
-        return TypedResults.Ok(phrase);
+        var response = DialogueMapping.Response(phrase);
+
+        return TypedResults.Ok(response);
     }
 }

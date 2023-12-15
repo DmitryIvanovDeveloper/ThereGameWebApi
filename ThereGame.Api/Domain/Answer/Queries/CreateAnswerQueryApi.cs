@@ -3,25 +3,20 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ThereGame.Api.Domain.Dialogue;
+using ThereGame.Api.Util.Mappings;
+using ThereGame.Business.Domain.Dialogue.UseCases;
 
-public static class CreatePhraseQueryApi
+public static class CreateAnswerQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] PhraseGetResponseApiDto phraseGetResponseApiDto,
+        [FromBody] AnswerCreateRequestApiDto answerCreateRequestApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        // Console.WriteLine(phraseGetResponseApiDto);
-        // var updatedPhrase = await mediator.Send(new CreatePhraseRequest() {
-        //     Phrase = DialogueMapping.MapDtoToModel(phrase)
-        // });
+        await mediator.Send(new CreateAnswerRequest() {
+            Answer = DialogueMapping.Request(answerCreateRequestApiDto)
+        });
         
-        // if (updatedPhrase == null)
-        // {
-        //     return TypedResults.NoContent();
-        // }
-
         return TypedResults.Ok();
     }
 }

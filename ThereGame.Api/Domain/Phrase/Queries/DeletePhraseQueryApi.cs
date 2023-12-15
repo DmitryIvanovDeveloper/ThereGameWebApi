@@ -11,17 +11,11 @@ public static class DeletePhraseQueryApi
         [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
-        var dialogue = await mediator.Send(new DeletePhraseRequest() {
+    ) {
+        await mediator.Send(new DeletePhraseRequest() {
             Id = id
         });
-        
-        if (dialogue == null)
-        {
-            return TypedResults.NoContent();
-        }
 
-        return TypedResults.Ok(dialogue);
+        return TypedResults.Ok();
     }
 }

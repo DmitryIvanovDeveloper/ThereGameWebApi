@@ -53,6 +53,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(p => p.ParentAnswerId)
             .IsRequired()
         ;
+
+        phraseBuilder.Property(p => p.ParentAnswerId).IsRequired(false);
         // </- Phrase -->
 
         // <-- MistakeExplanations -->

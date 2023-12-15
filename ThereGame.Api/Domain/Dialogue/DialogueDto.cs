@@ -1,9 +1,15 @@
+using Newtonsoft.Json;
+
 namespace ThereGame.Api.Domain.Dialogue;
+
 
 public class DialogueCreateRequestApiDto
 {
+    [JsonProperty("Id")]
     public Guid Id { get; set; }
+    [JsonProperty("Name")]
     public string Name { get; set; } = "";
+    [JsonProperty("PhraseId")]
     public Guid PhraseId { get; set; }
 }
 

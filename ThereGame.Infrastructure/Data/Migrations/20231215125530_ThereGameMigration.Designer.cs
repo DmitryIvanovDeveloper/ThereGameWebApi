@@ -9,10 +9,10 @@ using ThereGame.Infrastructure.Data;
 
 #nullable disable
 
-namespace ThereGameWebAPI.ThereGame.Infrastructure.Data.Migrations
+namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231213110717_ThereGameMigration")]
+    [Migration("20231215125530_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -87,7 +87,8 @@ namespace ThereGameWebAPI.ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PhraseId")
+                    b.Property<Guid?>("PhraseId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -107,7 +108,7 @@ namespace ThereGameWebAPI.ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ParentAnswerId")
+                    b.Property<Guid?>("ParentAnswerId")
                         .HasColumnType("uuid");
 
                     b.Property<string[]>("Tenses")

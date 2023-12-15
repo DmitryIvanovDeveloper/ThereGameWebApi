@@ -15,15 +15,16 @@ public static class CreateAnswerQueryApi
         [FromServices] IMediator mediator
     )
     {
-        var updatedAnswer = await mediator.Send(new CreateAnswerRequest() {
-            Answer = DialogueMapping.MapDtoToModel(answer)
-        });
+        Console.WriteLine(answer);
+        // var updatedAnswer = await mediator.Send(new CreateAnswerRequest() {
+        //     Answer = DialogueMapping.MapDtoToModel(answer)
+        // });
         
-        if (updatedAnswer == null)
-        {
-            return TypedResults.NoContent();
-        }
+        // if (updatedAnswer == null)
+        // {
+        //     return TypedResults.NoContent();
+        // }
 
-        return TypedResults.Ok(updatedAnswer);
+        return TypedResults.Ok();
     }
 }

@@ -19,7 +19,7 @@ public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler
     public async Task<DialogueModel?> Handle(CreateDialogueRequest request, CancellationToken cancellationToken)
     {
         var phrase = new PhraseModel(){
-            Id = request.Id
+            Id = request.PhraseId
         };
 
         var dialogue = new DialogueModel()

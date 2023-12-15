@@ -45,6 +45,7 @@ public static class DialogueMapping
         {
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
+            Text = answerDto.Text,
             Tenses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };

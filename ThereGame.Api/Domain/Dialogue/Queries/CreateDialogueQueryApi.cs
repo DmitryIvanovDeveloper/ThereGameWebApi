@@ -15,17 +15,17 @@ public static class CreateDialogueQueryApi
         [FromServices] IMediator mediator
     )
     {
-        var dialogue = await mediator.Send(new CreateDialogueRequest() {
+        var updatedDialogue = await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
             Name = dialogueCreateRequestApiDto.Name,
             PhraseId = dialogueCreateRequestApiDto.PhraseId
         });
         
-        if (dialogue == null)
+        if (updatedDialogue == null)
         {
             return TypedResults.NoContent();
         }
 
-        return TypedResults.Ok(dialogue);
+        return TypedResults.Ok(updatedDialogue);
     }
 }

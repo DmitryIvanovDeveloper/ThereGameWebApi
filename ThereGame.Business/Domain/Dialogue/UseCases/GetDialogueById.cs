@@ -15,11 +15,14 @@ public class GetDialogueById(IThereGameDataService dataService) : IRequestHandle
 
     public async Task<DialogueModel?> Handle(GetDialogueByIdRequest request, CancellationToken cancellationToken)
     {
-        return await _dataService.Dialogues
+        var result = await _dataService.Dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p == null ? null : p.ParentAnswer)
-            .ThenInclude(a => a == null ? null : a.ParentPhrase)
+            // .ThenInclude(a => a == null ? null : a.ParentPhrase)
             .SingleOrDefaultAsync(d => d.Id == request.Id)
         ;
+
+        Console.WriteLine(result?.Name);
+        return result;
     }
 }

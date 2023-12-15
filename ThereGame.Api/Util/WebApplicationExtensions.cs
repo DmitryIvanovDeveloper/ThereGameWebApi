@@ -2,7 +2,6 @@ using ThereGame.Api.Domain.Answer.Queries;
 
 namespace Microsoft.AspNetCore.Builder;
 
-
 public static class WebApplicationExtensions
 {
     public static WebApplication UseThereGame(this WebApplication app)
@@ -17,9 +16,9 @@ public static class WebApplicationExtensions
         dialoguesGroup.MapPut("/", UpdateDialogueQueryApi.Handler);
 
         // Phrase
-        var phraseGroup = apiGroup.MapGroup("/pharses");
+        var phraseGroup = apiGroup.MapGroup("/phrases");
         phraseGroup.MapGet("{id:guid}", GetPhraseByIdQueryApi.Handler);
-        phraseGroup.MapGet("/", CreatePhraseQueryApi.Handler);
+        phraseGroup.MapPost("/", CreatePhraseQueryApi.Handler);
         phraseGroup.MapDelete("{id:guid}", DeletePhraseQueryApi.Handler);
         phraseGroup.MapPut("/", UpdatePhraseQueryApi.Handler);
 

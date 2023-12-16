@@ -11,7 +11,7 @@ public class PhraseModel
     public Guid Id { get; set; }
     public string Text { get; set; } = "";
     public string Comments { get; set; } = "";
-    public string[] Tenses { get; set; } = [];
+    public string[] Tenseses { get; set; } = [];
 
     public Guid? ParentAnswerId { get; set; } = null;
     public AnswerModel? ParentAnswer { get; set; } = null;

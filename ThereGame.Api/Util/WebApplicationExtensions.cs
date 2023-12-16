@@ -26,7 +26,7 @@ public static class WebApplicationExtensions
          // Answer
         var answerGroup = apiGroup.MapGroup("/answers");
         answerGroup.MapGet("{id:guid}", GetAnswerByIdQueryApi.Handler);
-        answerGroup.MapGet("/", CreateAnswerQueryApi.Handler);
+        answerGroup.MapPost("/", CreateAnswerQueryApi.Handler);
         answerGroup.MapDelete("{id:guid}", DeleteAnswerQueryApi.Handler);
         answerGroup.MapPut("/", UpdateAnswerQueryApi.Handler);
 

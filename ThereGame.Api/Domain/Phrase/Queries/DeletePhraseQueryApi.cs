@@ -8,7 +8,7 @@ using ThereGame.Business.Domain.Dialogue.UseCases;
 public static class DeletePhraseQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] Guid id,
+        [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {

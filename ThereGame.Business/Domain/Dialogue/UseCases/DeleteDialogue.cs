@@ -15,7 +15,9 @@ public class DeleteDialogue(IThereGameDataService dataService) : IRequestHandler
     
     public async Task Handle(DeleteDialogueRequest request, CancellationToken cancellationToken)
     {
-       var dialogue = _dataService.Dialogues.Find(request.Id);
+       Console.WriteLine(request?.Id);
+
+       var dialogue = _dataService.Dialogues.Find(request?.Id);
         if (dialogue == null) {
             return;
         }

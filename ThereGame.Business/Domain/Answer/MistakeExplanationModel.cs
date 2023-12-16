@@ -6,6 +6,6 @@ public class MistakeExplanationModel
     public string Text { get; set; } = "";
     public string Explanation { get; set; } = "";
 
-    public Guid AnswerId { get; set; }
+    public Guid AnswerParentId { get; set; }
     public AnswerModel Answer { get; set; } = null!;
 }

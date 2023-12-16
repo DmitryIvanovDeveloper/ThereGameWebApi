@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Domain.Dialogue;
+using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
 public static class CreateDialogueQueryApi
@@ -16,7 +17,7 @@ public static class CreateDialogueQueryApi
          await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
             Name = dialogueCreateRequestApiDto.Name,
-            PhraseId = dialogueCreateRequestApiDto.PhraseId
+            Phrase = DialogueMapping.Request(dialogueCreateRequestApiDto.Phrase)
         });
 
         return TypedResults.Ok();

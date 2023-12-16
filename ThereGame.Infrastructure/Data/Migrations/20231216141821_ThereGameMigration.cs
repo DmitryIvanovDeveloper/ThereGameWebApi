@@ -17,8 +17,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
-                    Tenses = table.Column<string[]>(type: "text[]", nullable: false),
-                    WordsToUse = table.Column<string[]>(type: "text[]", nullable: false),
+                    Tenseses = table.Column<string[]>(type: "text[]", nullable: false),
+                    WordsToUse = table.Column<string>(type: "text", nullable: false),
                     ParentPhraseId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -33,14 +33,14 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
                     Explanation = table.Column<string>(type: "text", nullable: false),
-                    AnswerId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AnswerParentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MistakeExplanationModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MistakeExplanationModel_Answers_AnswerId",
-                        column: x => x.AnswerId,
+                        name: "FK_MistakeExplanationModel_Answers_AnswerParentId",
+                        column: x => x.AnswerParentId,
                         principalTable: "Answers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -53,7 +53,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: false),
-                    Tenses = table.Column<string[]>(type: "text[]", nullable: false),
+                    Tenseses = table.Column<string[]>(type: "text[]", nullable: false),
                     ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -73,14 +73,14 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
                     Language = table.Column<int>(type: "integer", nullable: false),
-                    AnswerId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AnswerParentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TranslateModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TranslateModel_Answers_AnswerId",
-                        column: x => x.AnswerId,
+                        name: "FK_TranslateModel_Answers_AnswerParentId",
+                        column: x => x.AnswerParentId,
                         principalTable: "Answers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -116,9 +116,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "PhraseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MistakeExplanationModel_AnswerId",
+                name: "IX_MistakeExplanationModel_AnswerParentId",
                 table: "MistakeExplanationModel",
-                column: "AnswerId");
+                column: "AnswerParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Phrases_ParentAnswerId",
@@ -126,9 +126,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "ParentAnswerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranslateModel_AnswerId",
+                name: "IX_TranslateModel_AnswerParentId",
                 table: "TranslateModel",
-                column: "AnswerId");
+                column: "AnswerParentId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Answers_Phrases_ParentPhraseId",

@@ -8,10 +8,12 @@ using ThereGame.Business.Domain.Dialogue.UseCases;
 public static class DeleteDialogueQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] Guid id,
+        [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
+
+        Console.WriteLine(id);
         await mediator.Send(new DeleteDialogueRequest() {
             Id = id
         });

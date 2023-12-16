@@ -94,14 +94,14 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         answerBuilder
             .HasMany(a => a.MistakeExplanations)
             .WithOne(m => m.Answer)
-            .HasForeignKey(m => m.AnswerId)
+            .HasForeignKey(m => m.AnswerParentId)
             .IsRequired()
         ;
 
         answerBuilder
             .HasMany(a => a.Translates)
             .WithOne(t => t.Answer)
-            .HasForeignKey(t => t.AnswerId)
+            .HasForeignKey(t => t.AnswerParentId)
             .IsRequired()
         ;
         // </- Answer -->

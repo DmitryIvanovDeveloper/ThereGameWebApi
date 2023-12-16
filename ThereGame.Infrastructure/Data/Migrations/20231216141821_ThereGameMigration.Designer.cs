@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231215181532_ThereGameMigration")]
+    [Migration("20231216141821_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -34,7 +34,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("ParentPhraseId")
                         .HasColumnType("uuid");
 
-                    b.Property<string[]>("Tenses")
+                    b.Property<string[]>("Tenseses")
                         .IsRequired()
                         .HasColumnType("text[]");
 
@@ -42,9 +42,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string[]>("WordsToUse")
+                    b.Property<string>("WordsToUse")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -59,7 +59,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AnswerId")
+                    b.Property<Guid>("AnswerParentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Explanation")
@@ -72,7 +72,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerId");
+                    b.HasIndex("AnswerParentId");
 
                     b.ToTable("MistakeExplanationModel");
                 });
@@ -111,7 +111,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid?>("ParentAnswerId")
                         .HasColumnType("uuid");
 
-                    b.Property<string[]>("Tenses")
+                    b.Property<string[]>("Tenseses")
                         .IsRequired()
                         .HasColumnType("text[]");
 
@@ -132,7 +132,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AnswerId")
+                    b.Property<Guid>("AnswerParentId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Language")
@@ -144,7 +144,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerId");
+                    b.HasIndex("AnswerParentId");
 
                     b.ToTable("TranslateModel");
                 });
@@ -164,7 +164,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "Answer")
                         .WithMany("MistakeExplanations")
-                        .HasForeignKey("AnswerId")
+                        .HasForeignKey("AnswerParentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -195,7 +195,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "Answer")
                         .WithMany("Translates")
-                        .HasForeignKey("AnswerId")
+                        .HasForeignKey("AnswerParentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

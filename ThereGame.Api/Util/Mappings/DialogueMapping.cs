@@ -13,10 +13,22 @@ public static class DialogueMapping
         {
             Id = dialogueDto.Id,
             Name = dialogueDto.Name,
-            PhraseId = dialogueDto.PhraseId
+            PhraseId = dialogueDto.Phrase?.Id,
+            Phrase = Request(dialogueDto.Phrase)
         };
     }
-
+    
+  public static PhraseModel Request(PhraseGetRequestApiDto phraseDto)
+    {
+        return new PhraseModel()
+        {
+            Id = phraseDto.Id,
+            ParentAnswerId = phraseDto.ParentAnswerId,
+            Text = phraseDto.Text,
+            Comments = phraseDto.Comments,
+            Tenseses = phraseDto.TensesList,
+        };
+    }
     public static DialogueModel Request(DialogueGetResponseApiDto dialogueDto)
     {
         return new DialogueModel()
@@ -34,7 +46,7 @@ public static class DialogueMapping
             ParentAnswerId = phraseDto.ParentAnswerId,
             Id = phraseDto.Id,
             Text = phraseDto.Text,
-            Tenses = phraseDto.Tenses,
+            Tenseses = phraseDto.TensesList,
             Comments = phraseDto.Comments
         };
     }
@@ -46,7 +58,7 @@ public static class DialogueMapping
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
             Text = answerDto.Text,
-            Tenses = answerDto.TensesList,
+            Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
 
@@ -80,7 +92,7 @@ public static class DialogueMapping
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
             Text = answerDto.Text,
-            Tenses = answerDto.TensesList,
+            Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
 
@@ -94,7 +106,7 @@ public static class DialogueMapping
             answerModel.Translates.Add(translateModel);
         }
 
-         foreach (var mistakeExplanations in answerDto.MistakeExplanations)
+        foreach (var mistakeExplanations in answerDto.MistakeExplanations)
         {
             var mistakeExplanationModel = new MistakeExplanationModel()
             {
@@ -114,7 +126,7 @@ public static class DialogueMapping
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
             Text = answerDto.Text,
-            Tenses = answerDto.TensesList,
+            Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
 
@@ -122,10 +134,22 @@ public static class DialogueMapping
         {
             var translateModel = new TranslateModel()
             {
+                Id =  translate.Id,
                 Text = translate.Text,
                 Language = translate.Language,
             };
             answerModel.Translates.Add(translateModel);
+        }
+
+        foreach (var mistakeExplanations in answerDto.MistakeExplanations)
+        {
+            var mistakeExplanationModel = new MistakeExplanationModel()
+            {
+                Id = mistakeExplanations.Id,
+                Text = mistakeExplanations.Word,
+                Explanation = mistakeExplanations.Explanation,
+            };
+            answerModel.MistakeExplanations.Add(mistakeExplanationModel);
         }
 
         return answerModel;
@@ -139,7 +163,7 @@ public static class DialogueMapping
             ParentAnswerId = phraseDto.ParentAnswerId,
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
-            Tenses = phraseDto.Tenses
+            Tenseses = phraseDto.Tenses
         };
     }
 
@@ -150,7 +174,7 @@ public static class DialogueMapping
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
             Text = answerDto.Text,
-            TensesList = answerDto.Tenses,
+            TensesList = answerDto.Tenseses,
             WordsToUse = answerDto.WordsToUse,
         };
 
@@ -174,7 +198,7 @@ public static class DialogueMapping
             ParentAnswerId = phraseDto.ParentAnswerId,
             Id = phraseDto.Id,
             Text = phraseDto.Text,
-            TensesList = phraseDto.Tenses,
+            TensesList = phraseDto.Tenseses,
             Comments = phraseDto.Comments
         };
     }

@@ -7,8 +7,8 @@ public class AnswerModel
 {
     public Guid Id { get; set; }
     public string Text { get; set; } = "";
-    public string[] Tenses { get; set; } = [];
-    public string[] WordsToUse { get; set; } = [];
+    public string[] Tenseses { get; set; } = [];
+    public string WordsToUse { get; set; } = "";
 
     public Guid ParentPhraseId { get; set; }
     public PhraseModel ParentPhrase { get; set; } = null!;

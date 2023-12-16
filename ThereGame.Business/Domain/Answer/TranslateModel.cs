@@ -6,6 +6,6 @@ public class TranslateModel
     public string Text{ get; set; } = "";
     public LanguageType Language { get; set; } = LanguageType.Russian;
 
-    public Guid AnswerId { get; set; }
+    public Guid AnswerParentId { get; set; }
     public AnswerModel Answer { get; set; } = null!;
 }

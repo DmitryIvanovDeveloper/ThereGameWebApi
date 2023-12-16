@@ -11,6 +11,7 @@ public static class WebApplicationExtensions
         // Dialogue
         var dialoguesGroup = apiGroup.MapGroup("/dialogues");
         dialoguesGroup.MapGet("{id:guid}", GetDialogueByIdQueryApi.Handler);
+        dialoguesGroup.MapGet("/", GetDialoguesQueryApi.Handler);
         dialoguesGroup.MapPost("/", CreateDialogueQueryApi.Handler);
         dialoguesGroup.MapDelete("{id:guid}", DeleteDialogueQueryApi.Handler);
         dialoguesGroup.MapPut("/", UpdateDialogueQueryApi.Handler);

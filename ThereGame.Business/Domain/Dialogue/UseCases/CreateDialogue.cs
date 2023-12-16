@@ -5,18 +5,18 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Phrase;
 
-public class CreateDialogueRequest : IRequest<DialogueModel?>
+public class CreateDialogueRequest : IRequest
 {
     public required Guid Id { get; set;}
     public required string Name { get; set;}
     public required Guid PhraseId { get; set;}
 }
 
-public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler<CreateDialogueRequest, DialogueModel?>
+public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler<CreateDialogueRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task<DialogueModel?> Handle(CreateDialogueRequest request, CancellationToken cancellationToken)
+    public async Task Handle(CreateDialogueRequest request, CancellationToken cancellationToken)
     {
         var phrase = new PhraseModel(){
             Id = request.PhraseId
@@ -34,12 +34,5 @@ public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler
 
         await _dataService.Dialogues.AddAsync(dialogue, cancellationToken);
         await _dataService.SaveChanges(cancellationToken);
-        
-        return await _dataService.Dialogues
-            .Include(d => d.Phrase)
-            .ThenInclude(p => p == null ? null : p.ParentAnswer)
-            .ThenInclude(a => a == null ? null : a.ParentPhrase)
-            .SingleOrDefaultAsync(d => d.Id == dialogue.Id)
-        ;
     }
 }

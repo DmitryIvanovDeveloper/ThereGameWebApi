@@ -16,14 +16,12 @@ public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler
     
     public async Task Handle(UpdateDialogueRequest request, CancellationToken cancellationToken)
     {
-        var dialogue = await _dataService.Dialogues.FindAsync(request.Id);
-        if (dialogue == null) {
-            return;
-        }
-
-        dialogue.Id = request.Id;
-        dialogue.Name = request.Name;
-        dialogue.PhraseId = request.PhraseId;
+        var dialogue = new DialogueModel()
+        {
+            Id = request.Id,
+            Name = request.Name,
+            PhraseId = request.PhraseId
+        };
 
         _dataService.Dialogues.Update(dialogue);
 

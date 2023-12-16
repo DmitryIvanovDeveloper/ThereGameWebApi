@@ -12,19 +12,13 @@ public static class CreateDialogueQueryApi
         [FromBody] DialogueCreateRequestApiDto dialogueCreateRequestApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    )
-    {
-        var updatedDialogue = await mediator.Send(new CreateDialogueRequest() {
+    ) {
+         await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
             Name = dialogueCreateRequestApiDto.Name,
             PhraseId = dialogueCreateRequestApiDto.PhraseId
         });
-        
-        if (updatedDialogue == null)
-        {
-            return TypedResults.NoContent();
-        }
 
-        return TypedResults.Ok(updatedDialogue);
+        return TypedResults.Ok();
     }
 }

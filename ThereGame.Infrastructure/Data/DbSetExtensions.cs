@@ -17,4 +17,16 @@ public static class DbSetExtensions
             .SingleOrDefaultAsync(d => d.Id == id, cancellationToken)
         ;
     }
+
+     public static async Task<DialogueModel[]?> GetFullDialogues(
+        this DbSet<DialogueModel> dialogues,
+        CancellationToken cancellationToken
+    ) {
+        return await dialogues
+            .Include(d => d.Phrase)
+            .ThenInclude(p => p == null ? null : p.ParentAnswer)
+            .ThenInclude(a => a == null ? null : a.ParentPhrase)
+            .ToArrayAsync(cancellationToken)
+        ;
+    }
 }

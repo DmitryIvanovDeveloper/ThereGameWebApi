@@ -25,6 +25,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     {
         return await Dialogues.GetFullDialogueById(id, cancellationToken);
     }
+
+    public async Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken)
+    {
+       return await Dialogues.GetFullDialogues(cancellationToken);
+    }
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
@@ -101,5 +106,4 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         ;
         // </- Answer -->
     }
-
 }

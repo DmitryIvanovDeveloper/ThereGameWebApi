@@ -10,5 +10,7 @@ public class AnswerGetResponseApiDto
 
     public ICollection<MistakeExplanationDto> MistakeExplanations { get; set; } = new List<MistakeExplanationDto>();
     public ICollection<TranslateDto> Translates { get; set; } = new List<TranslateDto>();
+
+    public PhraseGetResponseApiDto[] Phrases { get; set; } = [];
 }
 

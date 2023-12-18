@@ -1,5 +1,6 @@
 namespace ThereGame.Api.Util.Mappings;
 
+using ExpoCommunityNotificationServer.Models;
 using ThereGame.Api.Domain.Dialogue;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
@@ -12,6 +13,7 @@ public static class DialogueMapping
         return new DialogueModel()
         {
             Id = dialogueDto.Id,
+            LevelId = dialogueDto.LevelId,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.Phrase?.Id,
             Phrase = Request(dialogueDto.Phrase)
@@ -34,6 +36,7 @@ public static class DialogueMapping
         return new DialogueModel()
         {
             Id = dialogueDto.Id,
+            LevelId = dialogueDto.LevelId,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
         };
@@ -167,6 +170,30 @@ public static class DialogueMapping
         };
     }
 
+    public static List<DialogueGetResponseApiDto> Response(DialogueModel[] dialogues)
+    {
+        var response = new List<DialogueGetResponseApiDto>();
+
+        foreach(var dialogue in dialogues)
+        {
+            response.Add(Response(dialogue));
+        }
+
+        return response;
+    }
+    
+    public static DialogueGetResponseApiDto Response(DialogueModel dialogue)
+    {
+        return new DialogueGetResponseApiDto()
+        {
+            Id = dialogue.Id,
+            LevelId = dialogue.LevelId,
+            PhraseId = dialogue.PhraseId,
+            Name = dialogue.Name,
+            Phrase = Response(dialogue.Phrase)
+        };
+    }
+
     public static AnswerGetResponseApiDto Response(AnswerModel answerDto)
     {
         var responseDto = new AnswerGetResponseApiDto()
@@ -180,26 +207,52 @@ public static class DialogueMapping
 
         foreach (var translate in answerDto.Translates)
         {
-            var translateModel = new TranslateDto()
-            {
-                Text = translate.Text,
-                Language = translate.Language,
-            };
-            responseDto.Translates.Add(translateModel);
+            responseDto.Translates.Add(Response(translate));
+        }
+
+        foreach (var mistakeExplanations in answerDto.MistakeExplanations)
+        {
+            responseDto.MistakeExplanations.Add(Response(mistakeExplanations));
         }
 
         return responseDto;
     }
 
+    public static MistakeExplanationDto Response(MistakeExplanationModel mistakeExplanation)
+    {
+        return new MistakeExplanationDto()
+        {
+            Id = mistakeExplanation.Id,
+            Word = mistakeExplanation.Text,
+            Explanation = mistakeExplanation.Explanation,
+        };
+    }
+
+    public static TranslateDto Response(TranslateModel translate)
+    {
+        return new TranslateDto()
+        {
+            Text = translate.Text,
+            Language = translate.Language,
+        };
+    }
+
     public static PhraseGetResponseApiDto Response(PhraseModel phraseDto)
     {
-        return new PhraseGetResponseApiDto()
+        var resposne = new PhraseGetResponseApiDto()
         {
             ParentAnswerId = phraseDto.ParentAnswerId,
             Id = phraseDto.Id,
             Text = phraseDto.Text,
             TensesList = phraseDto.Tenseses,
-            Comments = phraseDto.Comments
+            Comments = phraseDto.Comments,
         };
+
+        foreach (var answer in phraseDto.Answers)
+        {
+            resposne.Answers.Add(Response(answer));
+        }
+
+        return resposne;
     }
 }

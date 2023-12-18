@@ -3,6 +3,8 @@ namespace ThereGame.Api.Domain.Dialogue;
 public class DialogueCreateRequestApiDto
 {
     public Guid Id { get; set; }
+    public Guid LevelId { get; set; }
+    public bool IsPublished { get; set; }
     public string Name { get; set; } = "";
-    public PhraseGetRequestApiDto? Phrase { get; set; } = null;
+    public PhraseCreateRequestApiDto? Phrase { get; set; } = null;
 }

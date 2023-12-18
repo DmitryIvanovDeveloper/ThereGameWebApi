@@ -14,8 +14,9 @@ public static class CreateDialogueQueryApi
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-         await mediator.Send(new CreateDialogueRequest() {
+        await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
+            LevelId = dialogueCreateRequestApiDto.LevelId,
             Name = dialogueCreateRequestApiDto.Name,
             Phrase = DialogueMapping.Request(dialogueCreateRequestApiDto.Phrase)
         });

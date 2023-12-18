@@ -3,6 +3,7 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
 public static class GetDialoguesQueryApi
@@ -17,6 +18,8 @@ public static class GetDialoguesQueryApi
             return TypedResults.NoContent();
         }
 
-        return TypedResults.Ok(dialogues);
+        var response = DialogueMapping.Response(dialogues);
+        
+        return TypedResults.Ok(response);
     }
 }

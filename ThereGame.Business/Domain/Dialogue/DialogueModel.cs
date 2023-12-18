@@ -9,6 +9,7 @@ public class DialogueModel
     public Guid? PhraseId { get; set; }
 
     public string Name { get; set; } = "";
+    public bool IsPublished { get; set; }
 
     public PhraseModel? Phrase { get; set; } = null;
 }

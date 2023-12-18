@@ -93,7 +93,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     LevelId = table.Column<Guid>(type: "uuid", nullable: false),
                     PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    IsPublished = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

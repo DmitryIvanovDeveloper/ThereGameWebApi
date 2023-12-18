@@ -10,6 +10,7 @@ public class CreateDialogueRequest : IRequest
     public required Guid Id { get; set; }
     public required Guid LevelId { get; set; }
     public required string Name { get; set; }
+    public required bool IsPublished { get; set; }
     public required PhraseModel Phrase { get; set; }
 }
 
@@ -25,8 +26,8 @@ public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler
             Name = request.Name,
             LevelId = request.LevelId,
             PhraseId = request.Phrase.Id,
-            Phrase = request.Phrase
-            
+            Phrase = request.Phrase,
+            IsPublished = request.IsPublished
         };
 
         await _dataService.Phrases.AddAsync(dialogue.Phrase, cancellationToken);

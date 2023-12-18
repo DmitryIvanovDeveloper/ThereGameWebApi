@@ -17,6 +17,7 @@ public static class CreateDialogueQueryApi
         await mediator.Send(new CreateDialogueRequest() {
             Id = dialogueCreateRequestApiDto.Id,
             LevelId = dialogueCreateRequestApiDto.LevelId,
+            IsPublished = dialogueCreateRequestApiDto.IsPublished,
             Name = dialogueCreateRequestApiDto.Name,
             Phrase = DialogueMapping.Request(dialogueCreateRequestApiDto.Phrase)
         });

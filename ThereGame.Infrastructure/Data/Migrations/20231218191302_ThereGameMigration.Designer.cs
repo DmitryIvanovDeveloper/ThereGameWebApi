@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231218160503_ThereGameMigration")]
+    [Migration("20231218191302_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -82,6 +82,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("LevelId")
                         .HasColumnType("uuid");

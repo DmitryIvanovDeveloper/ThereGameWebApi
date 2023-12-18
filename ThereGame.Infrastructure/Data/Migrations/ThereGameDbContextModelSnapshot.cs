@@ -80,6 +80,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("LevelId")
                         .HasColumnType("uuid");
 

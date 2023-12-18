@@ -37,6 +37,7 @@ public static class DialogueMapping
         {
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
+            IsPublished = dialogueDto.IsPublished,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
         };
@@ -181,7 +182,7 @@ public static class DialogueMapping
 
         return response;
     }
-    
+
     public static DialogueGetResponseApiDto Response(DialogueModel dialogue)
     {
         return new DialogueGetResponseApiDto()
@@ -189,6 +190,7 @@ public static class DialogueMapping
             Id = dialogue.Id,
             LevelId = dialogue.LevelId,
             PhraseId = dialogue.PhraseId,
+            IsPublished = dialogue.IsPublished,
             Name = dialogue.Name,
             Phrase = Response(dialogue.Phrase)
         };

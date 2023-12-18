@@ -16,6 +16,8 @@ public static class UpdateDialogueQueryApi
         await mediator.Send(new UpdateDialogueRequest() {
             Id = dialogueUpdateRequestApiDto.Id,
             Name = dialogueUpdateRequestApiDto.Name,
+            LevelId = dialogueUpdateRequestApiDto.LevelId,
+            IsPublished = dialogueUpdateRequestApiDto.IsPublished,
             PhraseId = dialogueUpdateRequestApiDto.PhraseId
         });
         

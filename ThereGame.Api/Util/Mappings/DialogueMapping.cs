@@ -1,6 +1,5 @@
 namespace ThereGame.Api.Util.Mappings;
 
-using ExpoCommunityNotificationServer.Models;
 using ThereGame.Api.Domain.Dialogue;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
@@ -68,22 +67,12 @@ public static class DialogueMapping
 
         foreach (var translate in answerDto.Translates)
         {
-            var translateModel = new TranslateModel()
-            {
-                Text = translate.Text,
-                Language = translate.Language,
-            };
-            answerModel.Translates.Add(translateModel);
+            answerModel.Translates.Add(Request(translate));
         }
 
         foreach (var mistakeExplanations in answerDto.MistakeExplanations)
         {
-            var mistakeExplanationModel = new MistakeExplanationModel()
-            {
-                Text = mistakeExplanations.Word,
-                Explanation = mistakeExplanations.Explanation,
-            };
-            answerModel.MistakeExplanations.Add(mistakeExplanationModel);
+            answerModel.MistakeExplanations.Add(Request(mistakeExplanations));
         }
 
         return answerModel;
@@ -110,12 +99,14 @@ public static class DialogueMapping
             answerModel.Translates.Add(translateModel);
         }
 
-        foreach (var mistakeExplanations in answerDto.MistakeExplanations)
+        foreach (var mistakeExplanation in answerDto.MistakeExplanations)
         {
             var mistakeExplanationModel = new MistakeExplanationModel()
             {
-                Text = mistakeExplanations.Word,
-                Explanation = mistakeExplanations.Explanation,
+                AnswerParentId = mistakeExplanation.AnswerParentId,
+                Id = mistakeExplanation.Id,
+                Word = mistakeExplanation.Word,
+                Explanation = mistakeExplanation.Explanation,
             };
             answerModel.MistakeExplanations.Add(mistakeExplanationModel);
         }
@@ -145,13 +136,14 @@ public static class DialogueMapping
             answerModel.Translates.Add(translateModel);
         }
 
-        foreach (var mistakeExplanations in answerDto.MistakeExplanations)
+        foreach (var mistakeExplanation in answerDto.MistakeExplanations)
         {
             var mistakeExplanationModel = new MistakeExplanationModel()
             {
-                Id = mistakeExplanations.Id,
-                Text = mistakeExplanations.Word,
-                Explanation = mistakeExplanations.Explanation,
+                AnswerParentId = mistakeExplanation.AnswerParentId,
+                Id = mistakeExplanation.Id,
+                Word = mistakeExplanation.Word,
+                Explanation = mistakeExplanation.Explanation,
             };
             answerModel.MistakeExplanations.Add(mistakeExplanationModel);
         }
@@ -224,9 +216,32 @@ public static class DialogueMapping
     {
         return new MistakeExplanationDto()
         {
+            AnswerParentId = mistakeExplanation.AnswerParentId,
             Id = mistakeExplanation.Id,
-            Word = mistakeExplanation.Text,
+            Word = mistakeExplanation.Word,
             Explanation = mistakeExplanation.Explanation,
+        };
+    }
+
+    public static MistakeExplanationModel Request(MistakeExplanationDto mistakeExplanation)
+    {
+        return new MistakeExplanationModel()
+        {
+            AnswerParentId = mistakeExplanation.AnswerParentId,
+            Id = mistakeExplanation.Id,
+            Word = mistakeExplanation.Word,
+            Explanation = mistakeExplanation.Explanation,
+        };
+    }
+
+     public static TranslateModel Request(TranslateDto translate)
+    {
+        return new TranslateModel()
+        {
+            Id = translate.Id,
+            AnswerParentId = translate.AnswerParentId,
+            Text = translate.Text,
+            Language = translate.Language,
         };
     }
 
@@ -234,6 +249,8 @@ public static class DialogueMapping
     {
         return new TranslateDto()
         {
+            Id = translate.Id,
+            AnswerParentId = translate.AnswerParentId,
             Text = translate.Text,
             Language = translate.Language,
         };

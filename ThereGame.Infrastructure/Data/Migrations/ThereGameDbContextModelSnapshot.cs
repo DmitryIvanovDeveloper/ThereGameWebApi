@@ -63,7 +63,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Word")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -71,7 +71,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasIndex("AnswerParentId");
 
-                    b.ToTable("MistakeExplanationModel");
+                    b.ToTable("MistakeExplanations");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Dialogue.DialogueModel", b =>
@@ -149,7 +149,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasIndex("AnswerParentId");
 
-                    b.ToTable("TranslateModel");
+                    b.ToTable("Translates");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>

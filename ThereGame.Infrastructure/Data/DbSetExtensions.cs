@@ -2,7 +2,6 @@ namespace ThereGame.Infrastructure.Data;
 
 using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Dialogue;
-
 public static class DbSetExtensions
 {
     public static async Task<DialogueModel?> GetFullDialogueById(
@@ -24,9 +23,16 @@ public static class DbSetExtensions
     ) {
         return await dialogues
             .Include(d => d.Phrase)
-            .ThenInclude(p => p == null ? null : p.ParentAnswer)
-            .ThenInclude(a => a == null ? null : a.ParentPhrase)
+            .ThenInclude(p => p.Answers)
+            .ThenInclude(a => a.Translates)
+            .Include(a => a.Phrase)
+            .ThenInclude(a => a.Answers)
+            .ThenInclude(a => a.MistakeExplanations)
+            .Include(a => a.Phrase)
+            .ThenInclude(a => a.Answers)
+            .ThenInclude(a => a.Phrases)
             .ToArrayAsync(cancellationToken)
         ;
     }
+
 }

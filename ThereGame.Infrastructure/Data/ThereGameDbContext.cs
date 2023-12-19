@@ -20,7 +20,9 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<PhraseModel> Phrases { get; set; }
     public DbSet<AnswerModel> Answers { get; set; }
     public DbSet<DialogueModel> Dialogues { get; set; }
-    
+    public DbSet<TranslateModel> Translates { get; set; }
+    public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
+
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
         return await Dialogues.GetFullDialogueById(id, cancellationToken);

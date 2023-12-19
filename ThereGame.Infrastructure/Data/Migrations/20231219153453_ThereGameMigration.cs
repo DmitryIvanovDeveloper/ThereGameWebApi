@@ -27,19 +27,19 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MistakeExplanationModel",
+                name: "MistakeExplanations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
+                    Word = table.Column<string>(type: "text", nullable: false),
                     Explanation = table.Column<string>(type: "text", nullable: false),
                     AnswerParentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MistakeExplanationModel", x => x.Id);
+                    table.PrimaryKey("PK_MistakeExplanations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MistakeExplanationModel_Answers_AnswerParentId",
+                        name: "FK_MistakeExplanations_Answers_AnswerParentId",
                         column: x => x.AnswerParentId,
                         principalTable: "Answers",
                         principalColumn: "Id",
@@ -67,7 +67,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TranslateModel",
+                name: "Translates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -77,9 +77,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TranslateModel", x => x.Id);
+                    table.PrimaryKey("PK_Translates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TranslateModel_Answers_AnswerParentId",
+                        name: "FK_Translates_Answers_AnswerParentId",
                         column: x => x.AnswerParentId,
                         principalTable: "Answers",
                         principalColumn: "Id",
@@ -118,8 +118,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "PhraseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MistakeExplanationModel_AnswerParentId",
-                table: "MistakeExplanationModel",
+                name: "IX_MistakeExplanations_AnswerParentId",
+                table: "MistakeExplanations",
                 column: "AnswerParentId");
 
             migrationBuilder.CreateIndex(
@@ -128,8 +128,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "ParentAnswerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranslateModel_AnswerParentId",
-                table: "TranslateModel",
+                name: "IX_Translates_AnswerParentId",
+                table: "Translates",
                 column: "AnswerParentId");
 
             migrationBuilder.AddForeignKey(
@@ -152,10 +152,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 name: "Dialogues");
 
             migrationBuilder.DropTable(
-                name: "MistakeExplanationModel");
+                name: "MistakeExplanations");
 
             migrationBuilder.DropTable(
-                name: "TranslateModel");
+                name: "Translates");
 
             migrationBuilder.DropTable(
                 name: "Phrases");

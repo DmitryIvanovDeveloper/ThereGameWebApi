@@ -19,12 +19,22 @@ public class UpdateAnswer(IThereGameDataService dataService) : IRequestHandler<U
         if(request.Answer == null) {
             return;
         }
+        
+        _dataService.Translates.RemoveRange(
+            await _dataService.Translates
+                .Where(t => t.AnswerParentId == request.Answer.Id)
+                .ToArrayAsync(cancellationToken)
+        );
+        
+        await _dataService.Translates.AddRangeAsync(request.Answer.Translates, cancellationToken);
 
-        _dataService.Translates.RemoveRange(_dataService.Translates);
-        _dataService.Translates.AddRange(request.Answer.Translates);
+        _dataService.MistakeExplanations.RemoveRange(
+              await _dataService.MistakeExplanations
+                .Where(m => m.AnswerParentId == request.Answer.Id)
+                .ToArrayAsync(cancellationToken)
+        );
 
-        _dataService.MistakeExplanations.RemoveRange(_dataService.MistakeExplanations);
-        _dataService.MistakeExplanations.AddRange(request.Answer.MistakeExplanations);
+        await _dataService.MistakeExplanations.AddRangeAsync(request.Answer.MistakeExplanations, cancellationToken);
 
         _dataService.Answers.Update(request.Answer);
 

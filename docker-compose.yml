@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  theregameapi:
+    build: .
+    ports:
+      - "10000:10000"
+    environment:
+      ASPNETCORE_HTTP_PORTS: 10000
+      ASPNETCORE_ENVIRONMENT: Development

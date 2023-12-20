@@ -1,4 +1,4 @@
-@ThereGame.Api_HostAddress = http://localhost:5224
+@ThereGame.Api_HostAddress = http://localhost:10000
 
 GET {{ThereGame.Api_HostAddress}}/weatherforecast/
 Accept: application/json

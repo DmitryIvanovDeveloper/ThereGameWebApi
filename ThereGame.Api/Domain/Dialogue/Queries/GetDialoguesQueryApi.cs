@@ -11,7 +11,8 @@ public static class GetDialoguesQueryApi
     public static async Task<IResult> Handler(
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
-    ) {
+    )
+    {
         var dialogues = await mediator.Send(new GetDialoguesRequest());
         if (dialogues == null)
         {
@@ -19,6 +20,14 @@ public static class GetDialoguesQueryApi
         }
 
         var response = DialogueMapping.Response(dialogues);
+
+        foreach (var dialogue in response)
+        {
+            foreach (var answer in dialogue.Phrase.Answers)
+            {
+                Console.WriteLine($"++++++++{answer.Id} = {answer.Phrases.Count()}++++++++");
+            }
+        }
         
         return TypedResults.Ok(response);
     }

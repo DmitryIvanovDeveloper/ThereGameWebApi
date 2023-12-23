@@ -7,5 +7,6 @@ public class PhraseGetResponseApiDto
     public string Text { get; set; } = "";
     public string[] TensesList { get; set; } = [];
     public string Comments { get; set; } = "";
+    public string AudioPhrase { get; set; } = "";
     public ICollection<AnswerGetResponseApiDto> Answers { get; set; } = new List<AnswerGetResponseApiDto>();
 }

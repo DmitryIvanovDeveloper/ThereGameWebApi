@@ -30,7 +30,22 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     public async Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken)
     {
-       return await Dialogues.GetFullDialogues(cancellationToken);
+        var dialogues =  await Dialogues.Include(d => d.Phrase).ToArrayAsync(cancellationToken);
+        return await BuildDialogues(dialogues);
+    }
+
+    public async Task RemoveFullDialogueById(Guid id, CancellationToken cancellationToken)
+    {
+        await Dialogues.RemoveFullDialogueById(id, cancellationToken);
+    }
+
+    public async Task<AnswerModel?> GetFullAnswerById(Guid id, CancellationToken cancellationToken)
+    {
+        return await Answers.GetFullAnswerById(id, cancellationToken);
+    }
+    public async Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken)
+    {
+        return await Phrases.GetFullPhraseById(id, cancellationToken);
     }
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
@@ -107,5 +122,72 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired()
         ;
         // </- Answer -->
+    }
+
+    private async Task<DialogueModel[]> BuildDialogues(DialogueModel[] dialogues)
+    {
+        var buildedDialogues = new List<DialogueModel>();
+        foreach (var dialogue in dialogues)
+        {
+            var buildedDialogue = new DialogueModel()
+            {
+                Id = dialogue.Id,
+                LevelId = dialogue.LevelId,
+                Name = dialogue.Name,
+                PhraseId = dialogue.Phrase?.Id,
+                Phrase = await RecursiveLoad(dialogue.Phrase),
+            };
+
+            buildedDialogues.Add(buildedDialogue);
+        }
+
+        return buildedDialogues.ToArray();
+    }
+
+    private async Task<PhraseModel> RecursiveLoad(PhraseModel parentPhrase)
+    {
+        var buildedPhrase = new PhraseModel()
+        {
+            Id = parentPhrase.Id,
+            ParentAnswerId = parentPhrase.ParentAnswerId,
+            Text = parentPhrase.Text,
+            Comments = parentPhrase.Comments,
+            Tenseses = parentPhrase.Tenseses,
+            AudioPhrase = parentPhrase.AudioPhrase,
+        };
+
+        var answers = await Answers.Where(a => a.ParentPhraseId == parentPhrase.Id).ToArrayAsync();
+        foreach (var answer in answers)
+        {
+            var buildedAnswer = await RecursiveLoad(answer);
+            buildedPhrase.Answers.Add(buildedAnswer);
+        }
+
+        return buildedPhrase;
+    }
+
+    private async Task<AnswerModel> RecursiveLoad(AnswerModel parentAnswer)
+    {
+        var buildedAnswer = new AnswerModel()
+        {
+            ParentPhraseId = parentAnswer.ParentPhraseId,
+            Id = parentAnswer.Id,
+            Text = parentAnswer.Text,
+            Tenseses = parentAnswer.Tenseses,
+            WordsToUse = parentAnswer.WordsToUse,
+            Translates = parentAnswer.Translates,
+            MistakeExplanations = parentAnswer.MistakeExplanations,
+        };
+
+
+        var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
+
+        foreach (var phrase in phrases)
+        {
+            var buildedPhrase = await RecursiveLoad(phrase);
+            buildedAnswer.Phrases.Add(buildedPhrase);
+        }
+
+        return buildedAnswer;
     }
 }

@@ -14,9 +14,10 @@ public class CreateDialogueRequest : IRequest
     public required PhraseModel Phrase { get; set; }
 }
 
-public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler<CreateDialogueRequest>
+public class CreateDialogue(IThereGameDataService dataService, IMediator mediator) : IRequestHandler<CreateDialogueRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
+    private readonly IMediator _mediator = mediator;
     
     public async Task Handle(CreateDialogueRequest request, CancellationToken cancellationToken)
     {
@@ -26,12 +27,13 @@ public class CreateDialogue(IThereGameDataService dataService) : IRequestHandler
             Name = request.Name,
             LevelId = request.LevelId,
             PhraseId = request.Phrase.Id,
-            Phrase = request.Phrase,
             IsPublished = request.IsPublished
         };
 
-        await _dataService.Phrases.AddAsync(dialogue.Phrase, cancellationToken);
-        await _dataService.SaveChanges(cancellationToken);
+        await _mediator.Send(new CreatePhraseRequest
+        {
+            Phrase = request.Phrase,
+        });
 
         await _dataService.Dialogues.AddAsync(dialogue, cancellationToken);
         await _dataService.SaveChanges(cancellationToken);

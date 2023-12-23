@@ -159,7 +159,7 @@ public static class DialogueMapping
             ParentAnswerId = phraseDto.ParentAnswerId,
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
-            Tenseses = phraseDto.Tenses
+            Tenseses = phraseDto.Tenses,
         };
     }
 
@@ -198,6 +198,11 @@ public static class DialogueMapping
             TensesList = answerDto.Tenseses,
             WordsToUse = answerDto.WordsToUse,
         };
+
+        foreach (var phrase in answerDto.Phrases)
+        {
+            responseDto.Phrases.Add(Response(phrase));
+        }
 
         foreach (var translate in answerDto.Translates)
         {
@@ -265,6 +270,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             TensesList = phraseDto.Tenseses,
             Comments = phraseDto.Comments,
+            AudioPhrase = phraseDto.AudioPhrase,
         };
 
         foreach (var answer in phraseDto.Answers)

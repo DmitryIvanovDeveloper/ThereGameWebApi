@@ -21,7 +21,7 @@ public class CreatePhrase(IThereGameDataService dataService,
         {
             return;
         }
-        
+
         var audioData = await _speechTextGeneratorService.Generate(request.Phrase.Text);
         request.Phrase.AudioPhrase = audioData;
 

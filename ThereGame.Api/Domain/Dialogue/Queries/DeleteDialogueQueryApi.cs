@@ -13,7 +13,6 @@ public static class DeleteDialogueQueryApi
         [FromServices] IMediator mediator
     ) {
 
-        Console.WriteLine(id);
         await mediator.Send(new DeleteDialogueRequest() {
             Id = id
         });

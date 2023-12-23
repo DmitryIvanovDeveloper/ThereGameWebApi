@@ -2,16 +2,17 @@ namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 public class DeleteAnswerRequest : IRequest
 {
     public Guid Id { get; set; }
 }
 
-public class DeleteAnswer(IThereGameDataService dataService) : IRequestHandler<DeleteAnswerRequest>
+public class DeleteAnswer(IThereGameDataService dataService, IRemoveDialogueItems removeDialogueItems) : IRequestHandler<DeleteAnswerRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
+    private readonly IRemoveDialogueItems _removeDialogueItems = removeDialogueItems;
+
     
     public async Task Handle(DeleteAnswerRequest request, CancellationToken cancellationToken)
     {
@@ -20,7 +21,7 @@ public class DeleteAnswer(IThereGameDataService dataService) : IRequestHandler<D
             return;
         }
 
-        _dataService.Answers.Remove(answer);
+       _removeDialogueItems.Remove(answer, cancellationToken);
 
         await _dataService.SaveChanges(cancellationToken);
     }

@@ -159,7 +159,7 @@ public static class DialogueMapping
             ParentAnswerId = phraseDto.ParentAnswerId,
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
-            Tenseses = phraseDto.Tenses
+            Tenseses = phraseDto.Tenses,
         };
     }
 
@@ -170,6 +170,18 @@ public static class DialogueMapping
         foreach(var dialogue in dialogues)
         {
             response.Add(Response(dialogue));
+            foreach (var answer in dialogue.Phrase.Answers)
+            {
+                Console.WriteLine($"++++++++{answer.Id} = {answer.Phrases.Count()}++++++++");
+            }
+        }
+
+        foreach (var dialogue in response)
+        {
+            foreach (var answer in dialogue.Phrase.Answers)
+            {
+                Console.WriteLine($"========={answer.Id} = {answer.Phrases.Count()}=========");
+            }
         }
 
         return response;

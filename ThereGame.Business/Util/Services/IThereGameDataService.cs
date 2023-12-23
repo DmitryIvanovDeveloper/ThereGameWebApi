@@ -15,6 +15,9 @@ public interface IThereGameDataService
     DbSet<DialogueModel> Dialogues { get; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
+    Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);
+    Task<AnswerModel?> GetFullAnswerById(Guid id, CancellationToken cancellationToken);
+    Task RemoveFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken);
     Task SaveChanges(CancellationToken cancellationToken);
 }

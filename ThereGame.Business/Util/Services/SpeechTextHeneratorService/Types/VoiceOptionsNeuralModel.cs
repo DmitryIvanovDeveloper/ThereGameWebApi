@@ -1,0 +1,22 @@
+public enum  VoiceOptionsNeuralModel
+{
+    Olivia = 0,
+    Emma = 1,
+    Amy = 2,
+    Brian = 3,
+    Arthur = 4,
+    Kajal = 5,
+    Aria = 6,
+    Ayanda = 7,
+    Salli = 8,
+    Kimberly = 9,
+    Kendra = 10,
+    Joanna = 11,
+    Ivy = 12,
+    Ruth = 13,
+    Kevin = 14,
+    Matthew = 15,
+    Justin = 16,
+    Joey = 17,
+    Stephen = 18,
+}

@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
 
         // Custom Services
         services.AddTransient<IThereGameDataService, ThereGameDbContext>();
+        services.AddTransient<ISpeechTextGeneratorService, SpeechTextGeneratorService>();
 
         // Cors
         services.AddCors(options => options.AddPolicy("corspolicy",

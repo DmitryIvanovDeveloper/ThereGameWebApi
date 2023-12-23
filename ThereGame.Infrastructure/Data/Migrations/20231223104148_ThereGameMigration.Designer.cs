@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231219153453_ThereGameMigration")]
+    [Migration("20231223104148_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -109,6 +109,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("AudioPhrase")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Comments")
                         .IsRequired()

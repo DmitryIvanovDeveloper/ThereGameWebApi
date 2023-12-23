@@ -107,6 +107,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AudioPhrase")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Comments")
                         .IsRequired()
                         .HasColumnType("text");

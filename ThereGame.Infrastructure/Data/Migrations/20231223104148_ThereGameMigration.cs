@@ -54,7 +54,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Text = table.Column<string>(type: "text", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: false),
                     Tenseses = table.Column<string[]>(type: "text[]", nullable: false),
-                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AudioPhrase = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

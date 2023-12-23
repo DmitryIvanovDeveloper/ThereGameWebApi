@@ -211,6 +211,11 @@ public static class DialogueMapping
             WordsToUse = answerDto.WordsToUse,
         };
 
+        foreach (var phrase in answerDto.Phrases)
+        {
+            responseDto.Phrases.Add(Response(phrase));
+        }
+
         foreach (var translate in answerDto.Translates)
         {
             responseDto.Translates.Add(Response(translate));

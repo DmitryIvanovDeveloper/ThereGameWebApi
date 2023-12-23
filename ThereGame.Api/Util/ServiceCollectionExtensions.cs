@@ -27,6 +27,8 @@ public static class ServiceCollectionExtensions
         // Custom Services
         services.AddTransient<IThereGameDataService, ThereGameDbContext>();
 
+        services.AddTransient<IRemoveDialogueItems, RemoveDialogueItems>();
+
         // Cors
         services.AddCors(options => options.AddPolicy("corspolicy",
                        builder =>

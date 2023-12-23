@@ -16,6 +16,7 @@ public class CreatePhrase(IThereGameDataService dataService) : IRequestHandler<C
 
     public async Task Handle(CreatePhraseRequest request, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"===========${request.Phrase.Id}===========");
         if (request.Phrase == null)
         {
             return;

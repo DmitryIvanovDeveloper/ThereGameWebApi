@@ -13,7 +13,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /usr/src/app
 COPY --from=build-env /usr/src/app/out .
 
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 EXPOSE 10000
 ENTRYPOINT ["dotnet", "ThereGame.Api.dll"]

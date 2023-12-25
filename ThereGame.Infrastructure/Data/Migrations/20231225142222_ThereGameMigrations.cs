@@ -6,11 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ThereGameMigration : Migration
+    public partial class ThereGameMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Answers",
                 columns: table => new
@@ -94,10 +109,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     LevelId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),
-                    IsVoiceSelected = table.Column<bool>(type: "boolean", nullable: false)
+                    IsVoiceSelected = table.Column<bool>(type: "boolean", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PhraseId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,6 +122,12 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         name: "FK_Dialogues_Phrases_PhraseId",
                         column: x => x.PhraseId,
                         principalTable: "Phrases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Dialogues_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -119,6 +141,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 name: "IX_Dialogues_PhraseId",
                 table: "Dialogues",
                 column: "PhraseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dialogues_UserId",
+                table: "Dialogues",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MistakeExplanations_AnswerParentId",
@@ -159,6 +186,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Translates");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Phrases");

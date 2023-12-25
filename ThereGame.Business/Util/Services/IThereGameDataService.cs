@@ -12,6 +12,7 @@ public interface IThereGameDataService
     DbSet<AnswerModel> Answers { get; }
     DbSet<TranslateModel> Translates { get; }
     DbSet<MistakeExplanationModel> MistakeExplanations { get; }
+    DbSet<UserModel> Users { get; }
     DbSet<DialogueModel> Dialogues { get; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);

@@ -4,6 +4,7 @@ public class DialogueCreateRequestApiDto
 {
     public Guid Id { get; set; }
     public Guid LevelId { get; set; }
+    public Guid UserId { get; set; }
     public bool IsPublished { get; set; }
     public bool IsVoiceSelected { get; set; }
     public string Name { get; set; } = "";

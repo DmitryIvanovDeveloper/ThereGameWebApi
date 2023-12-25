@@ -97,9 +97,14 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PhraseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Dialogues");
                 });
@@ -163,6 +168,33 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Translates");
                 });
 
+            modelBuilder.Entity("UserModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
@@ -193,7 +225,15 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("UserModel", "User")
+                        .WithMany("Dialogues")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Phrase");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Phrase.PhraseModel", b =>
@@ -229,6 +269,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 {
                     b.Navigation("Answers");
 
+                    b.Navigation("Dialogues");
+                });
+
+            modelBuilder.Entity("UserModel", b =>
+                {
                     b.Navigation("Dialogues");
                 });
 #pragma warning restore 612, 618

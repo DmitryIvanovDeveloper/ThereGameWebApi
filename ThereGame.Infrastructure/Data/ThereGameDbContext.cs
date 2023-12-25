@@ -22,6 +22,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<DialogueModel> Dialogues { get; set; }
     public DbSet<TranslateModel> Translates { get; set; }
     public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
+    public DbSet<UserModel> Users { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -30,7 +31,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     public async Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken)
     {
-        var dialogues =  await Dialogues.Include(d => d.Phrase).ToArrayAsync(cancellationToken);
+        var dialogues = await Dialogues.Include(d => d.Phrase).ToArrayAsync(cancellationToken);
         return await BuildDialogues(dialogues);
     }
 
@@ -54,7 +55,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
         // <-- Dialogue -->
         var dialogueBuilder = modelBuilder.Entity<DialogueModel>();
 
@@ -66,6 +66,13 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(d => d.PhraseId)
             .IsRequired()
         ;
+
+        dialogueBuilder
+           .HasOne(d => d.User)
+           .WithMany(u => u.Dialogues)
+           .HasForeignKey(d => d.UserId)
+           .IsRequired()
+       ;
         // </- Dialogue -->
 
 
@@ -121,7 +128,15 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(t => t.AnswerParentId)
             .IsRequired()
         ;
-        // </- Answer -->
+        // <-- Answer -->
+
+        //<-- User  -->
+
+        var userBuilder = modelBuilder.Entity<UserModel>();
+        answerBuilder.HasKey(u => u.Id);
+
+        //<-- User  -->
+
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DialogueModel[] dialogues)
@@ -135,6 +150,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 LevelId = dialogue.LevelId,
                 Name = dialogue.Name,
                 PhraseId = dialogue.Phrase?.Id,
+                UserId = dialogue.UserId,
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
             };

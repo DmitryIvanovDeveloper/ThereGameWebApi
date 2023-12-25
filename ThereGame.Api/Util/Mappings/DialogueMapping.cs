@@ -14,6 +14,7 @@ public static class DialogueMapping
             IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
+            UserId = dialogueDto.UserId,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.Phrase?.Id,
             Phrase = Request(dialogueDto.Phrase)
@@ -39,6 +40,7 @@ public static class DialogueMapping
             IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
+            UserId = dialogueDto.UserId,
             IsPublished = dialogueDto.IsPublished,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
@@ -187,6 +189,7 @@ public static class DialogueMapping
         {
             Id = dialogue.Id,
             LevelId = dialogue.LevelId,
+            UserId = dialogue.UserId,
             PhraseId = dialogue.PhraseId,
             IsPublished = dialogue.IsPublished,
             IsVoiceSelected = dialogue.IsVoiceSelected,

@@ -48,6 +48,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     {
         return await Phrases.GetFullPhraseById(id, cancellationToken);
     }
+
+
     async Task IThereGameDataService.SaveChanges(CancellationToken cancellationToken)
     {
         await SaveChangesAsync(cancellationToken);
@@ -132,7 +134,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         //<-- User  -->
 
-        var userBuilder = modelBuilder.Entity<UserModel>();
+        var userBuilder = modelBuilder.Entity<AuthModel>();
         answerBuilder.HasKey(u => u.Id);
 
         //<-- User  -->
@@ -205,5 +207,27 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         }
 
         return buildedAnswer;
+    }
+
+    public async Task<UserModel?> GetFullUserById(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await Users.FindAsync(id, cancellationToken);
+        var dialogues = await Dialogues.GetFullDialogues(cancellationToken);
+
+        var fullUser = new UserModel()
+        {
+            Name = user.Name,
+            LastName = user.LastName,
+            Email = user.Email,
+            Id = user.Id,
+        };
+
+        var userDialogues = dialogues.Where(dialogue => dialogue.UserId == id);
+        foreach (var dialogue in userDialogues)
+        {
+            fullUser.Dialogues.Add(dialogue);
+        }
+
+        return fullUser;
     }
 }

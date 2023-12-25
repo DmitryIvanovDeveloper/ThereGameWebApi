@@ -1,8 +1,10 @@
+using ThereGame.Api.Util.Mappings;
+
 public static class UserMapping
 {
-    public static UserModel Request(AuthSignUpQueryApiDto request) 
+    public static AuthModel Request(AuthSignUpQueryApiDto request) 
     {
-        return new UserModel()
+        return new AuthModel()
         {
             Id = request.Id,
             Name = request.Name,
@@ -12,9 +14,9 @@ public static class UserMapping
         };
     }
 
-    public static UserModel Request(AuthSignInQueryApiDto request) 
+    public static AuthModel Request(AuthSignInQueryApiDto request) 
     {
-        return new UserModel()
+        return new AuthModel()
         {
             Email = request.Email,
             Password = request.Password
@@ -29,6 +31,7 @@ public static class UserMapping
             Name = request.Name,
             LastName = request.LastName,
             Email = request.Email,
+            Dialogues = DialogueMapping.Response(request.Dialogues.ToArray())
         };
     }
 }

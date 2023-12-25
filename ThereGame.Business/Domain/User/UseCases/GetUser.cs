@@ -5,7 +5,7 @@ using MediatR;
 
 public class GetUserRequest : IRequest<UserModel>
 {
-    public UserModel User { get; set; }
+    public AuthModel User { get; set; }
 }
 
 public class GetUser(IThereGameDataService dataService) : IRequestHandler<GetUserRequest, UserModel?>

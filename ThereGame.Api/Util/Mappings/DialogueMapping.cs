@@ -1,5 +1,6 @@
 namespace ThereGame.Api.Util.Mappings;
 
+using System.Collections.Generic;
 using ThereGame.Api.Domain.Dialogue;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
@@ -184,7 +185,6 @@ public static class DialogueMapping
 
     public static DialogueGetResponseApiDto Response(DialogueModel dialogue)
     {
-
         return new DialogueGetResponseApiDto()
         {
             Id = dialogue.Id,

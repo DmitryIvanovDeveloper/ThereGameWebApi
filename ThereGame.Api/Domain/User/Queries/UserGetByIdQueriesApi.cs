@@ -13,7 +13,6 @@ public static class UserGetByIdQueriesApi
         [FromServices] IMediator mediator
     ) {
 
-        Console.WriteLine($"=========={id}========");
         var user = await mediator.Send(new GetUserByIdRequest() {
             Id = id
         });
@@ -22,7 +21,7 @@ public static class UserGetByIdQueriesApi
         {
             return TypedResults.NoContent();
         }
-
+    
         var response = UserMapping.Response(user);
 
         return TypedResults.Ok(response);

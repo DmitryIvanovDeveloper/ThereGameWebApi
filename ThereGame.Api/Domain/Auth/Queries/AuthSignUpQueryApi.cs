@@ -15,7 +15,7 @@ public static class AuthSignUpQueryApi
         
         await mediator.Send(new CreateUserRequest()
         {
-            User = UserMapping.Request(authSignUpQueryApiDto)
+            Auth = UserMapping.Request(authSignUpQueryApiDto)
         });
         
         return TypedResults.Ok();

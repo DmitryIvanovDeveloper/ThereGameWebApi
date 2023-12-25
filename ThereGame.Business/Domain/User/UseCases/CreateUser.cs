@@ -5,7 +5,7 @@ using MediatR;
 
 public class CreateUserRequest : IRequest
 {
-    public UserModel User { get; set; }
+    public AuthModel Auth { get; set; }
 }
 
 public class CreateUser(IThereGameDataService dataService) : IRequestHandler<CreateUserRequest>
@@ -14,7 +14,22 @@ public class CreateUser(IThereGameDataService dataService) : IRequestHandler<Cre
     
     public async Task Handle(CreateUserRequest request, CancellationToken cancellationToken)
     {
-        await _dataService.Users.AddAsync(request.User);
+        var user = _dataService.Users.FirstOrDefault(user => user.Email == request.Auth.Email);
+        if (user != null)
+        {
+            return;
+        }
+
+        var newUser = new UserModel()
+        {
+            Name = request.Auth.Name,
+            LastName = request.Auth.LastName,
+            Email = request.Auth.Email,
+            Password = request.Auth.Password,
+            Id = request.Auth.Id,
+        };
+
+        await _dataService.Users.AddAsync(newUser);
 
         await _dataService.SaveChanges(cancellationToken);
     }

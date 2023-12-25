@@ -31,8 +31,11 @@ public static class WebApplicationExtensions
         answerGroup.MapPut("/", UpdateAnswerQueryApi.Handler);
 
         // Auth
-        apiGroup.MapPost("auth/sign-up", CreateUserQueryApi.Handler);
-        apiGroup.MapPost("auth/sign-in", GetUserQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-up", AuthSignUpQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-in", AuthSignInQueryApi.Handler);
+
+        var usersGroup = apiGroup.MapGroup("/users");
+        usersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
 
         return app;
     }

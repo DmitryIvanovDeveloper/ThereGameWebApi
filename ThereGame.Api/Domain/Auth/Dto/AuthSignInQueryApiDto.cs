@@ -1,4 +1,4 @@
-public class UserGetRequestApiDto() {
+public class AuthSignInQueryApiDto() {
     public string Email { get; set; } = "";
     public string Password { get; set; } = "";
 }

@@ -5,17 +5,17 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Business.Domain.User.UseCases;
 
-public static class CreateUserQueryApi
+public static class AuthSignUpQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] UserCreateRequestApiDto userCreateRequestApiDto,
+        [FromBody] AuthSignUpQueryApiDto authSignUpQueryApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
         
         await mediator.Send(new CreateUserRequest()
         {
-            User = UserMapping.Request(userCreateRequestApiDto)
+            User = UserMapping.Request(authSignUpQueryApiDto)
         });
         
         return TypedResults.Ok();

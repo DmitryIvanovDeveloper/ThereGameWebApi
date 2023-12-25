@@ -1,6 +1,6 @@
 public static class UserMapping
 {
-    public static UserModel Request(UserCreateRequestApiDto request) 
+    public static UserModel Request(AuthSignUpQueryApiDto request) 
     {
         return new UserModel()
         {
@@ -12,7 +12,7 @@ public static class UserMapping
         };
     }
 
-    public static UserModel Request(UserGetRequestApiDto request) 
+    public static UserModel Request(AuthSignInQueryApiDto request) 
     {
         return new UserModel()
         {
@@ -21,7 +21,7 @@ public static class UserMapping
         };
     }
 
-     public static UserGetResponseApiDto Response(UserModel request) 
+    public static UserGetResponseApiDto Response(UserModel request) 
     {
         return new UserGetResponseApiDto()
         {

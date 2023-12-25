@@ -35,8 +35,7 @@ public static class ServiceCollectionExtensions
                             builder.AllowAnyMethod()
                                 .AllowAnyHeader()
                                 .WithOrigins("*")
-                                .AllowAnyMethod()
-                                .AllowAnyHeader();
+                                .AllowAnyMethod();
                        }));
 
         return services;

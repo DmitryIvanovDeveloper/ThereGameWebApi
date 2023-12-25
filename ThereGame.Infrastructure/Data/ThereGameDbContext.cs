@@ -196,7 +196,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             MistakeExplanations = parentAnswer.MistakeExplanations,
         };
 
-
         var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
 
         foreach (var phrase in phrases)

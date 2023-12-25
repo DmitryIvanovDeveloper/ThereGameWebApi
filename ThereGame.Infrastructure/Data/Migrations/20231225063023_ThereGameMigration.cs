@@ -54,7 +54,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Text = table.Column<string>(type: "text", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: false),
                     Tenseses = table.Column<string[]>(type: "text[]", nullable: false),
-                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AudioGenerationSettings = table.Column<string>(type: "text", nullable: false),
+                    AudioData = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,7 +96,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     LevelId = table.Column<Guid>(type: "uuid", nullable: false),
                     PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    IsPublished = table.Column<bool>(type: "boolean", nullable: false)
+                    IsPublished = table.Column<bool>(type: "boolean", nullable: false),
+                    IsVoiceSelected = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

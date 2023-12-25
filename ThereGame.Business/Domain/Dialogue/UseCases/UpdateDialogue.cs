@@ -9,7 +9,7 @@ public class UpdateDialogueRequest : IRequest
     public required string Name { get; set; }
     public required Guid LevelId { get; set; }
     public required bool IsPublished { get; set; }
-    
+    public required bool IsVoiceSelected { get; set; }
     public required Guid PhraseId { get; set; }
 }
 
@@ -21,6 +21,7 @@ public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler
     {
         var dialogue = new DialogueModel()
         {
+            IsVoiceSelected = request.IsVoiceSelected,
             Id = request.Id,
             IsPublished = request.IsPublished,
             LevelId = request.LevelId,

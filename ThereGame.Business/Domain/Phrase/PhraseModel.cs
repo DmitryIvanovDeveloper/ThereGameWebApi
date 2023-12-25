@@ -16,6 +16,8 @@ public class PhraseModel
     public Guid? ParentAnswerId { get; set; } = null;
     public AnswerModel? ParentAnswer { get; set; } = null;
 
+    public string AudioGenerationSettings { get; set; } = "";
+    public string AudioData { get; set; } = "";
 
     public ICollection<AnswerModel> Answers { get; } = new List<AnswerModel>();
     [JsonIgnore]

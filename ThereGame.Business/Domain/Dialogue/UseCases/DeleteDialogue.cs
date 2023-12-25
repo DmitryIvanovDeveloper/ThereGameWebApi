@@ -17,8 +17,14 @@ public class DeleteDialogue(
     
     public async Task Handle(DeleteDialogueRequest request, CancellationToken cancellationToken)
     {
-        await _dataService.RemoveFullDialogueById(request.Id, cancellationToken);
-
+        // await _dataService.RemoveFullDialogueById(request.Id, cancellationToken);
+        var dialogue = await _dataService.Dialogues.FindAsync(request.Id);
+        if (dialogue == null)
+        {
+            return;
+        }
+        
+        _dataService.Dialogues.Remove(dialogue);
         await _dataService.SaveChanges(cancellationToken);
     }
 }

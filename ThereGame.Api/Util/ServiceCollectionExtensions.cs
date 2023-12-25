@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
 
         // Custom Services
         services.AddTransient<IThereGameDataService, ThereGameDbContext>();
+        services.AddTransient<ISpeechTextGeneratorService, SpeechTextGeneratorService>();
 
         services.AddTransient<IRemoveDialogueItems, RemoveDialogueItems>();
 

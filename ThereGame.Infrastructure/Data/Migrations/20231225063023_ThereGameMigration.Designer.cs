@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231223104148_ThereGameMigration")]
+    [Migration("20231225063023_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -86,6 +86,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsVoiceSelected")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("LevelId")
                         .HasColumnType("uuid");
 
@@ -110,7 +113,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AudioPhrase")
+                    b.Property<string>("AudioData")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AudioGenerationSettings")
                         .IsRequired()
                         .HasColumnType("text");
 

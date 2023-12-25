@@ -4,6 +4,7 @@ public class DialogueGetResponseApiDto
 {
     public Guid Id { get; set; }
     public bool IsPublished { get; set; }
+    public bool IsVoiceSelected { get; set; }
     public Guid LevelId { get; set; }
     public string Name { get; set; } = "";
     public Guid? PhraseId { get; set; }

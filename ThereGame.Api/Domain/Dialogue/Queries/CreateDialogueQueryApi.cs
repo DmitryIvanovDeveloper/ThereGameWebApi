@@ -15,6 +15,7 @@ public static class CreateDialogueQueryApi
         [FromServices] IMediator mediator
     ) {
         await mediator.Send(new CreateDialogueRequest() {
+            IsVoiceSelected = dialogueCreateRequestApiDto.IsVoiceSelected,
             Id = dialogueCreateRequestApiDto.Id,
             LevelId = dialogueCreateRequestApiDto.LevelId,
             IsPublished = dialogueCreateRequestApiDto.IsPublished,

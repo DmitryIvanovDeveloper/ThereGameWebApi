@@ -22,16 +22,17 @@ public class UpdatePhrase(IThereGameDataService dataService,
             return;
         }
 
-        var phrase = _dataService.Phrases.
-            AsNoTracking()
+        var phrase = _dataService.Phrases
+            .AsNoTracking()
             .FirstOrDefault(phrase => phrase.Id == request.Phrase.Id)
         ;
-        
+
+
         if (phrase != null && 
-            phrase.AudioPhrase != request.Phrase.AudioPhrase)
+            phrase.AudioGenerationSettings != request.Phrase.AudioGenerationSettings)
         {
-            var audioData = await _speechTextGeneratorService.Generate(request.Phrase.Text);
-            request.Phrase.AudioPhrase = audioData;
+            var audioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioGenerationSettings);
+            request.Phrase.AudioData = audioData;
         }
 
         _dataService.Phrases.Update(request.Phrase);

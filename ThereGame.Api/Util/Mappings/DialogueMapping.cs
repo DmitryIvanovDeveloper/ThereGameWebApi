@@ -11,6 +11,7 @@ public static class DialogueMapping
     {
         return new DialogueModel()
         {
+            IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
             Name = dialogueDto.Name,
@@ -18,8 +19,8 @@ public static class DialogueMapping
             Phrase = Request(dialogueDto.Phrase)
         };
     }
-    
-  public static PhraseModel Request(PhraseGetRequestApiDto phraseDto)
+
+    public static PhraseModel Request(PhraseGetRequestApiDto phraseDto)
     {
         return new PhraseModel()
         {
@@ -28,12 +29,14 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
             Tenseses = phraseDto.TensesList,
+            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
         };
     }
     public static DialogueModel Request(DialogueGetResponseApiDto dialogueDto)
     {
         return new DialogueModel()
         {
+            IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
             IsPublished = dialogueDto.IsPublished,
@@ -50,7 +53,8 @@ public static class DialogueMapping
             Id = phraseDto.Id,
             Text = phraseDto.Text,
             Tenseses = phraseDto.TensesList,
-            Comments = phraseDto.Comments
+            Comments = phraseDto.Comments,
+            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
         };
     }
 
@@ -129,7 +133,7 @@ public static class DialogueMapping
         {
             var translateModel = new TranslateModel()
             {
-                Id =  translate.Id,
+                Id = translate.Id,
                 Text = translate.Text,
                 Language = translate.Language,
             };
@@ -160,6 +164,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
             Tenseses = phraseDto.Tenses,
+            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
         };
     }
 
@@ -167,7 +172,7 @@ public static class DialogueMapping
     {
         var response = new List<DialogueGetResponseApiDto>();
 
-        foreach(var dialogue in dialogues)
+        foreach (var dialogue in dialogues)
         {
             response.Add(Response(dialogue));
         }
@@ -177,12 +182,14 @@ public static class DialogueMapping
 
     public static DialogueGetResponseApiDto Response(DialogueModel dialogue)
     {
+
         return new DialogueGetResponseApiDto()
         {
             Id = dialogue.Id,
             LevelId = dialogue.LevelId,
             PhraseId = dialogue.PhraseId,
             IsPublished = dialogue.IsPublished,
+            IsVoiceSelected = dialogue.IsVoiceSelected,
             Name = dialogue.Name,
             Phrase = Response(dialogue.Phrase)
         };
@@ -239,7 +246,7 @@ public static class DialogueMapping
         };
     }
 
-     public static TranslateModel Request(TranslateDto translate)
+    public static TranslateModel Request(TranslateDto translate)
     {
         return new TranslateModel()
         {
@@ -270,7 +277,8 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             TensesList = phraseDto.Tenseses,
             Comments = phraseDto.Comments,
-            AudioPhrase = phraseDto.AudioPhrase,
+            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
+            AudioData = phraseDto.AudioData,
         };
 
         foreach (var answer in phraseDto.Answers)

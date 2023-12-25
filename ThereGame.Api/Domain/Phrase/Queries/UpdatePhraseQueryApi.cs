@@ -17,8 +17,6 @@ public static class UpdatePhraseQueryApi
             Phrase = DialogueMapping.Request(phraseUpdateRequestApiDto)
         });
 
-        Console.WriteLine(phraseUpdateRequestApiDto.TensesList.Length);
-
         return TypedResults.Ok();
     }
 }

@@ -135,6 +135,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 LevelId = dialogue.LevelId,
                 Name = dialogue.Name,
                 PhraseId = dialogue.Phrase?.Id,
+                IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
             };
 
@@ -153,7 +154,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             Text = parentPhrase.Text,
             Comments = parentPhrase.Comments,
             Tenseses = parentPhrase.Tenseses,
-            AudioPhrase = parentPhrase.AudioPhrase,
+            AudioData = parentPhrase.AudioData,
         };
 
         var answers = await Answers.Where(a => a.ParentPhraseId == parentPhrase.Id).ToArrayAsync();

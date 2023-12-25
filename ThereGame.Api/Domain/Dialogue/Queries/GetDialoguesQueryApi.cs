@@ -21,14 +21,6 @@ public static class GetDialoguesQueryApi
 
         var response = DialogueMapping.Response(dialogues);
 
-        foreach (var dialogue in response)
-        {
-            foreach (var answer in dialogue.Phrase.Answers)
-            {
-                Console.WriteLine($"++++++++{answer.Id} = {answer.Phrases.Count()}++++++++");
-            }
-        }
-        
         return TypedResults.Ok(response);
     }
 }

@@ -28,8 +28,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IThereGameDataService, ThereGameDbContext>();
         services.AddTransient<ISpeechTextGeneratorService, SpeechTextGeneratorService>();
 
-        services.AddTransient<IRemoveDialogueItems, RemoveDialogueItems>();
-
         // Cors
         services.AddCors(options => options.AddPolicy("corspolicy",
                        builder =>

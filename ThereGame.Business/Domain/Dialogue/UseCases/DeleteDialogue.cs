@@ -9,15 +9,12 @@ public class DeleteDialogueRequest : IRequest
 }
 
 public class DeleteDialogue(
-    IThereGameDataService dataService, 
-    IRemoveDialogueItems removeDialogueItems) : IRequestHandler<DeleteDialogueRequest>
+    IThereGameDataService dataService) : IRequestHandler<DeleteDialogueRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
-    private readonly IRemoveDialogueItems _removeDialogueItems = removeDialogueItems;
     
     public async Task Handle(DeleteDialogueRequest request, CancellationToken cancellationToken)
     {
-        // await _dataService.RemoveFullDialogueById(request.Id, cancellationToken);
         var dialogue = await _dataService.Dialogues.FindAsync(request.Id);
         if (dialogue == null)
         {

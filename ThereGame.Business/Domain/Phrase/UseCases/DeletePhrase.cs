@@ -8,10 +8,9 @@ public class DeletePhraseRequest : IRequest
     public Guid Id { get; set; }
 }
 
-public class DeletePhrase(IThereGameDataService dataService, IRemoveDialogueItems removeDialogueItems) : IRequestHandler<DeletePhraseRequest>
+public class DeletePhrase(IThereGameDataService dataService) : IRequestHandler<DeletePhraseRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
-    private readonly IRemoveDialogueItems _removeDialogueItems = removeDialogueItems;
     
     public async Task Handle(DeletePhraseRequest request, CancellationToken cancellationToken)
     {
@@ -20,8 +19,7 @@ public class DeletePhrase(IThereGameDataService dataService, IRemoveDialogueItem
             return;
         }
 
-        // _dataService.Phrases.Remove(phrase);
-        _removeDialogueItems.Remove(phrase, cancellationToken);
+        _dataService.Phrases.RemoveRange(phrase);
         
         await _dataService.SaveChanges(cancellationToken);
     }

@@ -8,10 +8,9 @@ public class DeleteAnswerRequest : IRequest
     public Guid Id { get; set; }
 }
 
-public class DeleteAnswer(IThereGameDataService dataService, IRemoveDialogueItems removeDialogueItems) : IRequestHandler<DeleteAnswerRequest>
+public class DeleteAnswer(IThereGameDataService dataService) : IRequestHandler<DeleteAnswerRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
-    private readonly IRemoveDialogueItems _removeDialogueItems = removeDialogueItems;
 
     
     public async Task Handle(DeleteAnswerRequest request, CancellationToken cancellationToken)
@@ -21,7 +20,7 @@ public class DeleteAnswer(IThereGameDataService dataService, IRemoveDialogueItem
             return;
         }
 
-       _removeDialogueItems.Remove(answer, cancellationToken);
+        _dataService.Answers.RemoveRange(answer);
 
         await _dataService.SaveChanges(cancellationToken);
     }

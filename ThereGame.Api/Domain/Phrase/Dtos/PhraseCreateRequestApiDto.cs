@@ -1,3 +1,5 @@
+namespace ThereGame.Api.Domain.Phrase.Dtos;
+
 public class PhraseCreateRequestApiDto
 {
     public Guid Id { get; set; }

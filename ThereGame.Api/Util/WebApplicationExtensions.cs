@@ -31,11 +31,14 @@ public static class WebApplicationExtensions
         answerGroup.MapPut("/", UpdateAnswerQueryApi.Handler);
 
         // Auth
-        apiGroup.MapPost("auth/sign-up", AuthSignUpQueryApi.Handler);
-        apiGroup.MapPost("auth/sign-in", AuthSignInQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-up/teachers", AuthSignUpTeacherQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-in/teachers", AuthSignInTeacherQueryApi.Handler);
 
-        var usersGroup = apiGroup.MapGroup("/users");
-        usersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
+        var teachersGroup = apiGroup.MapGroup("/teachers");
+        teachersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
+
+        apiGroup.MapPost("auth/sign-up/students", AuthSignUpStudentQueryApi.Handler);
+
 
         return app;
     }

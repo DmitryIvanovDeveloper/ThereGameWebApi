@@ -1,3 +1,5 @@
+namespace ThereGame.Api.Domain.Phrase.Dtos;
+
 using ThereGame.Api.Domain.Dialogue;
 
 public class PhraseGetResponseApiDto

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
+using ThereGame.Business.Domain.Student;
+using ThereGame.Business.Domain.User;
 using ThereGame.Business.Util.Services;
 
 public class ThereGameDbContext : DbContext, IThereGameDataService
@@ -23,6 +25,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<TranslateModel> Translates { get; set; }
     public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
     public DbSet<UserModel> Users { get; set; }
+    public DbSet<StudentModel> Students { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -57,6 +60,24 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //<-- User -->
+        var userBuilder = modelBuilder.Entity<UserModel>();
+        userBuilder.HasKey(u => u.Id);
+        //<-- User -->
+
+        // <-- Student -->
+        var studentBuilder = modelBuilder.Entity<StudentModel>();
+
+        studentBuilder.HasKey(s => s.Id);
+
+        studentBuilder
+            .HasOne(s => s.Teacher)
+            .WithMany(t => t.Students)
+            .HasForeignKey(s => s.TeacherId)
+            .IsRequired(false)
+        ;
+        // <-- Student -->
+
         // <-- Dialogue -->
         var dialogueBuilder = modelBuilder.Entity<DialogueModel>();
 
@@ -132,12 +153,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         ;
         // <-- Answer -->
 
-        //<-- User  -->
-
-        var userBuilder = modelBuilder.Entity<AuthModel>();
-        answerBuilder.HasKey(u => u.Id);
-
-        //<-- User  -->
 
     }
 
@@ -146,12 +161,12 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         var buildedDialogues = new List<DialogueModel>();
         foreach (var dialogue in dialogues)
         {
-            var buildedDialogue = new DialogueModel()
+            var buildedDialogue = new DialogueModel
             {
                 Id = dialogue.Id,
                 LevelId = dialogue.LevelId,
                 Name = dialogue.Name,
-                PhraseId = dialogue.Phrase?.Id,
+                PhraseId = dialogue.Phrase.Id,
                 UserId = dialogue.UserId,
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
@@ -187,6 +202,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     private async Task<AnswerModel> RecursiveLoad(AnswerModel parentAnswer)
     {
+
         var buildedAnswer = new AnswerModel()
         {
             ParentPhraseId = parentAnswer.ParentPhraseId,
@@ -211,18 +227,30 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     public async Task<UserModel?> GetFullUserById(Guid id, CancellationToken cancellationToken)
     {
-        var user = await Users.FindAsync(id, cancellationToken);
+        var user = await Users.FindAsync(
+            [id],
+            cancellationToken: cancellationToken
+        );
+        if (user == null)
+        {
+            return null;
+        }
+
         var dialogues = await Dialogues.GetFullDialogues(cancellationToken);
 
-        var fullUser = new UserModel()
+        var fullUser = new UserModel
         {
             Name = user.Name,
             LastName = user.LastName,
             Email = user.Email,
             Id = user.Id,
         };
+        if (dialogues == null)
+        {
+            return fullUser;
+        }
 
-        var userDialogues = dialogues.Where(dialogue => dialogue.UserId == id);
+        var userDialogues = dialogues.Where(d => d.UserId == id);
         foreach (var dialogue in userDialogues)
         {
             fullUser.Dialogues.Add(dialogue);

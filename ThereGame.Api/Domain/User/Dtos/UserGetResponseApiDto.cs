@@ -1,5 +1,4 @@
 using ThereGame.Api.Domain.Dialogue;
-using ThereGame.Business.Domain.Dialogue;
 
 public class UserGetResponseApiDto() {
     public Guid Id { get; set; }

@@ -1,3 +1,5 @@
+using ThereGame.Api.Domain.Phrase.Dtos;
+
 namespace ThereGame.Api.Domain.Dialogue;
 
 public class DialogueCreateRequestApiDto
@@ -8,5 +10,5 @@ public class DialogueCreateRequestApiDto
     public bool IsPublished { get; set; }
     public bool IsVoiceSelected { get; set; }
     public string Name { get; set; } = "";
-    public PhraseCreateRequestApiDto? Phrase { get; set; } = null;
+    public PhraseCreateRequestApiDto Phrase { get; set; } = null!;
 }

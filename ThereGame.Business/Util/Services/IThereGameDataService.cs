@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
-
+using ThereGame.Business.Domain.Student;
+using ThereGame.Business.Domain.User;
 
 public interface IThereGameDataService
 {
@@ -13,6 +14,7 @@ public interface IThereGameDataService
     DbSet<TranslateModel> Translates { get; }
     DbSet<MistakeExplanationModel> MistakeExplanations { get; }
     DbSet<UserModel> Users { get; }
+    DbSet<StudentModel> Students { get; }
     DbSet<DialogueModel> Dialogues { get; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);

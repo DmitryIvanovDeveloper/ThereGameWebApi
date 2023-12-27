@@ -56,24 +56,6 @@ public static class DbSetExtensions
         ;
     }
 
-    public static async Task<DialogueModel[]?> GetFullDialogues(
-       this DbSet<DialogueModel> dialogues,
-       CancellationToken cancellationToken
-    ) {
-        return await dialogues
-            .Include(d => d.Phrase)
-            .ThenInclude(p => p.Answers)
-            .ThenInclude(a => a.Translates)
-            .Include(a => a.Phrase)
-            .ThenInclude(a => a.Answers)
-            .ThenInclude(a => a.MistakeExplanations)
-            .Include(a => a.Phrase)
-            .ThenInclude(a => a.Answers)
-            .Include(a => a.Phrase)
-            .ToArrayAsync(cancellationToken)
-        ;
-    }
-
     public static async Task RemoveFullDialogueById(
        this DbSet<DialogueModel> dialogues,
        Guid id,

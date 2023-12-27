@@ -13,17 +13,15 @@ public static class AuthSignInTeacherQueryApi
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var user = await mediator.Send(new GetUserRequest()
+        var token = await mediator.Send(new AuthSignInTeacherRequest()
         {
-            User = UserMapping.Request(authSignInQueryApiDto)
+            Auth = AuthMapping.Request(authSignInQueryApiDto)
         });
         
-        if (user == null) {
+        if (token == null) {
             return TypedResults.Unauthorized();
         }
 
-        var response = UserMapping.Response(user);
-        
-        return TypedResults.Ok(response);
+        return TypedResults.Ok(token);
     }
 }

@@ -6,4 +6,5 @@ public class UserGetResponseApiDto() {
     public string LastName { get; set; } = "";
     public string Email { get; set; } = "";
     public List<DialogueGetResponseApiDto> Dialogues { get; set; } = new List<DialogueGetResponseApiDto>();
+    public List<StudentGetResponseDto> Students { get; set; } = new List<StudentGetResponseDto>();
 }

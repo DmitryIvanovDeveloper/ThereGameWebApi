@@ -2,7 +2,7 @@ namespace ThereGame.Api.Util.Mappings;
 
 using ThereGame.Business.Domain.User;
 
-public static class UserMapping
+public static class AuthMapping
 {
     public static AuthModel Request(AuthSignUpQueryApiDto request) 
     {

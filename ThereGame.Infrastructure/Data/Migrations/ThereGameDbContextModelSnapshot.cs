@@ -22,6 +22,21 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DialogueModelStudentModel", b =>
+                {
+                    b.Property<Guid>("DialoguesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StudentsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DialoguesId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("DialogueModelStudentModel");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -224,6 +239,21 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasIndex("AnswerParentId");
 
                     b.ToTable("Translates");
+                });
+
+            modelBuilder.Entity("DialogueModelStudentModel", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Dialogue.DialogueModel", null)
+                        .WithMany()
+                        .HasForeignKey("DialoguesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentModel", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>

@@ -9,7 +9,7 @@ public class GetUserRequest : IRequest<UserModel?>
     public required AuthModel User { get; set; }
 }
 
-public class GetUser(IThereGameDataService dataService) : IRequestHandler<GetUserRequest, UserModel?>
+public class GetToken(IThereGameDataService dataService) : IRequestHandler<GetUserRequest, UserModel?>
 {
     private readonly IThereGameDataService _dataService = dataService;
     

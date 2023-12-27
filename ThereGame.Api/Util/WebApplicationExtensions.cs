@@ -40,6 +40,12 @@ public static class WebApplicationExtensions
         var teachersGroup = apiGroup.MapGroup("/teachers");
         teachersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
 
+        var studentGroup = apiGroup.MapGroup("/students");
+        studentGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
+
+
+        
+
         return app;
     }
 }

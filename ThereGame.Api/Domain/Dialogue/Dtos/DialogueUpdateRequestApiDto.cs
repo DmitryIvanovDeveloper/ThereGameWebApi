@@ -1,3 +1,5 @@
+using ThereGame.Business.Domain.Student;
+
 namespace ThereGame.Api.Domain.Dialogue;
 
 public class DialogueUpdateRequestApiDto
@@ -9,4 +11,5 @@ public class DialogueUpdateRequestApiDto
     public bool IsVoiceSelected { get; set; }
     public string Name { get; set; } = "";
     public Guid PhraseId { get; set; }
+    public List<StudentModel> Students { get; set; } = new List<StudentModel>();
 }

@@ -59,8 +59,7 @@ public static class DbSetExtensions
     public static async Task<DialogueModel[]?> GetFullDialogues(
        this DbSet<DialogueModel> dialogues,
        CancellationToken cancellationToken
-    )
-    {
+    ) {
         return await dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p.Answers)
@@ -79,8 +78,7 @@ public static class DbSetExtensions
        this DbSet<DialogueModel> dialogues,
        Guid id,
        CancellationToken cancellationToken
-    )
-    {
+    )  {
         var dialogue = await dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p.Answers)

@@ -32,10 +32,10 @@ public static class ServiceCollectionExtensions
         services.AddCors(options => options.AddPolicy("corspolicy",
                        builder =>
                        {
-                           builder.AllowAnyMethod().AllowAnyHeader()
-                               .WithOrigins("*")
-                               .AllowAnyMethod()
-                               .AllowAnyHeader();
+                            builder.AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .WithOrigins("*")
+                                .AllowAnyMethod();
                        }));
 
         return services;

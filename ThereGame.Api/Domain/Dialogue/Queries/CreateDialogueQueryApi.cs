@@ -18,6 +18,7 @@ public static class CreateDialogueQueryApi
             IsVoiceSelected = dialogueCreateRequestApiDto.IsVoiceSelected,
             Id = dialogueCreateRequestApiDto.Id,
             LevelId = dialogueCreateRequestApiDto.LevelId,
+            UserId = dialogueCreateRequestApiDto.UserId,
             IsPublished = dialogueCreateRequestApiDto.IsPublished,
             Name = dialogueCreateRequestApiDto.Name,
             Phrase = DialogueMapping.Request(dialogueCreateRequestApiDto.Phrase)

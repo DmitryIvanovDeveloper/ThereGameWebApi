@@ -23,12 +23,22 @@ public static class WebApplicationExtensions
         phraseGroup.MapDelete("{id:guid}", DeletePhraseQueryApi.Handler);
         phraseGroup.MapPut("/", UpdatePhraseQueryApi.Handler);
 
-         // Answer
+        // Answer
         var answerGroup = apiGroup.MapGroup("/answers");
         answerGroup.MapGet("{id:guid}", GetAnswerByIdQueryApi.Handler);
         answerGroup.MapPost("/", CreateAnswerQueryApi.Handler);
         answerGroup.MapDelete("{id:guid}", DeleteAnswerQueryApi.Handler);
         answerGroup.MapPut("/", UpdateAnswerQueryApi.Handler);
+
+        // Auth
+        apiGroup.MapPost("auth/sign-up/teachers", AuthSignUpTeacherQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-in/teachers", AuthSignInTeacherQueryApi.Handler);
+
+        apiGroup.MapPost("auth/sign-up/students", AuthSignUpStudentQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-in/students", AuthSignInStudentQueryApi.Handler);
+
+        var teachersGroup = apiGroup.MapGroup("/teachers");
+        teachersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
 
         return app;
     }

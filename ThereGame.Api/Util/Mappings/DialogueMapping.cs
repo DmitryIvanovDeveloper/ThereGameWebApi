@@ -1,6 +1,8 @@
 namespace ThereGame.Api.Util.Mappings;
 
+using System.Collections.Generic;
 using ThereGame.Api.Domain.Dialogue;
+using ThereGame.Api.Domain.Phrase.Dtos;
 using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
@@ -14,15 +16,16 @@ public static class DialogueMapping
             IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
+            UserId = dialogueDto.UserId,
             Name = dialogueDto.Name,
-            PhraseId = dialogueDto.Phrase?.Id,
+            PhraseId = dialogueDto.Phrase.Id,
             Phrase = Request(dialogueDto.Phrase)
         };
     }
 
     public static PhraseModel Request(PhraseGetRequestApiDto phraseDto)
     {
-        return new PhraseModel()
+        return new PhraseModel
         {
             Id = phraseDto.Id,
             ParentAnswerId = phraseDto.ParentAnswerId,
@@ -34,11 +37,12 @@ public static class DialogueMapping
     }
     public static DialogueModel Request(DialogueGetResponseApiDto dialogueDto)
     {
-        return new DialogueModel()
+        return new DialogueModel
         {
             IsVoiceSelected = dialogueDto.IsVoiceSelected,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
+            UserId = dialogueDto.UserId,
             IsPublished = dialogueDto.IsPublished,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
@@ -182,11 +186,11 @@ public static class DialogueMapping
 
     public static DialogueGetResponseApiDto Response(DialogueModel dialogue)
     {
-
         return new DialogueGetResponseApiDto()
         {
             Id = dialogue.Id,
             LevelId = dialogue.LevelId,
+            UserId = dialogue.UserId,
             PhraseId = dialogue.PhraseId,
             IsPublished = dialogue.IsPublished,
             IsVoiceSelected = dialogue.IsVoiceSelected,
@@ -270,7 +274,7 @@ public static class DialogueMapping
 
     public static PhraseGetResponseApiDto Response(PhraseModel phraseDto)
     {
-        var resposne = new PhraseGetResponseApiDto()
+        var resposne = new PhraseGetResponseApiDto
         {
             ParentAnswerId = phraseDto.ParentAnswerId,
             Id = phraseDto.Id,

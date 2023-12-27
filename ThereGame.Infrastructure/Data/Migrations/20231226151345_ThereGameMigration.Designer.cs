@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -11,9 +12,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231226151345_ThereGameMigration")]
+    partial class ThereGameMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,38 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("StudentModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Students");
+                });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
@@ -93,7 +128,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PhraseId")
+                    b.Property<Guid?>("PhraseId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
@@ -144,39 +180,30 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Phrases");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentModel", b =>
+            modelBuilder.Entity("TranslateModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("TeacherId")
+                    b.Property<Guid>("AnswerParentId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("AnswerParentId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Translates");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.User.UserModel", b =>
+            modelBuilder.Entity("UserModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -203,27 +230,15 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TranslateModel", b =>
+            modelBuilder.Entity("StudentModel", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.HasOne("UserModel", "Teacher")
+                        .WithMany("Students")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("AnswerParentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerParentId");
-
-                    b.ToTable("Translates");
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
@@ -256,7 +271,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ThereGame.Business.Domain.User.UserModel", "User")
+                    b.HasOne("UserModel", "User")
                         .WithMany("Dialogues")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -274,15 +289,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .HasForeignKey("ParentAnswerId");
 
                     b.Navigation("ParentAnswer");
-                });
-
-            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentModel", b =>
-                {
-                    b.HasOne("ThereGame.Business.Domain.User.UserModel", "Teacher")
-                        .WithMany("Students")
-                        .HasForeignKey("TeacherId");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("TranslateModel", b =>
@@ -312,7 +318,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Dialogues");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.User.UserModel", b =>
+            modelBuilder.Entity("UserModel", b =>
                 {
                     b.Navigation("Dialogues");
 

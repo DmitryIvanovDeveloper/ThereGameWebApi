@@ -3,21 +3,21 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ThereGame.Api.Domain.Phrase.Dtos;
 using ThereGame.Api.Util.Mappings;
-using ThereGame.Business.Domain.Dialogue.UseCases;
+using ThereGame.Business.Domain.User.UseCases;
 
-public static class UpdatePhraseQueryApi
+public static class AuthSignUpTeacherQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] PhraseUpdateRequestApiDto phraseUpdateRequestApiDto,
+        [FromBody] AuthSignUpQueryApiDto authSignUpQueryApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        await mediator.Send(new UpdatePhraseRequest() {
-            Phrase = DialogueMapping.Request(phraseUpdateRequestApiDto)
+        await mediator.Send(new AuthSignUpTeacherRequest()
+        {
+            Auth = UserMapping.Request(authSignUpQueryApiDto)
         });
-
+        
         return TypedResults.Ok();
     }
 }

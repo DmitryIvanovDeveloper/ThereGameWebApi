@@ -4,16 +4,16 @@ using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public class CreateUserRequest : IRequest
+public class AuthSignUpTeacherRequest : IRequest
 {
     public required AuthModel Auth { get; set; }
 }
 
-public class CreateUser(IThereGameDataService dataService) : IRequestHandler<CreateUserRequest>
+public class CreateUser(IThereGameDataService dataService) : IRequestHandler<AuthSignUpTeacherRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task Handle(CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task Handle(AuthSignUpTeacherRequest request, CancellationToken cancellationToken)
     {
         var user = await _dataService.Users.FirstOrDefaultAsync(
             u => u.Email == request.Auth.Email,

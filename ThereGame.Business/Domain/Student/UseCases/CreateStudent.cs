@@ -5,16 +5,16 @@ using MediatR;
 using ThereGame.Business.Domain.Student;
 using Microsoft.EntityFrameworkCore;
 
-public class CreateStudentRequest : IRequest
+public class CreateStudentRequest : IRequest<Guid?>
 {
     public required AuthModel Auth { get; set; }
 }
 
-public class CreateStudent(IThereGameDataService dataService) : IRequestHandler<CreateStudentRequest>
+public class CreateStudent(IThereGameDataService dataService) : IRequestHandler<CreateStudentRequest, Guid?>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task Handle(CreateStudentRequest request, CancellationToken cancellationToken)
+    public async Task<Guid?> Handle(CreateStudentRequest request, CancellationToken cancellationToken)
     {
         var student = await _dataService.Students.FirstOrDefaultAsync(
             u => u.Email == request.Auth.Email,
@@ -22,7 +22,7 @@ public class CreateStudent(IThereGameDataService dataService) : IRequestHandler<
         );
         if (student != null)
         {
-            return;
+            return null;
         }
 
         var newStudent = new StudentModel
@@ -38,5 +38,7 @@ public class CreateStudent(IThereGameDataService dataService) : IRequestHandler<
         await _dataService.Students.AddAsync(newStudent, cancellationToken);
 
         await _dataService.SaveChanges(cancellationToken);
+
+        return request.Auth.TeacherId;
     }
 }

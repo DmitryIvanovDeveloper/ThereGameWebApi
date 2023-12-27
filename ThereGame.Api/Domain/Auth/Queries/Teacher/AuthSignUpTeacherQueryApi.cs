@@ -13,7 +13,7 @@ public static class AuthSignUpTeacherQueryApi
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        await mediator.Send(new CreateUserRequest()
+        await mediator.Send(new AuthSignUpTeacherRequest()
         {
             Auth = UserMapping.Request(authSignUpQueryApiDto)
         });

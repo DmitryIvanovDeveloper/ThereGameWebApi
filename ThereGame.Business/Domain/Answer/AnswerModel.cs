@@ -6,7 +6,7 @@ using ThereGame.Business.Domain.Phrase;
 public class AnswerModel
 {
     public Guid Id { get; set; }
-    public string Text { get; set; } = "";
+    public string[] Texts { get; set; } = [];
     public string[] Tenseses { get; set; } = [];
     public string WordsToUse { get; set; } = "";
 

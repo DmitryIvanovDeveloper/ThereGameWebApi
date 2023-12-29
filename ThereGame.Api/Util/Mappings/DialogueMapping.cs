@@ -68,7 +68,7 @@ public static class DialogueMapping
         {
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
-            Text = answerDto.Text,
+            Texts = answerDto.Texts,
             Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
@@ -92,7 +92,7 @@ public static class DialogueMapping
         {
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
-            Text = answerDto.Text,
+            Texts = answerDto.Texts,
             Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
@@ -128,7 +128,7 @@ public static class DialogueMapping
         {
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
-            Text = answerDto.Text,
+            Texts = answerDto.Texts,
             Tenseses = answerDto.TensesList,
             WordsToUse = answerDto.WordsToUse,
         };
@@ -205,7 +205,7 @@ public static class DialogueMapping
         {
             ParentPhraseId = answerDto.ParentPhraseId,
             Id = answerDto.Id,
-            Text = answerDto.Text,
+            Texts = answerDto.Texts,
             TensesList = answerDto.Tenseses,
             WordsToUse = answerDto.WordsToUse,
         };

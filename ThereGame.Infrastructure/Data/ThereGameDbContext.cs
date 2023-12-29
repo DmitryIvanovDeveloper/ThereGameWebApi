@@ -223,16 +223,47 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     private async Task<AnswerModel> RecursiveLoad(AnswerModel parentAnswer)
     {
+
         var buildedAnswer = new AnswerModel()
         {
             ParentPhraseId = parentAnswer.ParentPhraseId,
             Id = parentAnswer.Id,
-            Text = parentAnswer.Text,
+            Texts = parentAnswer.Texts,
             Tenseses = parentAnswer.Tenseses,
             WordsToUse = parentAnswer.WordsToUse,
-            Translates = parentAnswer.Translates,
-            MistakeExplanations = parentAnswer.MistakeExplanations,
         };
+
+        var translates = await Translates.Where(t => t.AnswerParentId == parentAnswer.Id).ToArrayAsync();
+
+        foreach (var translate in translates)
+        {
+
+            var buildedTranlate = new TranslateModel() 
+            {
+                Language = translate.Language,
+                Text = translate.Text,
+                Id = translate.Id,
+                AnswerParentId = translate.AnswerParentId
+            };
+            
+            buildedAnswer.Translates.Add(buildedTranlate);
+        }
+
+        var mistakeExplanations = await MistakeExplanations.Where(m => m.AnswerParentId == parentAnswer.Id).ToArrayAsync();
+
+        foreach (var mistakeExplanation in mistakeExplanations)
+        {
+            var builderExplanation = new MistakeExplanationModel() 
+            {
+               Id = mistakeExplanation.Id,
+               Word = mistakeExplanation.Word,
+               Explanation = mistakeExplanation.Explanation,
+               AnswerParentId = mistakeExplanation.AnswerParentId
+            };
+
+            buildedAnswer.MistakeExplanations.Add(builderExplanation);
+
+        }
 
         var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
         foreach (var phrase in phrases)

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -11,9 +12,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231227064527_ThereGameMigration")]
+    partial class ThereGameMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<string[]>("Texts")
+                    b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text");
 
                     b.Property<string>("WordsToUse")
                         .IsRequired()

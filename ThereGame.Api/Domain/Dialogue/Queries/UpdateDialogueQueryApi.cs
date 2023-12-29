@@ -20,7 +20,8 @@ public static class UpdateDialogueQueryApi
             LevelId = dialogueUpdateRequestApiDto.LevelId,
             UserId = dialogueUpdateRequestApiDto.UserId,
             IsPublished = dialogueUpdateRequestApiDto.IsPublished,
-            PhraseId = dialogueUpdateRequestApiDto.PhraseId
+            PhraseId = dialogueUpdateRequestApiDto.PhraseId,
+            Students = dialogueUpdateRequestApiDto.Students,
         });
         
         return TypedResults.Ok();

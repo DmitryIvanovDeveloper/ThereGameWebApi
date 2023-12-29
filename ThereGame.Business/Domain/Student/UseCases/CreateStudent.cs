@@ -39,6 +39,6 @@ public class CreateStudent(IThereGameDataService dataService) : IRequestHandler<
 
         await _dataService.SaveChanges(cancellationToken);
 
-        return request.Auth.TeacherId;
+        return request.Auth.Id;
     }
 }

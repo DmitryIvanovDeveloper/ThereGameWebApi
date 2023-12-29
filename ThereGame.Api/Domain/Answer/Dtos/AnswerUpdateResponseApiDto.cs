@@ -4,7 +4,7 @@ public class AnswerUpdateRequestApiDto
 {
     public Guid Id { get; set; }
     public Guid ParentPhraseId { get; set; }
-    public string Text { get; set; } = "";
+    public string[] Texts { get; set; } = [];
     public string[] TensesList { get; set; } = [];
     public string WordsToUse { get; set; } = "";
 

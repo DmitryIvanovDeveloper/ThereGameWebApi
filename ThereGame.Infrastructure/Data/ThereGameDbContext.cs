@@ -34,7 +34,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     public async Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken)
     {
-        var dialogues = await Dialogues.Include(d => d.Phrase).ToArrayAsync(cancellationToken);
+        var dialogues = await Dialogues
+            .Include(d => d.Phrase)
+            .ToArrayAsync(cancellationToken)
+        ;
+        
         return await BuildDialogues(dialogues);
     }
 
@@ -76,6 +80,12 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(s => s.TeacherId)
             .IsRequired(false)
         ;
+
+        studentBuilder
+            .HasMany(s => s.Dialogues)
+            .WithMany(d => d.Students)
+        ;
+
         // <-- Student -->
 
         // <-- Dialogue -->
@@ -96,6 +106,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
            .HasForeignKey(d => d.UserId)
            .IsRequired()
        ;
+
+        dialogueBuilder
+            .HasMany(d => d.Students)
+            .WithMany(s => s.Dialogues)
+        ;
         // </- Dialogue -->
 
 
@@ -152,8 +167,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired()
         ;
         // <-- Answer -->
-
-
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DialogueModel[] dialogues)
@@ -171,6 +184,19 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
             };
+
+            foreach (var student in dialogue.Students)
+            {
+                var buildedStudent = new StudentModel()
+                {
+                    Id = student.Id,
+                    LastName = student.LastName,
+                    Name = student.Name,
+                    Email = student.Email,
+                };
+
+                buildedDialogue.Students.Add(buildedStudent);
+            }
 
             buildedDialogues.Add(buildedDialogue);
         }
@@ -191,6 +217,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         };
 
         var answers = await Answers.Where(a => a.ParentPhraseId == parentPhrase.Id).ToArrayAsync();
+
         foreach (var answer in answers)
         {
             var buildedAnswer = await RecursiveLoad(answer);
@@ -207,15 +234,44 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         {
             ParentPhraseId = parentAnswer.ParentPhraseId,
             Id = parentAnswer.Id,
-            Text = parentAnswer.Text,
+            Texts = parentAnswer.Texts,
             Tenseses = parentAnswer.Tenseses,
             WordsToUse = parentAnswer.WordsToUse,
-            Translates = parentAnswer.Translates,
-            MistakeExplanations = parentAnswer.MistakeExplanations,
         };
 
-        var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
+        var translates = await Translates.Where(t => t.AnswerParentId == parentAnswer.Id).ToArrayAsync();
 
+        foreach (var translate in translates)
+        {
+
+            var buildedTranlate = new TranslateModel() 
+            {
+                Language = translate.Language,
+                Text = translate.Text,
+                Id = translate.Id,
+                AnswerParentId = translate.AnswerParentId
+            };
+            
+            buildedAnswer.Translates.Add(buildedTranlate);
+        }
+
+        var mistakeExplanations = await MistakeExplanations.Where(m => m.AnswerParentId == parentAnswer.Id).ToArrayAsync();
+
+        foreach (var mistakeExplanation in mistakeExplanations)
+        {
+            var builderExplanation = new MistakeExplanationModel() 
+            {
+               Id = mistakeExplanation.Id,
+               Word = mistakeExplanation.Word,
+               Explanation = mistakeExplanation.Explanation,
+               AnswerParentId = mistakeExplanation.AnswerParentId
+            };
+
+            buildedAnswer.MistakeExplanations.Add(builderExplanation);
+
+        }
+
+        var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
         foreach (var phrase in phrases)
         {
             var buildedPhrase = await RecursiveLoad(phrase);
@@ -236,7 +292,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             return null;
         }
 
-        var dialogues = await Dialogues.GetFullDialogues(cancellationToken);
+        var dialogues = await GetFullDialogues(cancellationToken);
 
         var fullUser = new UserModel
         {
@@ -245,15 +301,24 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             Email = user.Email,
             Id = user.Id,
         };
-        if (dialogues == null)
+
+        if (dialogues != null)
         {
-            return fullUser;
+            var userDialogues = dialogues.Where(d => d.UserId == id);
+            foreach (var dialogue in userDialogues)
+            {
+                fullUser.Dialogues.Add(dialogue);
+            }
         }
 
-        var userDialogues = dialogues.Where(d => d.UserId == id);
-        foreach (var dialogue in userDialogues)
+        var students = await Students
+            .Where(student => student.TeacherId == user.Id)
+            .ToArrayAsync()
+        ;
+        
+        foreach (var student in students)
         {
-            fullUser.Dialogues.Add(dialogue);
+            fullUser.Students.Add(student);
         }
 
         return fullUser;

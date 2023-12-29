@@ -19,7 +19,7 @@ public static class UserGetByIdQueriesApi
         
         if (user == null)
         {
-            return TypedResults.NoContent();
+            return TypedResults.Unauthorized();
         }
     
         var response = UserMapping.Response(user);

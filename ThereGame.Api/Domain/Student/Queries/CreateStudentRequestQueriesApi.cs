@@ -16,7 +16,7 @@ public static class CreateStudentQueryApi
     {
         var token = await mediator.Send(new CreateStudentRequest()
         {
-            Auth = UserMapping.Request(authSignUpQueryApiDto)
+            Auth = AuthMapping.Request(authSignUpQueryApiDto)
         });
         
         if (token == null)

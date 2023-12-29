@@ -14,6 +14,11 @@ public class GetUserById(IThereGameDataService dataService) : IRequestHandler<Ge
     
     public async Task<UserModel?> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {   
+        var teacher = _dataService.Users.Find(request.Id);
+        if (teacher == null) {
+            return null;
+        }
+
         return await _dataService.GetFullUserById(request.Id, cancellationToken);
     }
 }

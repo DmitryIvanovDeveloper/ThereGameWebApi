@@ -1,5 +1,7 @@
 namespace ThereGame.Business.Domain.Student;
 
+using System.Text.Json.Serialization;
+using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.User;
 
 
@@ -13,4 +15,7 @@ public class StudentModel
 
     public Guid? TeacherId { get; set; } = null;
     public UserModel? Teacher { get; set; } = null;
+
+    [JsonIgnore]
+    public ICollection<DialogueModel> Dialogues { get; } = new List<DialogueModel>();
 }

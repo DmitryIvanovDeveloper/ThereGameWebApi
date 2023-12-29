@@ -80,6 +80,12 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(s => s.TeacherId)
             .IsRequired(false)
         ;
+
+        studentBuilder
+            .HasMany(s => s.Dialogues)
+            .WithMany(d => d.Students)
+        ;
+
         // <-- Student -->
 
         // <-- Dialogue -->

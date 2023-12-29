@@ -2,21 +2,20 @@ namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-public class GetDialoguesRequest : IRequest<DialogueModel[]?>
+public class GetDialoguesRequestByStudentId : IRequest<DialogueModel[]?>
 {
     public Guid Id { get; set; }
 }
 
 public class GetDialogues(IThereGameDataService dataService)
-    : IRequestHandler<GetDialoguesRequest, DialogueModel[]?>
+    : IRequestHandler<GetDialoguesRequestByStudentId, DialogueModel[]?>
 {
     private readonly IThereGameDataService _dataService = dataService;
 
     public async Task<DialogueModel[]?> Handle(
-        GetDialoguesRequest request,
+        GetDialoguesRequestByStudentId request,
         CancellationToken cancellationToken
     )
     {
@@ -25,7 +24,7 @@ public class GetDialogues(IThereGameDataService dataService)
         {
             return [];
         }
-      
-        return fullDialogues.ToArray();
+
+        return fullDialogues;
     }
 }

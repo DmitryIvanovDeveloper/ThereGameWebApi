@@ -12,8 +12,8 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20231229065155_ThereGameMigrationTwo")]
-    partial class ThereGameMigrationTwo
+    [Migration("20240102141515_ThereGameMigration")]
+    partial class ThereGameMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,14 +114,14 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("PhraseId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("TeacherId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PhraseId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Dialogues");
                 });
@@ -194,7 +194,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.User.UserModel", b =>
+            modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -218,7 +218,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("TranslateModel", b =>
@@ -264,7 +264,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
                         .WithMany("Answers")
                         .HasForeignKey("ParentPhraseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParentPhrase");
@@ -286,32 +286,33 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "Phrase")
                         .WithMany("Dialogues")
                         .HasForeignKey("PhraseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ThereGame.Business.Domain.User.UserModel", "User")
+                    b.HasOne("ThereGame.Business.Domain.Teacher.TeacherModel", "Teacher")
                         .WithMany("Dialogues")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Phrase");
 
-                    b.Navigation("User");
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Phrase.PhraseModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "ParentAnswer")
                         .WithMany("Phrases")
-                        .HasForeignKey("ParentAnswerId");
+                        .HasForeignKey("ParentAnswerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ParentAnswer");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentModel", b =>
                 {
-                    b.HasOne("ThereGame.Business.Domain.User.UserModel", "Teacher")
+                    b.HasOne("ThereGame.Business.Domain.Teacher.TeacherModel", "Teacher")
                         .WithMany("Students")
                         .HasForeignKey("TeacherId");
 
@@ -345,7 +346,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Dialogues");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.User.UserModel", b =>
+            modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>
                 {
                     b.Navigation("Dialogues");
 

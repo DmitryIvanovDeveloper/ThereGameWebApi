@@ -1,4 +1,4 @@
-namespace ThereGame.Business.Domain.User.UseCases;
+namespace ThereGame.Business.Domain.Teacher.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;

@@ -1,4 +1,4 @@
 public interface ISpeechTextGeneratorService
 {
-    Task<string> Generate(string audioGenerationSettings);
+    Task<string> Generate(string audioGenerationSettings, int tryilLimit);
 }

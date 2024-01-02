@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
-using ThereGame.Business.Domain.User.UseCases;
+using ThereGame.Business.Domain.Teacher.UseCases;
 
 public static class AuthSignUpTeacherQueryApi
 {
@@ -13,6 +13,16 @@ public static class AuthSignUpTeacherQueryApi
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
+        
+        if (authSignUpQueryApiDto.Email == "" || 
+            authSignUpQueryApiDto.Name == "" || 
+            authSignUpQueryApiDto.LastName == "" ||
+            authSignUpQueryApiDto.Password == ""
+        )
+        {
+            return TypedResults.BadRequest();
+        }
+        
         var token = await mediator.Send(new AuthSignUpTeacherRequest()
         {
             Auth = AuthMapping.Request(authSignUpQueryApiDto)
@@ -20,7 +30,7 @@ public static class AuthSignUpTeacherQueryApi
 
         if (token == null)
         {
-            TypedResults.Conflict();
+            return TypedResults.Conflict();
         }
         
         return TypedResults.Ok(token);

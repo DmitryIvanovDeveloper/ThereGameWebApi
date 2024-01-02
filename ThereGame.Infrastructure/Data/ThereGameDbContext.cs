@@ -7,7 +7,7 @@ using ThereGame.Business.Domain.Answer;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
 using ThereGame.Business.Domain.Student;
-using ThereGame.Business.Domain.User;
+using ThereGame.Business.Domain.Teacher;
 using ThereGame.Business.Util.Services;
 
 public class ThereGameDbContext : DbContext, IThereGameDataService
@@ -24,7 +24,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<DialogueModel> Dialogues { get; set; }
     public DbSet<TranslateModel> Translates { get; set; }
     public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
-    public DbSet<UserModel> Users { get; set; }
+    public DbSet<TeacherModel> Teachers { get; set; }
     public DbSet<StudentModel> Students { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
@@ -64,10 +64,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //<-- User -->
-        var userBuilder = modelBuilder.Entity<UserModel>();
-        userBuilder.HasKey(u => u.Id);
-        //<-- User -->
+        //<-- Teacher -->
+        var teacherBuilder = modelBuilder.Entity<TeacherModel>();
+        teacherBuilder.HasKey(u => u.Id);
+        
+        //<-- Teacher -->
 
         // <-- Student -->
         var studentBuilder = modelBuilder.Entity<StudentModel>();
@@ -98,12 +99,13 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(p => p.Dialogues)
             .HasForeignKey(d => d.PhraseId)
             .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
         ;
 
         dialogueBuilder
-           .HasOne(d => d.User)
+           .HasOne(d => d.Teacher)
            .WithMany(u => u.Dialogues)
-           .HasForeignKey(d => d.UserId)
+           .HasForeignKey(d => d.TeacherId)
            .IsRequired()
        ;
 
@@ -124,6 +126,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(a => a.Phrases)
             .HasForeignKey(p => p.ParentAnswerId)
             .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
         ;
 
         phraseBuilder.Property(p => p.ParentAnswerId).IsRequired(false);
@@ -151,6 +154,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(p => p.Answers)
             .HasForeignKey(a => a.ParentPhraseId)
             .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
         ;
 
         answerBuilder
@@ -180,7 +184,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 LevelId = dialogue.LevelId,
                 Name = dialogue.Name,
                 PhraseId = dialogue.Phrase.Id,
-                UserId = dialogue.UserId,
+                TeacherId = dialogue.TeacherId,
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
             };
@@ -281,46 +285,46 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         return buildedAnswer;
     }
 
-    public async Task<UserModel?> GetFullUserById(Guid id, CancellationToken cancellationToken)
+    public async Task<TeacherModel?> GetFullTeacherById(Guid id, CancellationToken cancellationToken)
     {
-        var user = await Users.FindAsync(
+        var teacher = await Teachers.FindAsync(
             [id],
             cancellationToken: cancellationToken
         );
-        if (user == null)
+        if (teacher == null)
         {
             return null;
         }
 
         var dialogues = await GetFullDialogues(cancellationToken);
 
-        var fullUser = new UserModel
+        var fullTeacher = new TeacherModel
         {
-            Name = user.Name,
-            LastName = user.LastName,
-            Email = user.Email,
-            Id = user.Id,
+            Name = teacher.Name,
+            LastName = teacher.LastName,
+            Email = teacher.Email,
+            Id = teacher.Id,
         };
 
         if (dialogues != null)
         {
-            var userDialogues = dialogues.Where(d => d.UserId == id);
-            foreach (var dialogue in userDialogues)
+            var teacherDialogues = dialogues.Where(d => d.TeacherId == id);
+            foreach (var dialogue in teacherDialogues)
             {
-                fullUser.Dialogues.Add(dialogue);
+                fullTeacher.Dialogues.Add(dialogue);
             }
         }
 
         var students = await Students
-            .Where(student => student.TeacherId == user.Id)
+            .Where(student => student.TeacherId == teacher.Id)
             .ToArrayAsync()
         ;
         
         foreach (var student in students)
         {
-            fullUser.Students.Add(student);
+            fullTeacher.Students.Add(student);
         }
 
-        return fullUser;
+        return fullTeacher;
     }
 }

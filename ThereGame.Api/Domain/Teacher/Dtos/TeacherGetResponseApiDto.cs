@@ -1,6 +1,6 @@
 using ThereGame.Api.Domain.Dialogue;
 
-public class UserGetResponseApiDto() {
+public class TeacherGetResponseApiDto() {
     public Guid Id { get; set; }
     public string Name { get; set; } = "";
     public string LastName { get; set; } = "";

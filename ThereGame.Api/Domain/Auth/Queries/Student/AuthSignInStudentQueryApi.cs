@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
-using ThereGame.Business.Domain.User.UseCases;
+using ThereGame.Business.Domain.Teacher.UseCases;
 
 public static class AuthSignInStudentQueryApi
 {

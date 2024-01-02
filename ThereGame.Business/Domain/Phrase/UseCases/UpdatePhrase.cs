@@ -28,10 +28,10 @@ public class UpdatePhrase(IThereGameDataService dataService,
         ;
 
 
-        if (phrase != null && 
+        if (phrase != null && phrase.Text != "" &&
             phrase.AudioGenerationSettings != request.Phrase.AudioGenerationSettings)
         {
-            var audioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioGenerationSettings);
+            var audioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioGenerationSettings, 0);
             request.Phrase.AudioData = audioData;
         }
 

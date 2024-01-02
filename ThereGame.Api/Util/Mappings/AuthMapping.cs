@@ -1,6 +1,6 @@
 namespace ThereGame.Api.Util.Mappings;
 
-using ThereGame.Business.Domain.User;
+using ThereGame.Business.Domain.Teacher;
 
 public static class AuthMapping
 {
@@ -26,9 +26,9 @@ public static class AuthMapping
         };
     }
 
-    public static UserGetResponseApiDto Response(UserModel request) 
+    public static TeacherGetResponseApiDto Response(TeacherModel request) 
     {
-        return new UserGetResponseApiDto
+        return new TeacherGetResponseApiDto
         {
             Id = request.Id,
             Name = request.Name,

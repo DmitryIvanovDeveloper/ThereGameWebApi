@@ -3,17 +3,18 @@ namespace ThereGame.Business.Domain.Teacher.UseCases;
 using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ThereGame.Business.Domain.Teacher;
 
-public class AuthSignInTeacherRequest : IRequest<Guid?>
+public class GetTeacherRequest : IRequest<TeacherModel?>
 {
     public required AuthModel Auth { get; set; }
 }
 
-public class AuthSignInTeacher(IThereGameDataService dataService) : IRequestHandler<AuthSignInTeacherRequest, Guid?>
+public class GetToken(IThereGameDataService dataService) : IRequestHandler<GetTeacherRequest, TeacherModel?>
 {
     private readonly IThereGameDataService _dataService = dataService;
     
-    public async Task<Guid?> Handle(AuthSignInTeacherRequest request, CancellationToken cancellationToken)
+    public async Task<TeacherModel?> Handle(GetTeacherRequest request, CancellationToken cancellationToken)
     {   
         var teacher = await _dataService.Teachers.FirstOrDefaultAsync(
             u => u.Email == request.Auth.Email,
@@ -24,6 +25,6 @@ public class AuthSignInTeacher(IThereGameDataService dataService) : IRequestHand
             return null;
         }
 
-        return teacher.Id;
+        return teacher;
     }
 }

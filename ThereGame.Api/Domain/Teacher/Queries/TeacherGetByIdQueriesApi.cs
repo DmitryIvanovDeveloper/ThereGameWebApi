@@ -4,25 +4,25 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
-using ThereGame.Business.Domain.User.UseCases;
+using ThereGame.Business.Domain.Teacher.UseCases;
 
-public static class UserGetByIdQueriesApi
+public static class TeacherGetByIdQueriesApi
 {
     public static async Task<IResult> Handler(
         [FromHeader(Name = "X-THEREGAME-AUTH")] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var user = await mediator.Send(new GetUserByIdRequest() {
+        var teacher = await mediator.Send(new GetTeacherByIdRequest() {
             Id = id
         });
         
-        if (user == null)
+        if (teacher == null)
         {
             return TypedResults.Unauthorized();
         }
     
-        var response = UserMapping.Response(user);
+        var response = TeacherMapping.Response(teacher);
 
         return TypedResults.Ok(response);
     }

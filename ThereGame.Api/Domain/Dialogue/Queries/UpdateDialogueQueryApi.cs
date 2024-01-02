@@ -18,7 +18,7 @@ public static class UpdateDialogueQueryApi
             Id = dialogueUpdateRequestApiDto.Id,
             Name = dialogueUpdateRequestApiDto.Name,
             LevelId = dialogueUpdateRequestApiDto.LevelId,
-            UserId = dialogueUpdateRequestApiDto.UserId,
+            TeacherId = dialogueUpdateRequestApiDto.TeacherId,
             IsPublished = dialogueUpdateRequestApiDto.IsPublished,
             PhraseId = dialogueUpdateRequestApiDto.PhraseId,
             Students = dialogueUpdateRequestApiDto.Students,

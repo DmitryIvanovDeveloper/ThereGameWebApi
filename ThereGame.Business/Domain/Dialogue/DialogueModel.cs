@@ -1,9 +1,8 @@
 namespace ThereGame.Business.Domain.Dialogue;
 
-using System.Collections.ObjectModel;
 using ThereGame.Business.Domain.Phrase;
 using ThereGame.Business.Domain.Student;
-using ThereGame.Business.Domain.User;
+using ThereGame.Business.Domain.Teacher;
 
 public class DialogueModel
 {
@@ -14,8 +13,8 @@ public class DialogueModel
     public bool IsPublished { get; set; }
     public bool IsVoiceSelected { get; set; }
 
-    public Guid UserId { get; set; }
-    public UserModel User { get; set; } = null!;
+    public Guid TeacherId { get; set; }
+    public TeacherModel Teacher { get; set; } = null!;
     
     public Guid PhraseId { get; set; }
     public PhraseModel Phrase { get; set; } = null!;

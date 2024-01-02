@@ -38,13 +38,10 @@ public static class WebApplicationExtensions
         apiGroup.MapPost("auth/sign-in/students", AuthSignInStudentQueryApi.Handler);
 
         var teachersGroup = apiGroup.MapGroup("/teachers");
-        teachersGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
+        teachersGroup.MapGet("/me", TeacherGetByIdQueriesApi.Handler);
 
         var studentGroup = apiGroup.MapGroup("/students");
-        studentGroup.MapGet("/me", UserGetByIdQueriesApi.Handler);
-
-
-        
+        studentGroup.MapGet("/me", TeacherGetByIdQueriesApi.Handler);
 
         return app;
     }

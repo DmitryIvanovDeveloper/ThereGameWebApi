@@ -2,7 +2,7 @@ namespace ThereGame.Business.Domain.Student;
 
 using System.Text.Json.Serialization;
 using ThereGame.Business.Domain.Dialogue;
-using ThereGame.Business.Domain.User;
+using ThereGame.Business.Domain.Teacher;
 
 
 public class StudentModel 
@@ -14,7 +14,7 @@ public class StudentModel
     public string Password { get; set; } = "";
 
     public Guid? TeacherId { get; set; } = null;
-    public UserModel? Teacher { get; set; } = null;
+    public TeacherModel? Teacher { get; set; } = null;
 
     [JsonIgnore]
     public ICollection<DialogueModel> Dialogues { get; } = new List<DialogueModel>();

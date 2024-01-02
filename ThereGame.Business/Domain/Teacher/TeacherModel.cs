@@ -1,10 +1,10 @@
-namespace ThereGame.Business.Domain.User;
+namespace ThereGame.Business.Domain.Teacher;
 
 using System.Text.Json.Serialization;
 using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Student;
 
-public class UserModel 
+public class TeacherModel 
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = "";

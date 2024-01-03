@@ -14,7 +14,7 @@ public class GetStudentById(IThereGameDataService dataService) : IRequestHandler
     
     public async Task<StudentModel?> Handle(GetStudentByIdRequest request, CancellationToken cancellationToken)
     {   
-        var student = _dataService.Students.Find(request.Id);
+        var student = await _dataService.Students.FindAsync(request.Id);
         if (student == null) {
             return null;
         }

@@ -176,6 +176,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 Name = dialogue.Name,
                 PhraseId = dialogue.Phrase.Id,
                 TeacherId = dialogue.TeacherId,
+                IsPublished = dialogue.IsPublished,
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
                 StudentsId = dialogue.StudentsId

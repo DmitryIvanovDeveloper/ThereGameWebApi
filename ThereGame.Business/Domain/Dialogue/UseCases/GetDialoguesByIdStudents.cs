@@ -31,8 +31,9 @@ public class GetDialogues(IThereGameDataService dataService)
             return [];
         }
 
-        var studentDialogues = fullDialogues.
-            Where(dialogue => dialogue.StudentsId.Contains(student.Id))
+        var studentDialogues = fullDialogues
+            .Where(dialogue => dialogue.StudentsId.Contains(student.Id))
+            .Where(dialogue => dialogue.IsPublished)
             .ToArray()
         ;
 

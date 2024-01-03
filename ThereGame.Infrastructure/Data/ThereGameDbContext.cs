@@ -99,7 +99,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(p => p.Dialogues)
             .HasForeignKey(d => d.PhraseId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         ;
 
         dialogueBuilder
@@ -126,7 +126,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(a => a.Phrases)
             .HasForeignKey(p => p.ParentAnswerId)
             .IsRequired(false)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         ;
 
         phraseBuilder.Property(p => p.ParentAnswerId).IsRequired(false);
@@ -154,7 +154,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(p => p.Answers)
             .HasForeignKey(a => a.ParentPhraseId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
         ;
 
         answerBuilder
@@ -326,5 +326,52 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         }
 
         return fullTeacher;
+    }
+
+    public async Task RemoveDialogueCascade(Guid dialogueId) {
+
+        var dialogue = await Dialogues.FindAsync(dialogueId);
+        if (dialogue == null)
+        {
+            return;
+        }
+
+        await RemovePhraseCascade(dialogue.PhraseId);
+
+        Dialogues.RemoveRange(dialogue);
+    }
+    public async Task RemovePhraseCascade(Guid phraseId) {
+        var phrase = await Phrases.FindAsync(phraseId);
+        if (phrase == null) 
+        {
+            return;
+        }
+
+        foreach (var answer in phrase.Answers)
+        {
+            await RemoveAnswerCascade(answer.Id);
+        }
+
+        Phrases.RemoveRange(phrase);
+    }
+    public async Task RemoveAnswerCascade(Guid answerId) {
+        var answer = await Answers.FindAsync(answerId);
+        if (answer == null) 
+        {
+            return;
+        }
+
+        foreach (var phrase in answer.Phrases)
+        {   
+            await RemovePhraseCascade(answer.Id);
+        }
+
+        var translates = Translates.Where(translate => translate.AnswerParentId == answer.Id);
+        Translates.RemoveRange(translates);
+
+        var mistakes = MistakeExplanations.Where(mistake => mistake.AnswerParentId == answer.Id);
+        MistakeExplanations.RemoveRange(mistakes);
+
+        Answers.RemoveRange(answer);
     }
 }

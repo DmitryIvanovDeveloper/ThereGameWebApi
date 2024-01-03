@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20240102141515_ThereGameMigration")]
+    [Migration("20240103050142_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -264,7 +264,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
                         .WithMany("Answers")
                         .HasForeignKey("ParentPhraseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParentPhrase");
@@ -286,7 +286,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "Phrase")
                         .WithMany("Dialogues")
                         .HasForeignKey("PhraseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ThereGame.Business.Domain.Teacher.TeacherModel", "Teacher")
@@ -305,7 +305,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "ParentAnswer")
                         .WithMany("Phrases")
                         .HasForeignKey("ParentAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentAnswer");
                 });

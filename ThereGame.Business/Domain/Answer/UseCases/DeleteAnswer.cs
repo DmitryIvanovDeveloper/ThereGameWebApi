@@ -15,13 +15,8 @@ public class DeleteAnswer(IThereGameDataService dataService) : IRequestHandler<D
     
     public async Task Handle(DeleteAnswerRequest request, CancellationToken cancellationToken)
     {
-        var answer = _dataService.Answers.Find(request.Id);
-        if (answer == null) {
-            return;
-        }
-
-        _dataService.Answers.RemoveRange(answer);
-
+        
+        await _dataService.RemoveAnswerCascade(request.Id);
         await _dataService.SaveChanges(cancellationToken);
     }
 }

@@ -102,7 +102,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         column: x => x.ParentAnswerId,
                         principalTable: "Answers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,7 +145,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         column: x => x.PhraseId,
                         principalTable: "Phrases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Dialogues_Teachers_TeacherId",
                         column: x => x.TeacherId,
@@ -224,7 +224,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "ParentPhraseId",
                 principalTable: "Phrases",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />

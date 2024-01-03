@@ -26,4 +26,7 @@ public interface IThereGameDataService
     Task RemoveFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken);
     Task SaveChanges(CancellationToken cancellationToken);
+    Task RemoveDialogueCascade(Guid dialogueId);
+    Task RemovePhraseCascade(Guid phraseId);
+    Task RemoveAnswerCascade(Guid answerId);
 }

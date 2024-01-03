@@ -261,7 +261,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
                         .WithMany("Answers")
                         .HasForeignKey("ParentPhraseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParentPhrase");
@@ -283,7 +283,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "Phrase")
                         .WithMany("Dialogues")
                         .HasForeignKey("PhraseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ThereGame.Business.Domain.Teacher.TeacherModel", "Teacher")
@@ -302,7 +302,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "ParentAnswer")
                         .WithMany("Phrases")
                         .HasForeignKey("ParentAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentAnswer");
                 });

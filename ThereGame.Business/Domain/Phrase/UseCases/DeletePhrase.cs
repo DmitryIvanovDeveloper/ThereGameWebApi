@@ -14,13 +14,7 @@ public class DeletePhrase(IThereGameDataService dataService) : IRequestHandler<D
     
     public async Task Handle(DeletePhraseRequest request, CancellationToken cancellationToken)
     {
-        var phrase = _dataService.Phrases.Find(request.Id);
-        if (phrase == null) {
-            return;
-        }
-
-        _dataService.Phrases.RemoveRange(phrase);
-        
+        await _dataService.RemovePhraseCascade(request.Id);
         await _dataService.SaveChanges(cancellationToken);
     }
 }

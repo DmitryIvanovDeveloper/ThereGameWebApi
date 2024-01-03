@@ -135,7 +135,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),
                     IsVoiceSelected = table.Column<bool>(type: "boolean", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PhraseId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StudentsId = table.Column<Guid[]>(type: "uuid[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,39 +155,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DialogueModelStudentModel",
-                columns: table => new
-                {
-                    DialoguesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StudentsId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DialogueModelStudentModel", x => new { x.DialoguesId, x.StudentsId });
-                    table.ForeignKey(
-                        name: "FK_DialogueModelStudentModel_Dialogues_DialoguesId",
-                        column: x => x.DialoguesId,
-                        principalTable: "Dialogues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DialogueModelStudentModel_Students_StudentsId",
-                        column: x => x.StudentsId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_ParentPhraseId",
                 table: "Answers",
                 column: "ParentPhraseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DialogueModelStudentModel_StudentsId",
-                table: "DialogueModelStudentModel",
-                column: "StudentsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dialogues_PhraseId",
@@ -235,19 +207,16 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 table: "Answers");
 
             migrationBuilder.DropTable(
-                name: "DialogueModelStudentModel");
+                name: "Dialogues");
 
             migrationBuilder.DropTable(
                 name: "MistakeExplanations");
 
             migrationBuilder.DropTable(
-                name: "Translates");
-
-            migrationBuilder.DropTable(
-                name: "Dialogues");
-
-            migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Translates");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

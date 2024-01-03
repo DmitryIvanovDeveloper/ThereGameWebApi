@@ -13,6 +13,7 @@ public class CreateDialogueRequest : IRequest
     public required bool IsPublished { get; set; }
     public required bool IsVoiceSelected { get; set; }
     public required PhraseModel Phrase { get; set; }
+    public required List<Guid> StudentsId { get; set; } = new List<Guid>();
 }
 
 public class CreateDialogue(IThereGameDataService dataService, IMediator mediator) : IRequestHandler<CreateDialogueRequest>
@@ -31,6 +32,7 @@ public class CreateDialogue(IThereGameDataService dataService, IMediator mediato
             TeacherId = request.TeacherId,
             IsPublished = request.IsPublished,
             IsVoiceSelected = request.IsVoiceSelected,
+            StudentsId = request.StudentsId
         };
 
         await _mediator.Send(new CreatePhraseRequest

@@ -11,6 +11,7 @@ public class DialogueGetResponseApiDto
     public bool IsPublished { get; set; }
     public bool IsVoiceSelected { get; set; }
     public string Name { get; set; } = "";
+    public List<Guid> StudentsId { get; set; } = new List<Guid>();
 
     public PhraseGetResponseApiDto? Phrase { get; set; } = null;
 }

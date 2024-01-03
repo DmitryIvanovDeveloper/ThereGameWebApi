@@ -15,7 +15,7 @@ public class DeleteDialogue(
     
     public async Task Handle(DeleteDialogueRequest request, CancellationToken cancellationToken)
     {
-        await _dataService.RemoveDialogueCascade(request.Id);
+        await _dataService.RemoveDialogueCascade(request.Id, cancellationToken);
         await _dataService.SaveChanges(cancellationToken);
     }
 }

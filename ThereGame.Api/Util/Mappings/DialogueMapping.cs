@@ -19,7 +19,8 @@ public static class DialogueMapping
             TeacherId = dialogueDto.TeacherId,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.Phrase.Id,
-            Phrase = Request(dialogueDto.Phrase)
+            Phrase = Request(dialogueDto.Phrase),
+            StudentsId = dialogueDto.StudentsId,
         };
     }
 
@@ -46,6 +47,7 @@ public static class DialogueMapping
             IsPublished = dialogueDto.IsPublished,
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
+            StudentsId = dialogueDto.StudentsId,
         };
     }
 
@@ -194,6 +196,7 @@ public static class DialogueMapping
             PhraseId = dialogue.PhraseId,
             IsPublished = dialogue.IsPublished,
             IsVoiceSelected = dialogue.IsVoiceSelected,
+            StudentsId = dialogue.StudentsId,
             Name = dialogue.Name,
             Phrase = Response(dialogue.Phrase)
         };

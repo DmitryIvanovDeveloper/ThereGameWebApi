@@ -12,7 +12,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20240103050142_ThereGameMigration")]
+    [Migration("20240103083028_ThereGameMigration")]
     partial class ThereGameMigration
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("DialogueModelStudentModel", b =>
-                {
-                    b.Property<Guid>("DialoguesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("DialoguesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("DialogueModelStudentModel");
-                });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
@@ -113,6 +98,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.Property<Guid>("PhraseId")
                         .HasColumnType("uuid");
+
+                    b.Property<Guid[]>("StudentsId")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
 
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("uuid");
@@ -242,21 +231,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasIndex("AnswerParentId");
 
                     b.ToTable("Translates");
-                });
-
-            modelBuilder.Entity("DialogueModelStudentModel", b =>
-                {
-                    b.HasOne("ThereGame.Business.Domain.Dialogue.DialogueModel", null)
-                        .WithMany()
-                        .HasForeignKey("DialoguesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThereGame.Business.Domain.Student.StudentModel", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>

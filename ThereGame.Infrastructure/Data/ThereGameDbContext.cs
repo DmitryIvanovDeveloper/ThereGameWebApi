@@ -82,11 +82,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired(false)
         ;
 
-        studentBuilder
-            .HasMany(s => s.Dialogues)
-            .WithMany(d => d.Students)
-        ;
-
         // <-- Student -->
 
         // <-- Dialogue -->
@@ -108,11 +103,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
            .HasForeignKey(d => d.TeacherId)
            .IsRequired()
        ;
-
-        dialogueBuilder
-            .HasMany(d => d.Students)
-            .WithMany(s => s.Dialogues)
-        ;
+      
         // </- Dialogue -->
 
 
@@ -187,20 +178,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 TeacherId = dialogue.TeacherId,
                 IsVoiceSelected = dialogue.IsVoiceSelected,
                 Phrase = await RecursiveLoad(dialogue.Phrase),
+                StudentsId = dialogue.StudentsId
             };
-
-            foreach (var student in dialogue.Students)
-            {
-                var buildedStudent = new StudentModel()
-                {
-                    Id = student.Id,
-                    LastName = student.LastName,
-                    Name = student.Name,
-                    Email = student.Email,
-                };
-
-                buildedDialogue.Students.Add(buildedStudent);
-            }
 
             buildedDialogues.Add(buildedDialogue);
         }
@@ -328,19 +307,19 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         return fullTeacher;
     }
 
-    public async Task RemoveDialogueCascade(Guid dialogueId) {
+    public async Task RemoveDialogueCascade(Guid dialogueId, CancellationToken cancellationToken) {
 
-        var dialogue = await Dialogues.FindAsync(dialogueId);
+        var dialogue = await Dialogues.FindAsync(dialogueId, cancellationToken);
         if (dialogue == null)
         {
             return;
         }
 
-        await RemovePhraseCascade(dialogue.PhraseId);
+        await RemovePhraseCascade(dialogue.PhraseId, cancellationToken);
 
         Dialogues.RemoveRange(dialogue);
     }
-    public async Task RemovePhraseCascade(Guid phraseId) {
+    public async Task RemovePhraseCascade(Guid phraseId, CancellationToken cancellationToken) {
         var phrase = await Phrases.FindAsync(phraseId);
         if (phrase == null) 
         {
@@ -349,12 +328,12 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         foreach (var answer in phrase.Answers)
         {
-            await RemoveAnswerCascade(answer.Id);
+            await RemoveAnswerCascade(answer.Id, cancellationToken);
         }
 
         Phrases.RemoveRange(phrase);
     }
-    public async Task RemoveAnswerCascade(Guid answerId) {
+    public async Task RemoveAnswerCascade(Guid answerId, CancellationToken cancellationToken) {
         var answer = await Answers.FindAsync(answerId);
         if (answer == null) 
         {
@@ -363,7 +342,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         foreach (var phrase in answer.Phrases)
         {   
-            await RemovePhraseCascade(answer.Id);
+            await RemovePhraseCascade(answer.Id, cancellationToken);
         }
 
         var translates = Translates.Where(translate => translate.AnswerParentId == answer.Id);

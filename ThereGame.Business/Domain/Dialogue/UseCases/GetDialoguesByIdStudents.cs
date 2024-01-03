@@ -19,12 +19,23 @@ public class GetDialogues(IThereGameDataService dataService)
         CancellationToken cancellationToken
     )
     {
+        var student = await _dataService.Students.FindAsync(request.Id);
+        if (student == null)
+        {
+            return [];
+        }
+
         var fullDialogues = await _dataService.GetFullDialogues(cancellationToken);
         if (fullDialogues == null)
         {
             return [];
         }
 
-        return fullDialogues;
+        var studentDialogues = fullDialogues.
+            Where(dialogue => dialogue.StudentsId.Contains(student.Id))
+            .ToArray()
+        ;
+
+        return studentDialogues;
     }
 }

@@ -3,26 +3,26 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ThereGame.Api.Util.Mappings;
-using ThereGame.Business.Domain.Teacher.UseCases;
+using ThereGame.Business.Domain.Student.UseCases;
 
-public static class TeacherGetByIdQueriesApi
+public static class GetStudentByIdQueriesApi
 {
     public static async Task<IResult> Handler(
         [FromHeader(Name = "X-THEREGAME-AUTH")] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var teacher = await mediator.Send(new GetTeacherByIdRequest() {
+        
+        var student = await mediator.Send(new GetStudentByIdRequest() {
             Id = id
         });
         
-        if (teacher == null)
+        if (student == null)
         {
             return TypedResults.Unauthorized();
         }
     
-        var response = TeacherMapping.Response(teacher);
+        var response = StudentMapping.Response(student);
 
         return TypedResults.Ok(response);
     }

@@ -21,6 +21,7 @@ public static class CreateDialogueQueryApi
             TeacherId = dialogueCreateRequestApiDto.TeacherId,
             IsPublished = dialogueCreateRequestApiDto.IsPublished,
             Name = dialogueCreateRequestApiDto.Name,
+            StudentsId = dialogueCreateRequestApiDto.StudentsId,
             Phrase = DialogueMapping.Request(dialogueCreateRequestApiDto.Phrase)
         });
 

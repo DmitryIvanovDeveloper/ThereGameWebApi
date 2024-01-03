@@ -1,3 +1,4 @@
+using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Student;
 
 public static class StudentMapping

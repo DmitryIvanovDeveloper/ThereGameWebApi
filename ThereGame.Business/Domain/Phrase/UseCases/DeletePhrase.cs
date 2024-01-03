@@ -14,7 +14,7 @@ public class DeletePhrase(IThereGameDataService dataService) : IRequestHandler<D
     
     public async Task Handle(DeletePhraseRequest request, CancellationToken cancellationToken)
     {
-        await _dataService.RemovePhraseCascade(request.Id);
+        await _dataService.RemovePhraseCascade(request.Id, cancellationToken);
         await _dataService.SaveChanges(cancellationToken);
     }
 }

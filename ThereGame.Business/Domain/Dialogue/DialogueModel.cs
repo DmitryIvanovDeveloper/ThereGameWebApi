@@ -1,7 +1,6 @@
 namespace ThereGame.Business.Domain.Dialogue;
 
 using ThereGame.Business.Domain.Phrase;
-using ThereGame.Business.Domain.Student;
 using ThereGame.Business.Domain.Teacher;
 
 public class DialogueModel
@@ -18,6 +17,6 @@ public class DialogueModel
     
     public Guid PhraseId { get; set; }
     public PhraseModel Phrase { get; set; } = null!;
-
-    public ICollection<StudentModel> Students { get; set; } = new List<StudentModel>();
+    
+    public List<Guid> StudentsId { get; set; } = new List<Guid>();
 }

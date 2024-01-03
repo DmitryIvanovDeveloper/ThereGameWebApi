@@ -15,7 +15,4 @@ public class StudentModel
 
     public Guid? TeacherId { get; set; } = null;
     public TeacherModel? Teacher { get; set; } = null;
-
-    [JsonIgnore]
-    public ICollection<DialogueModel> Dialogues { get; } = new List<DialogueModel>();
 }

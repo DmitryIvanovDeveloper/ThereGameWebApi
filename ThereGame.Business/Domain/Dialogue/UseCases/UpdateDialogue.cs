@@ -2,7 +2,6 @@ namespace ThereGame.Business.Domain.Dialogue.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;
-using ThereGame.Business.Domain.Student;
 
 public class UpdateDialogueRequest : IRequest
 {
@@ -11,7 +10,7 @@ public class UpdateDialogueRequest : IRequest
     public required Guid LevelId { get; set; }
     public required Guid TeacherId { get; set; }
     public required bool IsPublished { get; set; }
-    public required List<StudentModel> Students { get; set; }
+    public required List<Guid> StudentsId { get; set; } = new List<Guid>();
     public required bool IsVoiceSelected { get; set; }
     public required Guid PhraseId { get; set; }
 }
@@ -31,7 +30,7 @@ public class UpdateDialogue(IThereGameDataService dataService) : IRequestHandler
             LevelId = request.LevelId,
             Name = request.Name,
             PhraseId = request.PhraseId,
-            Students = request.Students,
+            StudentsId = request.StudentsId,
         };
 
         _dataService.Dialogues.Update(dialogue);

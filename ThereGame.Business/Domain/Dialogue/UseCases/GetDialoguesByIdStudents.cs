@@ -33,7 +33,6 @@ public class GetDialogues(IThereGameDataService dataService)
 
         var studentDialogues = fullDialogues
             .Where(dialogue => dialogue.StudentsId.Contains(student.Id))
-            .Where(dialogue => dialogue.IsPublished)
             .ToArray()
         ;
 

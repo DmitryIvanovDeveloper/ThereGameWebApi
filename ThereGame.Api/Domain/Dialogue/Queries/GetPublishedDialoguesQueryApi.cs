@@ -6,15 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Dialogue.UseCases;
 
-public static class GetDialogueByIdQueryApi
+public static class GetPublishedDialoguesQueryApi
 {
     public static async Task<IResult> Handler(
-        [FromRoute] Guid id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var dialogue = await mediator.Send(new GetDialogueByIdRequest { Id = id });
-        if (dialogue == null)
+        var dialogue = await mediator.Send(new GetPublishedDialoguesRequest());
+        if (dialogue.Count() == 0)
         {
             return TypedResults.NoContent();
         }

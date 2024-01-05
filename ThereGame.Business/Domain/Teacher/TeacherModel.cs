@@ -7,6 +7,7 @@ using ThereGame.Business.Domain.Student;
 public class TeacherModel 
 {
     public Guid Id { get; set; }
+    public string Avatar { get; set; } = "";
     public string Name { get; set; } = "";
     public string LastName { get; set; } = "";
     public string Email { get; set; } = "";

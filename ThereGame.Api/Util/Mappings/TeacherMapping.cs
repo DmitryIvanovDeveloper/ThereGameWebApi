@@ -9,6 +9,7 @@ public static class TeacherMapping
         var response = new TeacherGetResponseApiDto
         {
             Id = teacher.Id,
+            Avatar = teacher.Avatar,
             Name = teacher.Name,
             LastName = teacher.LastName,
             Email = teacher.Email,

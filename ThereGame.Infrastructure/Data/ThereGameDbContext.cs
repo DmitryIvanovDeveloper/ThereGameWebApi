@@ -280,6 +280,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         var fullTeacher = new TeacherModel
         {
+            Avatar = teacher.Avatar,
             Name = teacher.Name,
             LastName = teacher.LastName,
             Email = teacher.Email,

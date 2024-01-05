@@ -22,6 +22,15 @@ public static class AuthSignInStudentQueryApi
             return TypedResults.Unauthorized();
         }
 
-        return TypedResults.Ok(token);
+        var response = new AuthSignInResponseQueryApi()
+        {
+            Token = token
+        };
+        return TypedResults.Ok(response);
+    }
+
+    public class AuthSignInResponseQueryApi
+    {
+        public Guid? Token { get; set; }
     }
 }

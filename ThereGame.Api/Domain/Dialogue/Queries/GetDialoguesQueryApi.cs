@@ -14,7 +14,7 @@ public static class GetDialoguesQueryApi
         [FromServices] IMediator mediator
     )
     {
-        var dialogues = await mediator.Send(new GetDialoguesRequestByStudentId()
+        var dialogues = await mediator.Send(new GetDialoguesByIdRequest()
         {
             Id = id,
         });

@@ -33,7 +33,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
             Tenseses = phraseDto.TensesList,
-            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
+            AudioSettings = phraseDto.AudioSettings,
         };
     }
     public static DialogueModel Request(DialogueGetResponseApiDto dialogueDto)
@@ -60,7 +60,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             Tenseses = phraseDto.TensesList,
             Comments = phraseDto.Comments,
-            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
+            AudioSettings = phraseDto.AudioSettings,
         };
     }
 
@@ -170,7 +170,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             Comments = phraseDto.Comments,
             Tenseses = phraseDto.Tenses,
-            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
+            AudioSettings = phraseDto.AudioSettings,
         };
     }
 
@@ -284,8 +284,7 @@ public static class DialogueMapping
             Text = phraseDto.Text,
             TensesList = phraseDto.Tenseses,
             Comments = phraseDto.Comments,
-            AudioGenerationSettings = phraseDto.AudioGenerationSettings,
-            AudioData = phraseDto.AudioData,
+            AudioSettings = phraseDto.AudioSettings,
         };
 
         foreach (var answer in phraseDto.Answers)

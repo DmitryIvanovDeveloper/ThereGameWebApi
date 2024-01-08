@@ -27,19 +27,37 @@ public class UpdatePhrase(IThereGameDataService dataService,
             .FirstOrDefault(phrase => phrase.Id == request.Phrase.Id)
         ;
 
-        if (phrase == null)
+        if (phrase == null || 
+            request.Phrase == null)
         {
             return;
         }
 
-        if (request.Phrase.Text != "" &&
-            phrase.AudioGenerationSettings != request.Phrase.AudioGenerationSettings)
+        var audioSettings = _dataService.AudioSettings
+            .AsNoTracking()
+            .FirstOrDefault(a => a.ParentPhraseId == request.Phrase.Id)
+        ;
+
+        if (request.Phrase != null && request.Phrase.Text != "" &&
+            audioSettings != null &&
+            request.Phrase.AudioSettings.Id != audioSettings.Id)
         {
-            var audioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioGenerationSettings, 0);
-            request.Phrase.AudioData = audioData;
+            audioSettings.AudioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioSettings.GenerationSettings, 0);;
+            audioSettings.GenerationSettings = request.Phrase.AudioSettings.GenerationSettings;
+            audioSettings.Revision = audioSettings.Revision + 1;
         }
 
-        _dataService.Phrases.Update(request.Phrase);
+        var updatedPhrase = new PhraseModel
+        {
+            Id = request.Phrase.Id,
+            Text = request.Phrase.Text,
+            Tenseses = request.Phrase.Tenseses,
+            Comments = request.Phrase.Comments,
+            AudioSettings = audioSettings,
+            ParentAnswer = request.Phrase.ParentAnswer,
+            ParentAnswerId = request.Phrase.ParentAnswerId,
+        };
+        _dataService.Phrases.Update(updatedPhrase);
 
         await _dataService.SaveChanges(cancellationToken);
     }

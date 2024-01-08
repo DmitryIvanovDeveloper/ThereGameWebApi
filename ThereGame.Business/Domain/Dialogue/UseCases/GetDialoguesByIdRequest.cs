@@ -19,7 +19,7 @@ public class GetDialogues(IThereGameDataService dataService)
     )
     {
         var fullDialogues = await _dataService.GetFullDialogues(cancellationToken);
-        if (fullDialogues != null)
+        if (fullDialogues == null)
         {
             return [];
         }
@@ -34,7 +34,7 @@ public class GetDialogues(IThereGameDataService dataService)
         }
 
         var teacher = await _dataService.Teachers.FindAsync(request.Id);
-        if (student != null)
+        if (student != null && teacher != null)
         {
             return fullDialogues
                 .Where(dialogue => dialogue.TeacherId == teacher.Id)

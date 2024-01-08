@@ -22,6 +22,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<PhraseModel> Phrases { get; set; }
     public DbSet<AnswerModel> Answers { get; set; }
     public DbSet<DialogueModel> Dialogues { get; set; }
+    public DbSet<AudioSettingsModel> AudioSettings { get; set; }
     public DbSet<TranslateModel> Translates { get; set; }
     public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
     public DbSet<TeacherModel> Teachers { get; set; }
@@ -106,7 +107,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
       
         // </- Dialogue -->
 
-
         // <-- Phrase -->
         var phraseBuilder = modelBuilder.Entity<PhraseModel>();
 
@@ -120,8 +120,25 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .OnDelete(DeleteBehavior.Cascade);
         ;
 
+       
         phraseBuilder.Property(p => p.ParentAnswerId).IsRequired(false);
         // </- Phrase -->
+
+
+        // <-- AudioSettingsModel --> 
+
+        var audioSettings = modelBuilder.Entity<AudioSettingsModel>();
+
+        audioSettings
+            .HasOne(a => a.ParentPhrase)
+            .WithOne(p => p.AudioSettings)
+            .IsRequired(true)
+            .OnDelete(DeleteBehavior.Cascade);
+        ;
+
+        audioSettings.Property(p => p.ParentPhraseId).IsRequired(true);
+
+        // <-- AudioSettingsModel --> 
 
         // <-- MistakeExplanations -->
         var mistakeExplanationBuilder = modelBuilder.Entity<MistakeExplanationModel>();
@@ -190,6 +207,10 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     private async Task<PhraseModel> RecursiveLoad(PhraseModel parentPhrase)
     {
+        var audioSettings = await AudioSettings
+            .FirstOrDefaultAsync(a => a.ParentPhraseId == parentPhrase.Id)
+        ;
+
         var buildedPhrase = new PhraseModel()
         {
             Id = parentPhrase.Id,
@@ -197,10 +218,13 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             Text = parentPhrase.Text,
             Comments = parentPhrase.Comments,
             Tenseses = parentPhrase.Tenseses,
-            AudioData = parentPhrase.AudioData,
+            AudioSettings = audioSettings
         };
 
-        var answers = await Answers.Where(a => a.ParentPhraseId == parentPhrase.Id).ToArrayAsync();
+        var answers = await Answers
+            .Where(a => a.ParentPhraseId == parentPhrase.Id)
+            .ToArrayAsync()
+        ;
 
         foreach (var answer in answers)
         {

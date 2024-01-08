@@ -17,7 +17,7 @@ public static class UpdatePhraseQueryApi
         await mediator.Send(new UpdatePhraseRequest() {
             Phrase = DialogueMapping.Request(phraseUpdateRequestApiDto)
         });
-
+        
         return TypedResults.Ok();
     }
 }

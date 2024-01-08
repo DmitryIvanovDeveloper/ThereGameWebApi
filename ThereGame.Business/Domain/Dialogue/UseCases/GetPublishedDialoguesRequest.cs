@@ -18,7 +18,7 @@ public class GetPublishedDialogues(IThereGameDataService dataService)
         CancellationToken cancellationToken
     ) {
         var dialogues = await _dataService.GetFullDialogues(cancellationToken);
-        if (dialogues == null) 
+        if (dialogues == null || dialogues.Count() == 0) 
         {
             return [];
         }

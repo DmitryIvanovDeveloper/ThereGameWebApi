@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240108082346_ThereGameMigrationC")]
+    partial class ThereGameMigrationC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,7 +26,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AudioSettingsModel", b =>
+            modelBuilder.Entity("AudioSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +41,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ParentPhraseId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<int>("Revision")
@@ -256,13 +258,12 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Translates");
                 });
 
-            modelBuilder.Entity("AudioSettingsModel", b =>
+            modelBuilder.Entity("AudioSettings", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
                         .WithOne("AudioSettings")
-                        .HasForeignKey("AudioSettingsModel", "ParentPhraseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AudioSettings", "ParentPhraseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentPhrase");
                 });

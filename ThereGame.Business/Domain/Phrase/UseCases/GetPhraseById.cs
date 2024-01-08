@@ -16,8 +16,6 @@ public class GetPhraseById(IThereGameDataService dataService) : IRequestHandler<
 
     public async Task<PhraseModel?> Handle(GetPhraseByIdRequest request, CancellationToken cancellationToken)
     {
-        return await _dataService.Phrases
-            .SingleOrDefaultAsync(d => d.Id == request.Id)
-        ;
+        return await _dataService.Phrases.SingleOrDefaultAsync(d => d.Id == request.Id);
     }
 }

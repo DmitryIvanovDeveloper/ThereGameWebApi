@@ -9,11 +9,9 @@ public class CreatePhraseRequest : IRequest
     public required PhraseModel Phrase { get; set; }
 }
 
-public class CreatePhrase(IThereGameDataService dataService, 
-    ISpeechTextGeneratorService speechTextGeneratorService) : IRequestHandler<CreatePhraseRequest>
+public class CreatePhrase(IThereGameDataService dataService) : IRequestHandler<CreatePhraseRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
-    private readonly ISpeechTextGeneratorService _speechTextGeneratorService = speechTextGeneratorService;
 
     public async Task Handle(CreatePhraseRequest request, CancellationToken cancellationToken)
     {

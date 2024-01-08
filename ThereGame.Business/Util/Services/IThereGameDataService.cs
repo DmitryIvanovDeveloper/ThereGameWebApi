@@ -13,6 +13,7 @@ public interface IThereGameDataService
     DbSet<AnswerModel> Answers { get; }
     DbSet<TranslateModel> Translates { get; }
     DbSet<MistakeExplanationModel> MistakeExplanations { get; }
+    DbSet<AudioSettingsModel> AudioSettings { get; }
     DbSet<TeacherModel> Teachers { get; }
     DbSet<StudentModel> Students { get; }
     DbSet<DialogueModel> Dialogues { get; }

@@ -356,8 +356,20 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         {
             await RemoveAnswerCascade(answer.Id, cancellationToken);
         }
-
+        
         Phrases.RemoveRange(phrase);
+
+        var audioSettings =  AudioSettings
+            .AsNoTracking()
+            .FirstOrDefault(a => a.ParentPhraseId == phrase.Id)
+        ;
+
+        if (audioSettings == null)
+        {
+            return;
+        }
+
+        AudioSettings.RemoveRange(audioSettings);
     }
     public async Task RemoveAnswerCascade(Guid answerId, CancellationToken cancellationToken) {
         var answer = await Answers.FindAsync(answerId);

@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
 using ThereGame.Business.Domain.Teacher.UseCases;
 
-public static class AuthSignInTeacherQueryApi
+public static class AuthSignInGetTokenQueryApi
 {
     public static async Task<IResult> Handler(
         [FromBody] AuthSignInQueryApiDto authSignInQueryApiDto,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var token = await mediator.Send(new AuthSignInTeacherRequest()
+        var token = await mediator.Send(new AuthSignInGetTokenRequest()
         {
             Auth = AuthMapping.Request(authSignInQueryApiDto)
         });
@@ -22,6 +22,16 @@ public static class AuthSignInTeacherQueryApi
             return TypedResults.Unauthorized();
         }
 
-        return TypedResults.Ok(token);
+        var response = new AuthSignInResponseQueryApi()
+        {
+            Token = token
+        };
+
+        return TypedResults.Ok(response);
+    }
+
+    public class AuthSignInResponseQueryApi
+    {
+        public Guid? Token { get; set; }
     }
 }

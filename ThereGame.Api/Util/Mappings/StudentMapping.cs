@@ -7,9 +7,11 @@ public static class StudentMapping
     {
         return new StudentGetResponseDto() {
             Id = student.Id,
+            Avatar = student.Avatar,
             Name = student.Name,
             LastName = student.LastName,
             Email = student.Email,
+            CreatedAt = student.CreatedAt
         };
     }
 }

@@ -13,6 +13,7 @@ public static class TeacherMapping
             Name = teacher.Name,
             LastName = teacher.LastName,
             Email = teacher.Email,
+            CreatedAt = teacher.CreatedAt,
             Dialogues = DialogueMapping.Response(teacher.Dialogues.ToArray()),
         };
 

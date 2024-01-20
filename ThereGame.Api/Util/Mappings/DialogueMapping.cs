@@ -13,7 +13,7 @@ public static class DialogueMapping
     {
         return new DialogueModel()
         {
-            IsVoiceSelected = dialogueDto.IsVoiceSelected,
+            VoiceSettings = dialogueDto.VoiceSettings,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
             TeacherId = dialogueDto.TeacherId,
@@ -40,7 +40,7 @@ public static class DialogueMapping
     {
         return new DialogueModel
         {
-            IsVoiceSelected = dialogueDto.IsVoiceSelected,
+            VoiceSettings = dialogueDto.VoiceSettings,
             Id = dialogueDto.Id,
             LevelId = dialogueDto.LevelId,
             TeacherId = dialogueDto.TeacherId,
@@ -195,7 +195,7 @@ public static class DialogueMapping
             TeacherId = dialogue.TeacherId,
             PhraseId = dialogue.PhraseId,
             IsPublished = dialogue.IsPublished,
-            IsVoiceSelected = dialogue.IsVoiceSelected,
+            VoiceSettings = dialogue.VoiceSettings,
             StudentsId = dialogue.StudentsId,
             Name = dialogue.Name,
             Phrase = Response(dialogue.Phrase)

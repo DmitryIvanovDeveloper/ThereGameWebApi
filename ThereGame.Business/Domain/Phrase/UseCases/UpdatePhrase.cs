@@ -42,7 +42,7 @@ public class UpdatePhrase(IThereGameDataService dataService,
             audioSettings != null &&
             request.Phrase.AudioSettings.Id != audioSettings.Id)
         {
-            audioSettings.AudioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioSettings.GenerationSettings, 0);;
+            audioSettings.AudioData = await _speechTextGeneratorService.Generate(request.Phrase.AudioSettings.GenerationSettings, 0);
             audioSettings.GenerationSettings = request.Phrase.AudioSettings.GenerationSettings;
             audioSettings.Revision = audioSettings.Revision + 1;
         }

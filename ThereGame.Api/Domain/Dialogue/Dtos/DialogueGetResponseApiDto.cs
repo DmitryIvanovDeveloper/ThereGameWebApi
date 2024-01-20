@@ -9,7 +9,7 @@ public class DialogueGetResponseApiDto
     public Guid LevelId { get; set; }
     public Guid PhraseId { get; set; }
     public bool IsPublished { get; set; }
-    public bool IsVoiceSelected { get; set; }
+    public string VoiceSettings { get; set; } = "";
     public string Name { get; set; } = "";
     public List<Guid> StudentsId { get; set; } = new List<Guid>();
 

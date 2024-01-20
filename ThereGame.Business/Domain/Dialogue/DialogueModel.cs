@@ -10,7 +10,7 @@ public class DialogueModel
 
     public string Name { get; set; } = "";
     public bool IsPublished { get; set; }
-    public bool IsVoiceSelected { get; set; }
+    public string VoiceSettings { get; set; } = "";
 
     public Guid TeacherId { get; set; }
     public TeacherModel Teacher { get; set; } = null!;

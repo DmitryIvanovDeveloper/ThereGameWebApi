@@ -1,6 +1,7 @@
 namespace ThereGame.Api.Domain.Answer.Queries;
 
 using AutoMapper;
+using Inspirer.Business.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ThereGame.Api.Util.Mappings;
@@ -13,18 +14,21 @@ public static class AuthSignInGetTokenQueryApi
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
-        var token = await mediator.Send(new AuthSignInGetTokenRequest()
+        var mediatrResponse = await mediator.Send(new AuthSignInGetTokenRequest()
         {
             Auth = AuthMapping.Request(authSignInQueryApiDto)
         });
         
-        if (token == null) {
+        if (mediatrResponse.Status == MediatorResponseStatuses.PROFILE__NOT_FOUND ||
+            mediatrResponse.Status == MediatorResponseStatuses.SIGN_IN__INVALID_PASSWORD
+        ) 
+        {
             return TypedResults.Unauthorized();
         }
-
+       
         var response = new AuthSignInResponseQueryApi()
         {
-            Token = token
+            Token = mediatrResponse.Data?.Data
         };
 
         return TypedResults.Ok(response);

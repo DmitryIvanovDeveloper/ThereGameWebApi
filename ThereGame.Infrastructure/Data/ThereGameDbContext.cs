@@ -35,12 +35,30 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
     public async Task<DialogueModel[]?> GetFullDialogues(CancellationToken cancellationToken)
     {
-        var dialogues = await Dialogues
-            .Include(d => d.Phrase)
-            .ToArrayAsync(cancellationToken)
-        ;
-        
-        return await BuildDialogues(dialogues);
+        var dbModel = new DBModels()
+        {
+            Dialogues = await Dialogues
+                .Include(d => d.Phrase)
+                .ToArrayAsync(cancellationToken),
+            
+            AudioSettings = await AudioSettings
+                .Select(a => a)
+                .ToArrayAsync(),
+            
+            Answers = await Answers
+                .Select(a => a)
+                .ToArrayAsync(),
+
+            Phrases = await Phrases
+                .Select(p => p)
+                .ToArrayAsync(),
+
+            Translates = await Translates
+                .Select(a => a)
+                .ToArrayAsync()
+        };
+       
+        return await BuildDialogues(dbModel);
     }
 
     public async Task RemoveFullDialogueById(Guid id, CancellationToken cancellationToken)
@@ -181,10 +199,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         // <-- Answer -->
     }
 
-    private async Task<DialogueModel[]> BuildDialogues(DialogueModel[] dialogues)
+    private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)
     {
         var buildedDialogues = new List<DialogueModel>();
-        foreach (var dialogue in dialogues)
+
+        foreach (var dialogue in dbModel.Dialogues)
         {
             var buildedDialogue = new DialogueModel
             {
@@ -195,7 +214,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 TeacherId = dialogue.TeacherId,
                 IsPublished = dialogue.IsPublished,
                 VoiceSettings = dialogue.VoiceSettings,
-                Phrase = await RecursiveLoad(dialogue.Phrase),
+                Phrase = await RecursiveLoad(dialogue.Phrase, dbModel),
                 StudentsId = dialogue.StudentsId
             };
 
@@ -205,10 +224,10 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         return buildedDialogues.ToArray();
     }
 
-    private async Task<PhraseModel> RecursiveLoad(PhraseModel parentPhrase)
+    private async Task<PhraseModel> RecursiveLoad(PhraseModel parentPhrase, DBModels dbModel)
     {
-        var audioSettings = await AudioSettings
-            .FirstOrDefaultAsync(a => a.ParentPhraseId == parentPhrase.Id)
+        var audioSettings = dbModel.AudioSettings
+            .FirstOrDefault(a => a.ParentPhraseId == parentPhrase.Id)
         ;
 
         var buildedPhrase = new PhraseModel()
@@ -221,23 +240,22 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             AudioSettings = audioSettings
         };
 
-        var answers = await Answers
+        var answers = dbModel.Answers
             .Where(a => a.ParentPhraseId == parentPhrase.Id)
-            .ToArrayAsync()
+            .ToArray();
         ;
 
         foreach (var answer in answers)
         {
-            var buildedAnswer = await RecursiveLoad(answer);
+            var buildedAnswer = await RecursiveLoad(answer, dbModel);
             buildedPhrase.Answers.Add(buildedAnswer);
         }
 
         return buildedPhrase;
     }
 
-    private async Task<AnswerModel> RecursiveLoad(AnswerModel parentAnswer)
+    private async Task<AnswerModel> RecursiveLoad(AnswerModel parentAnswer, DBModels dbModel)
     {
-
         var buildedAnswer = new AnswerModel()
         {
             ParentPhraseId = parentAnswer.ParentPhraseId,
@@ -247,7 +265,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             WordsToUse = parentAnswer.WordsToUse,
         };
 
-        var translates = await Translates.Where(t => t.AnswerParentId == parentAnswer.Id).ToArrayAsync();
+        var translates = dbModel.Translates.Where(t => t.AnswerParentId == parentAnswer.Id).ToArray();
 
         foreach (var translate in translates)
         {
@@ -263,7 +281,10 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             buildedAnswer.Translates.Add(buildedTranlate);
         }
 
-        var mistakeExplanations = await MistakeExplanations.Where(m => m.AnswerParentId == parentAnswer.Id).ToArrayAsync();
+        var mistakeExplanations = dbModel.MistakeExplanation
+            .Where(m => m.AnswerParentId == parentAnswer.Id)
+            .ToArray()
+        ;
 
         foreach (var mistakeExplanation in mistakeExplanations)
         {
@@ -279,10 +300,10 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         }
 
-        var phrases = await Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArrayAsync();
+        var phrases = dbModel.Phrases.Where(p => p.ParentAnswerId == parentAnswer.Id).ToArray();
         foreach (var phrase in phrases)
         {
-            var buildedPhrase = await RecursiveLoad(phrase);
+            var buildedPhrase = await RecursiveLoad(phrase, dbModel);
             buildedAnswer.Phrases.Add(buildedPhrase);
         }
 
@@ -391,4 +412,14 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         Answers.RemoveRange(answer);
     }
+}
+
+public class DBModels 
+{
+    public DialogueModel[] Dialogues { get; set; } = [];
+    public PhraseModel[] Phrases { get; set; } = [];
+    public AnswerModel[] Answers { get; set; } = [];
+    public AudioSettingsModel[] AudioSettings { get; set; } = [];
+    public TranslateModel[] Translates { get; set; } = [];
+    public MistakeExplanationModel[] MistakeExplanation { get; set; } = [];
 }

@@ -8,6 +8,7 @@ public class GetDialoguesByIdRequest : IRequest<DialogueModel[]?>
     public Guid Id { get; set; }
 }
 
+
 public class GetDialogues(IThereGameDataService dataService)
     : IRequestHandler<GetDialoguesByIdRequest, DialogueModel[]?>
 {

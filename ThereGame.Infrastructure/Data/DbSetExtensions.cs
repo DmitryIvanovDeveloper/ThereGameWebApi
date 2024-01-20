@@ -16,13 +16,6 @@ public static class DbSetExtensions
         return await dialogues
             .Include(d => d.Phrase)
             .ThenInclude(p => p.Answers)
-            .ThenInclude(a => a.Translates)
-            .Include(a => a.Phrase)
-            .ThenInclude(a => a.Answers)
-            .ThenInclude(a => a.MistakeExplanations)
-            .Include(a => a.Phrase)
-            .ThenInclude(a => a.Answers)
-            .ThenInclude(a => a.Phrases)
             .SingleOrDefaultAsync(d => d.Id == id, cancellationToken)
         ;
     }

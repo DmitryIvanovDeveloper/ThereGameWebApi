@@ -35,7 +35,7 @@ public class GetDialogues(IThereGameDataService dataService)
         }
 
         var teacher = await _dataService.Teachers.FindAsync(request.Id);
-        if (student != null && teacher != null)
+        if (teacher != null)
         {
             return fullDialogues
                 .Where(dialogue => dialogue.TeacherId == teacher.Id)

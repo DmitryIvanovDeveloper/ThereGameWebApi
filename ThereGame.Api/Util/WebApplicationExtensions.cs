@@ -32,6 +32,7 @@ public static class WebApplicationExtensions
 
         // Auth
         apiGroup.MapPost("auth/sign-in", AuthSignInGetTokenQueryApi.Handler);
+        apiGroup.MapPost("auth/sign-in/web", AuthSignInGetWebTokenQueryApi.Handler);
 
         apiGroup.MapPost("auth/sign-up/teachers", AuthSignUpTeacherQueryApi.Handler);
         apiGroup.MapPost("auth/sign-up/students", AuthSignUpStudentQueryApi.Handler);

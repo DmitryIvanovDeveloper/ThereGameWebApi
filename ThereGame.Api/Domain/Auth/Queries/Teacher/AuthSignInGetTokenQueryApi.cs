@@ -26,16 +26,6 @@ public static class AuthSignInGetTokenQueryApi
             return TypedResults.Unauthorized();
         }
        
-        var response = new AuthSignInResponseQueryApi()
-        {
-            Token = mediatrResponse.Data?.Data
-        };
-
-        return TypedResults.Ok(response);
-    }
-
-    public class AuthSignInResponseQueryApi
-    {
-        public Guid? Token { get; set; }
+        return TypedResults.Ok(mediatrResponse.Data?.Data);
     }
 }

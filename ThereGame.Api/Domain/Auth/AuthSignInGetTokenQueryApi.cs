@@ -26,6 +26,14 @@ public static class AuthSignInGetTokenQueryApi
             return TypedResults.Unauthorized();
         }
        
-        return TypedResults.Ok(mediatrResponse.Data?.Data.Token);
+        var auth = new Auth 
+        {
+            Token = mediatrResponse.Data?.Data.Token
+        };
+        return TypedResults.Ok(auth);
+    }
+
+    public class Auth {
+        public Guid? Token  { get; set; }
     }
 }

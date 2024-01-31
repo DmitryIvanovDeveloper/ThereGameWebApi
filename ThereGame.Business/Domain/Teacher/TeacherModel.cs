@@ -12,7 +12,7 @@ public class TeacherModel
     public string LastName { get; set; } = "";
     public string Email { get; set; } = "";
     public string Password { get; set; } = "";
-    public DateTime CreatedAt { get; set; } = new DateTime();
+    public DateTime CreatedAt { get; set; }
 
     [JsonIgnore]
     public ICollection<DialogueModel> Dialogues { get; } = new List<DialogueModel>();

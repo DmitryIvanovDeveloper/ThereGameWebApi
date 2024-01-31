@@ -33,6 +33,7 @@ public class CreateTeacher(IThereGameDataService dataService) : IRequestHandler<
             LastName = request.Auth.LastName,
             Email = request.Auth.Email,
             Password = request.Auth.Password,
+            CreatedAt = DateTime.UtcNow
         };
 
         await _dataService.Teachers.AddAsync(newTeacher, cancellationToken);

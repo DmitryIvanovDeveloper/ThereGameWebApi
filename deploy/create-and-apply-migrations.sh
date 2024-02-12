@@ -9,7 +9,7 @@ fi
 cd ThereGame.Infrastructure
 
 echo Creating migration \"$1\"...
-dotnet ef -s ../ThereGame.Api/ migrations add $1 -o ./Data/Migrations
+dotnet ef -s ../ThereGame.Infrastructure/ migrations add $1 -o ./Data/Migrations
 
 echo Updating DB...
 dotnet ef database update

@@ -27,6 +27,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<MistakeExplanationModel> MistakeExplanations { get; set; }
     public DbSet<TeacherModel> Teachers { get; set; }
     public DbSet<StudentModel> Students { get; set; }
+    public DbSet<StudentDialogueStatisticModel> StudentDialoguesStatistics { get; set; }
+    public DbSet<DialogueHistory> DialogueHistories { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -173,7 +175,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         // <-- Answer -->
         var answerBuilder = modelBuilder.Entity<AnswerModel>();
 
-        answerBuilder.HasKey(p => p.Id);
+        answerBuilder.HasKey(a => a.Id);
 
         answerBuilder
             .HasOne(a => a.ParentPhrase)
@@ -197,6 +199,29 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired()
         ;
         // <-- Answer -->
+
+        // <-- StudentDialogueStatistic -->
+        var studentDialogueStatisticBuilder = modelBuilder.Entity<StudentDialogueStatisticModel>();
+
+        studentDialogueStatisticBuilder.HasKey(s => s.Id);
+
+        studentDialogueStatisticBuilder
+            .HasOne(sd => sd.Student)
+            .WithMany(s => s.DialoguesStatistic)
+            .HasForeignKey(sd => sd.StudentId)
+        ;
+
+        // <-- dialogueHistory -->
+        var dialogueHistoryBuilders = modelBuilder.Entity<DialogueHistory>();
+        dialogueHistoryBuilders.HasKey(s => s.Id);
+
+        dialogueHistoryBuilders
+            .HasOne(dh => dh.StudentDialogueStatistic)
+            .WithMany(sd => sd.DialogueHistories)
+            .HasForeignKey(sd => sd.StudentDialogueStatisticId)
+        ;
+        // <-- dialogueHistory -->
+        
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)

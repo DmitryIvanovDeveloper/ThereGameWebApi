@@ -16,7 +16,10 @@ public interface IThereGameDataService
     DbSet<AudioSettingsModel> AudioSettings { get; }
     DbSet<TeacherModel> Teachers { get; }
     DbSet<StudentModel> Students { get; }
-    DbSet<DialogueModel> Dialogues { get; }
+    DbSet<DialogueModel> Dialogues { get; } 
+    DbSet<StudentDialogueStatisticModel> StudentDialoguesStatistics { get; }
+    DbSet<DialogueHistory> DialogueHistories { get; }
+
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);

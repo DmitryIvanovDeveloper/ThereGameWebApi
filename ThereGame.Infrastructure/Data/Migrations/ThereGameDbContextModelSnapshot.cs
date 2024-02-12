@@ -52,6 +52,58 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("AudioSettings");
                 });
 
+            modelBuilder.Entity("DialogueHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<List<string>>("Answers")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Phrase")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PhraseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StudentDialogueStatisticId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentDialogueStatisticId");
+
+                    b.ToTable("DialogueHistories");
+                });
+
+            modelBuilder.Entity("StudentDialogueStatisticModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DialogueId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentDialoguesStatistics");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -278,6 +330,28 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("ParentPhrase");
                 });
 
+            modelBuilder.Entity("DialogueHistory", b =>
+                {
+                    b.HasOne("StudentDialogueStatisticModel", "StudentDialogueStatistic")
+                        .WithMany("DialogueHistories")
+                        .HasForeignKey("StudentDialogueStatisticId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentDialogueStatistic");
+                });
+
+            modelBuilder.Entity("StudentDialogueStatisticModel", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentModel", "Student")
+                        .WithMany("DialoguesStatistic")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Phrase.PhraseModel", "ParentPhrase")
@@ -349,6 +423,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Answer");
                 });
 
+            modelBuilder.Entity("StudentDialogueStatisticModel", b =>
+                {
+                    b.Navigation("DialogueHistories");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Answer.AnswerModel", b =>
                 {
                     b.Navigation("MistakeExplanations");
@@ -365,6 +444,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("AudioSettings");
 
                     b.Navigation("Dialogues");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentModel", b =>
+                {
+                    b.Navigation("DialoguesStatistic");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>

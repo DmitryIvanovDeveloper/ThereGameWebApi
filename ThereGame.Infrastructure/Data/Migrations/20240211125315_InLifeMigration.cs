@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ThereGameMigration : Migration
+    public partial class InLifeMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +17,12 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Avatar = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false)
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,10 +34,12 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Avatar = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -45,6 +50,48 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentDialoguesStatistic",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DialogueId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StudentId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentDialoguesStatistic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudentDialoguesStatistic_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DialogueHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Phrase = table.Column<string>(type: "text", nullable: false),
+                    Answers = table.Column<List<string>>(type: "text[]", nullable: false),
+                    StudentDialogueStatisticId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DialogueHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DialogueHistories_StudentDialoguesStatistic_StudentDialogue~",
+                        column: x => x.StudentDialogueStatisticId,
+                        principalTable: "StudentDialoguesStatistic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,9 +137,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     Text = table.Column<string>(type: "text", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: false),
                     Tenseses = table.Column<string[]>(type: "text[]", nullable: false),
-                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true),
-                    AudioGenerationSettings = table.Column<string>(type: "text", nullable: false),
-                    AudioData = table.Column<string>(type: "text", nullable: false)
+                    ParentAnswerId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,6 +171,27 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AudioSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GenerationSettings = table.Column<string>(type: "text", nullable: false),
+                    AudioData = table.Column<string>(type: "text", nullable: false),
+                    Revision = table.Column<int>(type: "integer", nullable: false),
+                    ParentPhraseId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AudioSettings_Phrases_ParentPhraseId",
+                        column: x => x.ParentPhraseId,
+                        principalTable: "Phrases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Dialogues",
                 columns: table => new
                 {
@@ -133,10 +199,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     LevelId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),
-                    IsVoiceSelected = table.Column<bool>(type: "boolean", nullable: false),
+                    VoiceSettings = table.Column<string>(type: "text", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uuid", nullable: false),
                     PhraseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StudentsId = table.Column<Guid[]>(type: "uuid[]", nullable: false)
+                    StudentsId = table.Column<List<Guid>>(type: "uuid[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,6 +227,17 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 column: "ParentPhraseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AudioSettings_ParentPhraseId",
+                table: "AudioSettings",
+                column: "ParentPhraseId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DialogueHistories_StudentDialogueStatisticId",
+                table: "DialogueHistories",
+                column: "StudentDialogueStatisticId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Dialogues_PhraseId",
                 table: "Dialogues",
                 column: "PhraseId");
@@ -179,6 +256,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 name: "IX_Phrases_ParentAnswerId",
                 table: "Phrases",
                 column: "ParentAnswerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentDialoguesStatistic_StudentId",
+                table: "StudentDialoguesStatistic",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_TeacherId",
@@ -207,16 +289,25 @@ namespace ThereGame.Infrastructure.Data.Migrations
                 table: "Answers");
 
             migrationBuilder.DropTable(
+                name: "AudioSettings");
+
+            migrationBuilder.DropTable(
+                name: "DialogueHistories");
+
+            migrationBuilder.DropTable(
                 name: "Dialogues");
 
             migrationBuilder.DropTable(
                 name: "MistakeExplanations");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Translates");
 
             migrationBuilder.DropTable(
-                name: "Translates");
+                name: "StudentDialoguesStatistic");
+
+            migrationBuilder.DropTable(
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

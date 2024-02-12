@@ -1,4 +1,6 @@
 using ThereGame.Api.Domain.Answer.Queries;
+using ThereGame.Api.Domain.StudentDialogueStatistic.Queries;
+using ThereGame.Business.Domain.StudentDialogueStatistic.UseCases;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -42,7 +44,9 @@ public static class WebApplicationExtensions
         teachersGroup.MapPost("/me", UpdateTeacherByIdQueriesApi.Handler);
 
         var studentGroup = apiGroup.MapGroup("/students");
+        studentGroup.MapGet("/statistics/dialogues", GetStudentDialogueStatisticApi.Handler);
         studentGroup.MapGet("/me", GetStudentByIdQueriesApi.Handler);
+        studentGroup.MapPost("/me/statistics/dialogues", CreateStudentDialogueStatisticApi.Handler);
 
         return app;
     }

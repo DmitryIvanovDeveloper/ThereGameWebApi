@@ -20,6 +20,7 @@ public static class StudentDialogueStatisticMapping
         {
             var dialogueHistory = new DialogueHistory()
             {
+                OrderId = historyDto.OrderId,
                 Phrase = historyDto.Phrase,
                 PhraseId = historyDto.PhraseId,
                 Answers = historyDto.Answers
@@ -58,6 +59,7 @@ public static class StudentDialogueStatisticMapping
         {
             var dialogueHistory = new DialogueHistoryDto()
             {
+                OrderId = historyDto.OrderId,
                 Phrase = historyDto.Phrase,
                 PhraseId = historyDto.PhraseId,
                 Answers = historyDto.Answers

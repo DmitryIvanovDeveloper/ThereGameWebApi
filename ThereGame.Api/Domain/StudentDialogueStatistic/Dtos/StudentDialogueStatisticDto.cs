@@ -9,6 +9,7 @@ public class StudentDialogueStatisticDto
 
 public class DialogueHistoryDto
 {
+    public int OrderId { get; set; }
     public Guid PhraseId { get; set; }
     public string Phrase { get; set; } = "";
     public List<string> Answers { get; set; } = new List<string>();

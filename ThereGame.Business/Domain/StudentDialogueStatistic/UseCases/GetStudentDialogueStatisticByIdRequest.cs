@@ -1,8 +1,8 @@
 namespace ThereGame.Business.Domain.StudentDialogueStatistic.UseCases;
 
-using ThereGame.Business.Util.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ThereGame.Business.Util.Services;
 
 public class GetStudentDialogueStatisticByIdRequest : IRequest<StudentDialogueStatisticModel[]?>
 {
@@ -23,6 +23,7 @@ public class GetStudentDialogueStatistic(IThereGameDataService dataService) : IR
         
         return await _dataService.StudentDialoguesStatistics
             .Include(ds => ds.DialogueHistories)
+            .Where(ds => ds.StudentId == request.Id)
             .ToArrayAsync(cancellationToken)
         ;
     }

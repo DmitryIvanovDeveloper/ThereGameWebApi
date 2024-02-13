@@ -14,6 +14,7 @@ public class StudentDialogueStatisticModel
 
 public class DialogueHistory
 {
+    public int OrderId { get; set; }
     public Guid Id { get; set; } = new Guid();
     public Guid PhraseId { get; set; }
     public string Phrase { get; set; } = "";

@@ -387,9 +387,30 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             return;
         }
 
+
         await RemovePhraseCascade(dialogue.PhraseId, cancellationToken);
+        await RemoveStudentDialogueStatistic(dialogue.Id, cancellationToken);
 
         Dialogues.RemoveRange(dialogue);
+    }
+
+    public async Task RemoveStudentDialogueStatistic(Guid dialogueId, CancellationToken cancellationToken) {
+
+        var statistic = StudentDialoguesStatistics.FirstOrDefault(statisctic => statisctic.DialogueId == dialogueId);
+        if (statistic == null)
+        {
+            return;
+        }
+
+        StudentDialoguesStatistics.RemoveRange(statistic);
+        
+        var dialogueHistory = await DialogueHistories.Where(history => history.StudentDialogueStatisticId == statistic.Id ).ToArrayAsync(cancellationToken);
+        if (dialogueHistory == null)
+        {
+            return;
+        }
+        
+        DialogueHistories.RemoveRange(dialogueHistory);
     }
     public async Task RemovePhraseCascade(Guid phraseId, CancellationToken cancellationToken) {
         var phrase = await Phrases.FindAsync(phraseId);

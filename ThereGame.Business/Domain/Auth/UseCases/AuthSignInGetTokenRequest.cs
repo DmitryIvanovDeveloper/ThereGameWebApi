@@ -64,7 +64,8 @@ public class AuthSignIn(IThereGameDataService dataService) : IRequestHandler<Aut
 
     public enum Role
     {
-        Teacher = 0,
-        Student = 1
+        Admin = 0,
+        Teacher = 1,
+        Student = 2
     }
 }

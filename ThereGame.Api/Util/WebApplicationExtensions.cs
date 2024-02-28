@@ -48,6 +48,9 @@ public static class WebApplicationExtensions
         studentGroup.MapGet("/me", GetStudentByIdQueriesApi.Handler);
         studentGroup.MapPost("/me/statistics/dialogues", CreateStudentDialogueStatisticApi.Handler);
 
+        var audioDataGroup = apiGroup.MapGroup("/audioData");
+        audioDataGroup.MapGet("/", GetAudioDataQueriesApi.Handler);
+
         return app;
     }
 }

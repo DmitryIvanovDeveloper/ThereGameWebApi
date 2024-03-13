@@ -6,6 +6,7 @@ using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
 using ThereGame.Business.Domain.Student;
 using ThereGame.Business.Domain.Teacher;
+using ThereGame.Business.Domain.Word;
 
 public interface IThereGameDataService
 {
@@ -19,12 +20,12 @@ public interface IThereGameDataService
     DbSet<DialogueModel> Dialogues { get; } 
     DbSet<StudentDialogueStatisticModel> StudentDialoguesStatistics { get; }
     DbSet<DialogueHistory> DialogueHistories { get; }
-
+    DbSet<WordModel> Words { get; set; }
+    DbSet<WordTrasnalteModel> WordTranslates { get; set; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);
     Task<AnswerModel?> GetFullAnswerById(Guid id, CancellationToken cancellationToken);
-
     Task<TeacherModel?> GetFullTeacherById(Guid id, CancellationToken cancellationToken);
 
     Task RemoveFullDialogueById(Guid id, CancellationToken cancellationToken);

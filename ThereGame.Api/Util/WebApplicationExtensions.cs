@@ -1,4 +1,5 @@
 using ThereGame.Api.Domain.Answer.Queries;
+using ThereGame.Api.Domain.Student.Queries;
 using ThereGame.Api.Domain.StudentDialogueStatistic.Queries;
 using ThereGame.Business.Domain.StudentDialogueStatistic.UseCases;
 
@@ -45,8 +46,13 @@ public static class WebApplicationExtensions
 
         var studentGroup = apiGroup.MapGroup("/students");
         studentGroup.MapGet("/statistics/dialogues", GetStudentDialogueStatisticApi.Handler);
+        studentGroup.MapPost("/vocabulary", UpdateStudentVocabularyQueryApi.Handler);
+        studentGroup.MapGet("/vocabulary", GetStudentVocabularyByIdQueriesApi.Handler);
         studentGroup.MapGet("/me", GetStudentByIdQueriesApi.Handler);
         studentGroup.MapPost("/me/statistics/dialogues", CreateStudentDialogueStatisticApi.Handler);
+
+        var wordsGroup = apiGroup.MapGroup("/words");
+        wordsGroup.MapGet("/", GetWordsQueriesApi.Handler);
 
         var audioDataGroup = apiGroup.MapGroup("/audioData");
         audioDataGroup.MapGet("/", GetAudioDataQueriesApi.Handler);

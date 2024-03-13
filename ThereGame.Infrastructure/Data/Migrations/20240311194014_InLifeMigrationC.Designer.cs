@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311194014_InLifeMigrationC")]
+    partial class InLifeMigrationC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,7 +261,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid?>("TeacherId")
                         .HasColumnType("uuid");
 
-                    b.Property<List<Guid>>("VocabularyIdList")
+                    b.Property<Guid[]>("VocabularyIdList")
                         .IsRequired()
                         .HasColumnType("uuid[]");
 
@@ -316,29 +319,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Words");
-                });
-
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
-
-                    b.Property<List<string>>("Translates")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<Guid>("WordId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WordId");
-
-                    b.ToTable("WordTranslates");
                 });
 
             modelBuilder.Entity("TranslateModel", b =>
@@ -457,17 +437,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
-                {
-                    b.HasOne("ThereGame.Business.Domain.Word.WordModel", "Word")
-                        .WithMany("Translates")
-                        .HasForeignKey("WordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Word");
-                });
-
             modelBuilder.Entity("TranslateModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "Answer")
@@ -512,11 +481,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Dialogues");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
-                {
-                    b.Navigation("Translates");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240313075203_InLofeMigrationD")]
+    partial class InLofeMigrationD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,7 +321,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Words");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalte", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,7 +330,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<int>("Language")
                         .HasColumnType("integer");
 
-                    b.Property<List<string>>("Translates")
+                    b.Property<string[]>("Translates")
                         .IsRequired()
                         .HasColumnType("text[]");
 
@@ -338,7 +341,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
                     b.HasIndex("WordId");
 
-                    b.ToTable("WordTranslates");
+                    b.ToTable("WordTrasnalte");
                 });
 
             modelBuilder.Entity("TranslateModel", b =>
@@ -457,10 +460,10 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalte", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Word.WordModel", "Word")
-                        .WithMany("Translates")
+                        .WithMany("Trasnaltes")
                         .HasForeignKey("WordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -516,7 +519,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
                 {
-                    b.Navigation("Translates");
+                    b.Navigation("Trasnaltes");
                 });
 #pragma warning restore 612, 618
         }

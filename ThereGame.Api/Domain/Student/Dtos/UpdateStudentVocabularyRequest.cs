@@ -14,7 +14,7 @@ public class WordModelDto
 {
     public Guid Id { get; set; } = new Guid();
     public string Word { get; set; } = "";
-    required public WordTrasnalteDto[]? TranslatesData { get; set; } = [];
+    required public WordTrasnalteDto[] TranslatesData { get; set; } = [];
 }
 
 public class WordTrasnalteDto {

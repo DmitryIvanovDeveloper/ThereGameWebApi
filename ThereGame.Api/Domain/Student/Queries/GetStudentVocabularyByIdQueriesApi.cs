@@ -8,13 +8,14 @@ using ThereGame.Business.Domain.Student.UseCases;
 public static class GetStudentVocabularyByIdQueriesApi
 {
     public static async Task<IResult> Handler(
-        [FromHeader(Name = "X-THEREGAME-AUTH")] Guid id,
+        [FromHeader(Name = "X-THEREGAME-AUTH")] Guid teacherId,
+        [FromQuery] Guid Id,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
         
         var vicabularies = await mediator.Send(new GetStudentVocabularyByIdRequest() {
-            Id = id
+            Id = Id
         });
         
         if (vicabularies.Count == 0)

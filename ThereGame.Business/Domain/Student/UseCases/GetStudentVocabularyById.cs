@@ -3,6 +3,7 @@ namespace ThereGame.Business.Domain.Student.UseCases;
 using ThereGame.Business.Util.Services;
 using MediatR;
 using ThereGame.Business.Domain.Word;
+using Microsoft.EntityFrameworkCore;
 
 public class GetStudentVocabularyByIdRequest : IRequest<List<WordModel>>
 {
@@ -20,7 +21,11 @@ public class GetStudentVocabularyById(IThereGameDataService dataService) : IRequ
             return [];
         }
 
-        var vocalbulary = _dataService.Words.Where(word =>  student.VocabularyIdList.Contains(word.Id)).ToList();
+        var words = _dataService.Words
+            .Include(w => w.Translates)
+            .ToArray();
+
+        var vocalbulary = words.Where(word =>  student.VocabularyIdList.Contains(word.Id)).ToList();
         return vocalbulary;
     }
 }

@@ -17,9 +17,12 @@ public class UpdateStudentVocabulary(IThereGameDataService dataService) : IReque
 
     public async Task Handle(UpdateStudentVocabularyRequest request, CancellationToken cancellationToken)
     {
+        //TODO: Refactoring
         var student = await _dataService.Students.FindAsync(request.StudentId);
 
-        if (student == null || student.TeacherId != request.TeacherId)
+        if (student == null ||
+            student.TeacherId != request.TeacherId ||
+            request.Word.Word == "")
         {
             return;
         }
@@ -33,52 +36,57 @@ public class UpdateStudentVocabulary(IThereGameDataService dataService) : IReque
         var expectedWord = await _dataService.Words.FindAsync(request.Word.Id);
         if (expectedWord == null)
         {
-            request.Word.Word = RemoveExtraSymbols(request.Word.Word);
-            _dataService.Words.Add(request.Word);
-
-            foreach (var currentTranslate in request.Word.Translates)
-            {
-                var updatedTranslate = new List<string>();
-                foreach (var translate in currentTranslate.Translates)
-                {
-                    updatedTranslate.Add(RemoveExtraSymbols(translate));
-                }
-                currentTranslate.Translates = updatedTranslate;
-                _dataService.WordTranslates.Add(currentTranslate);
-            }
+            student.VocabularyIdList.Add(request.Word.Id);
+            AddNewWord(request.Word);
+            AddTranslates(request.Word.Translates);
         }
         else
         {
-            foreach (var currentTranslate in request.Word.Translates)
-            {
-                var expectedTrasnlate = await _dataService.WordTranslates.FindAsync(currentTranslate.Id);
-                if (expectedTrasnlate == null)
-                {
-                    var updatedTranslate = new List<string>();
-
-                    foreach (var translate in currentTranslate.Translates)
-                    {
-                        updatedTranslate.Add(RemoveExtraSymbols(translate));
-                    }
-                    currentTranslate.Translates = updatedTranslate;
-                    _dataService.WordTranslates.Add(currentTranslate);
-                }
-                else
-                {
-                    var difference = expectedTrasnlate.Translates.Except(currentTranslate.Translates).FirstOrDefault();
-                    if (difference != null)
-                    {
-                          expectedTrasnlate.Translates.Add(difference);
-                    }
-                }
-            }
-
+           await UpdateTranslates(request.Word.Translates);
         }
         if (!student.VocabularyIdList.Contains(request.Word.Id))
         {
             student.VocabularyIdList.Add(request.Word.Id);
         }
         await _dataService.SaveChanges(cancellationToken);
+    }
+    private void AddNewWord(WordModel data)
+    {
+        data.Word = RemoveExtraSymbols(data.Word);
+        _dataService.Words.Add(data);
+    }
+
+    private void AddTranslates(List<WordTrasnalteModel> translates) 
+    {
+        foreach (var currentTranslate in translates)
+        {
+            var updatedTranslate = new List<string>();
+            foreach (var translate in currentTranslate.Translates)
+            {
+                updatedTranslate.Add(RemoveExtraSymbols(translate));
+            }
+            currentTranslate.Translates = updatedTranslate;
+            _dataService.WordTranslates.Add(currentTranslate);
+        }
+    }
+    private async Task UpdateTranslates(List<WordTrasnalteModel> wordTranslatesData) 
+    {
+        foreach (var currentTranslateData in wordTranslatesData)
+        {
+            var expectedTranslate = await _dataService.WordTranslates.FindAsync(currentTranslateData.Id);
+            if (expectedTranslate == null)
+            {
+               AddTranslates(wordTranslatesData);
+               continue;
+            }
+
+            expectedTranslate.Translates = RemoveEmptyTranslate(currentTranslateData.Translates);
+        }
+    }
+
+    private List<string> RemoveEmptyTranslate(List<string> translates)
+    {
+        return translates.Where(t => !string.IsNullOrEmpty(t)).ToList();
     }
 
     private string RemoveExtraSymbols(string text)

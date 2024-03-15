@@ -14,7 +14,7 @@ public static class GetStudentVocabularyByIdQueriesApi
         [FromServices] IMediator mediator
     ) {
         
-        var vicabularies = await mediator.Send(new GetStudentVocabularyByIdRequest() {
+        var vicabularies = await mediator.Send(new GetStudenVocabularyBlockByIdRequest() {
             Id = Id
         });
         
@@ -23,7 +23,6 @@ public static class GetStudentVocabularyByIdQueriesApi
             return TypedResults.NoContent();
         }
     
-
         return TypedResults.Ok(vicabularies);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240314130423_InLofeMigrationG")]
+    partial class InLofeMigrationG
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,9 +278,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
 
@@ -331,10 +331,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string[]>("Pictures")
-                        .IsRequired()
-                        .HasColumnType("text[]");
 
                     b.Property<string>("Word")
                         .IsRequired()

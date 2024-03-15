@@ -22,6 +22,7 @@ public interface IThereGameDataService
     DbSet<DialogueHistory> DialogueHistories { get; }
     DbSet<WordModel> Words { get; set; }
     DbSet<WordTrasnalteModel> WordTranslates { get; set; }
+    DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);

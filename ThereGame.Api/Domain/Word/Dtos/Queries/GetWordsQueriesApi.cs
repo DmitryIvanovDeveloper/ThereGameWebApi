@@ -2,7 +2,6 @@ namespace ThereGame.Api.Domain.StudentDialogueStatistic.Queries;
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ThereGame.Business.Domain.Word.UseCases;
 
 public static class GetWordsQueriesApi

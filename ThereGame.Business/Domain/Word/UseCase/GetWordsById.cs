@@ -15,6 +15,6 @@ public class GetWordsById(IThereGameDataService dataService) : IRequestHandler<G
     
     public async Task<List<WordModel>> Handle(GetWordsByIdRequest request, CancellationToken cancellationToken)
     {   
-        return _dataService.Words.Include(w => w.Translates).ToList();
+        return await _dataService.Words.Include(w => w.Translates).ToListAsync(cancellationToken);
     }
 }

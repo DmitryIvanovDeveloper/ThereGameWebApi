@@ -1,7 +1,6 @@
 using ThereGame.Api.Domain.Answer.Queries;
 using ThereGame.Api.Domain.Student.Queries;
 using ThereGame.Api.Domain.StudentDialogueStatistic.Queries;
-using ThereGame.Business.Domain.StudentDialogueStatistic.UseCases;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -46,12 +45,19 @@ public static class WebApplicationExtensions
 
         var studentGroup = apiGroup.MapGroup("/students");
         studentGroup.MapGet("/statistics/dialogues", GetStudentDialogueStatisticApi.Handler);
-        studentGroup.MapPost("/vocabulary", UpdateStudentVocabularyQueryApi.Handler);
-        studentGroup.MapGet("/vocabulary", GetStudentVocabularyByIdQueriesApi.Handler);
+      
         studentGroup.MapGet("/me", GetStudentByIdQueriesApi.Handler);
         studentGroup.MapPost("/me/statistics/dialogues", CreateStudentDialogueStatisticApi.Handler);
 
+        var vocabularyBlockGroup = apiGroup.MapGroup("/vocabularyBlocks");
+        vocabularyBlockGroup.MapGet("/", GetStudentVocabularyByIdQueriesApi.Handler);
+        vocabularyBlockGroup.MapPut("/", UpdateStudentVocabularyBlockQueryApi.Handler);
+        vocabularyBlockGroup.MapPost("/", CreateStudentVocabularyBlockQueryApi.Handler);
+
         var wordsGroup = apiGroup.MapGroup("/words");
+
+        wordsGroup.MapPost("/", CreateWordQueriesApi.Handler);
+        wordsGroup.MapPut("/", UpdateWordQueriesApi.Handler);
         wordsGroup.MapGet("/", GetWordsQueriesApi.Handler);
 
         var audioDataGroup = apiGroup.MapGroup("/audioData");

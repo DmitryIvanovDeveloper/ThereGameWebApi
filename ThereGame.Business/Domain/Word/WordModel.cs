@@ -6,6 +6,7 @@ public class WordModel
 {
     public Guid Id { get; set; } = new Guid();
     public string Word { get; set; } = "";
+    public string[] Pictures { get; set; } = [];
     public List<WordTrasnalteModel> Translates { get; set; } = new List<WordTrasnalteModel>();
 }
 

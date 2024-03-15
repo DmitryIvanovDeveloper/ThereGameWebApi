@@ -9,19 +9,17 @@ using ThereGame.Api.Domain.Student;
 using ThereGame.Business.Domain.Student.UseCases;
 using ThereGame.Business.Domain.Word;
 
-public static class UpdateStudentVocabularyQueryApi
+public static class UpdateWordQueriesApi
 {
     public static async Task<IResult> Handler(
-        [FromBody] UpdateStudentVocabularyRequestApiDto updateStudentVocabularyRequest,
+        [FromBody] WordModelDto Data,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     )
     {
-        await mediator.Send(new UpdateStudentVocabularyRequest()
+        await mediator.Send(new UpdateWordRequest()
         {
-            TeacherId = updateStudentVocabularyRequest.TeacherId,
-            StudentId = updateStudentVocabularyRequest.StudentId,
-            Word = WordTranslateMapper.Map(updateStudentVocabularyRequest.WordData)
+            Word = WordTranslateMapper.Map(Data)
         });
 
 

@@ -17,7 +17,7 @@ public class StudentModel
     public TeacherModel? Teacher { get; set; } = null;
 
     [JsonIgnore]
-    public List<Guid> VocabularyIdList { get; set; } = new List<Guid>();
+    public List<StudentVocabularyBlockModel> VocabularyBlocks { get; set; } = new List<StudentVocabularyBlockModel>();
 
     [JsonIgnore]
     public ICollection<StudentDialogueStatisticModel> DialoguesStatistic { get; } = new List<StudentDialogueStatisticModel>();

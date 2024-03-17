@@ -46,9 +46,11 @@ public static class UpdateWordQueriesApi
             
             var word = new WordModel()
             {
-               Id = Word.Id,
-               Word = Word.Word,
-               Translates = translates
+                Id = Word.Id,
+                Word = Word.Word,
+                Translates = translates,
+                SpeechPart = Word.SpeechPart,
+                Pictures = Word.Pictures
             };
 
             return word;

@@ -16,7 +16,6 @@ public class UpdateStudenVocabularyBlock(IThereGameDataService dataService) : IR
     public async Task Handle(UpdateStudenVocabularyBlockRequest request, CancellationToken cancellationToken)
     {
         var studentVocabularyBlock = await _dataService.StudentsVocabularyBlocks.FindAsync(request.StudentVocabularyBlock.Id, cancellationToken);
-        Console.WriteLine($"-------------{studentVocabularyBlock == null}--------------");
         if (studentVocabularyBlock == null)
         {
             return; //TODO: Return error about the block doesn't exst

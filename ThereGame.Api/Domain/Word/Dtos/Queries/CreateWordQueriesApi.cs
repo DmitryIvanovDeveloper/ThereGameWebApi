@@ -47,6 +47,7 @@ public static class CreateWordQueriesApi
             {
                Id = Word.Id,
                Word = Word.Word,
+               SpeechPart = Word.SpeechPart,
                Pictures = Word.Pictures,
                Translates = translates,
             };

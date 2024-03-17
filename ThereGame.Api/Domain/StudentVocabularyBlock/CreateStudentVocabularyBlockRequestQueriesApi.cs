@@ -22,7 +22,6 @@ public static class CreateStudentVocabularyBlockQueryApi
             StudentVocabularyBlock = StudentVocabularyBlockMapper.Map(updateStudentVocabularyRequest)
         });
 
-
         return TypedResults.Ok();
     }
 
@@ -34,7 +33,7 @@ public static class CreateStudentVocabularyBlockQueryApi
                 Id = studentVocabularyBlockModelDto.Id,
                 StudentId = studentVocabularyBlockModelDto.StudentId,
                 Name = studentVocabularyBlockModelDto.Name,
-                Order = studentVocabularyBlockModelDto.Order,
+                CreatedAt = DateTime.UtcNow
             };
 
             return studentVocabularyBlockModel;

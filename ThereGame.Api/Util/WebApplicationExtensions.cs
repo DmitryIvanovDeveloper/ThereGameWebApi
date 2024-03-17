@@ -53,6 +53,7 @@ public static class WebApplicationExtensions
         vocabularyBlockGroup.MapGet("/", GetStudentVocabularyByIdQueriesApi.Handler);
         vocabularyBlockGroup.MapPut("/", UpdateStudentVocabularyBlockQueryApi.Handler);
         vocabularyBlockGroup.MapPost("/", CreateStudentVocabularyBlockQueryApi.Handler);
+        vocabularyBlockGroup.MapDelete("/", DeleteStudentVocabularyBlockQueryApi.Handler);
 
         var wordsGroup = apiGroup.MapGroup("/words");
 

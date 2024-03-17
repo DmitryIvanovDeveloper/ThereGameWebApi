@@ -12,7 +12,7 @@ public class CreateStudenVocabularyBlockRequest : IRequest
 public class CreateStudenVocabularyBlock(IThereGameDataService dataService) : IRequestHandler<CreateStudenVocabularyBlockRequest>
 {
     private readonly IThereGameDataService _dataService = dataService;
-    
+
     public async Task Handle(CreateStudenVocabularyBlockRequest request, CancellationToken cancellationToken)
     {
         var studentVocabularyBlock = await _dataService.StudentsVocabularyBlocks.FindAsync(request.StudentVocabularyBlock.Id, cancellationToken);

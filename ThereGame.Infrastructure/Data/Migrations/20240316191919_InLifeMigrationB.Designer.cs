@@ -13,7 +13,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20240211205802_InLifeMigrationB")]
+    [Migration("20240316191919_InLifeMigrationB")]
     partial class InLifeMigrationB
     {
         /// <inheritdoc />
@@ -64,6 +64,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<List<string>>("Answers")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Phrase")
                         .IsRequired()
@@ -265,6 +268,33 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<List<Guid>>("WordsId")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentsVocabularyBlocks");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -297,6 +327,71 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("WordModelId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WordModelId");
+
+                    b.ToTable("WordCategory");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string[]>("Pictures")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<int>("SpeechPart")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Word")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Words");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
+
+                    b.Property<List<string>>("Translates")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("WordId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WordId");
+
+                    b.ToTable("WordTranslates");
                 });
 
             modelBuilder.Entity("TranslateModel", b =>
@@ -415,6 +510,35 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentModel", "Student")
+                        .WithMany("VocabularyBlocks")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Word.WordModel", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("WordModelId");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Word.WordModel", "Word")
+                        .WithMany("Translates")
+                        .HasForeignKey("WordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Word");
+                });
+
             modelBuilder.Entity("TranslateModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Answer.AnswerModel", "Answer")
@@ -452,6 +576,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
             modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentModel", b =>
                 {
                     b.Navigation("DialoguesStatistic");
+
+                    b.Navigation("VocabularyBlocks");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>
@@ -459,6 +585,13 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Dialogues");
 
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Translates");
                 });
 #pragma warning restore 612, 618
         }

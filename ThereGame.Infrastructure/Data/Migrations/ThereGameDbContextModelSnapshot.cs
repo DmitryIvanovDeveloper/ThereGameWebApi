@@ -271,12 +271,12 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
@@ -326,6 +326,26 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Teachers");
                 });
 
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("WordModelId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WordModelId");
+
+                    b.ToTable("WordCategory");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -335,6 +355,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<string[]>("Pictures")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<int>("SpeechPart")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Word")
                         .IsRequired()
@@ -495,6 +518,13 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Word.WordModel", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("WordModelId");
+                });
+
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Word.WordModel", "Word")
@@ -556,6 +586,8 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Translates");
                 });
 #pragma warning restore 612, 618

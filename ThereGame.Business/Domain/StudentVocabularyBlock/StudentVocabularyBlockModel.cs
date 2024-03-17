@@ -7,7 +7,7 @@ public class StudentVocabularyBlockModel
     required public Guid Id { get; set; }
     required public Guid StudentId { get; set; }
     required public string Name { get; set; }
-    required public int Order { get; set; }
+    required public DateTime CreatedAt { get; set; }
     
     public List<Guid> WordsId { get; set; } = new List<Guid>();
 

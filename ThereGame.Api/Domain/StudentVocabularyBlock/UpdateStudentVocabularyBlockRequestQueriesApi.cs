@@ -35,7 +35,7 @@ public static class UpdateStudentVocabularyBlockQueryApi
                 StudentId = studentVocabularyBlockModelDto.StudentId,
                 Name = studentVocabularyBlockModelDto.Name,
                 WordsId = studentVocabularyBlockModelDto.WordsId,
-                Order = studentVocabularyBlockModelDto.Order
+                CreatedAt = studentVocabularyBlockModelDto.CreatedAt
             };
 
             return studentVocabularyBlockModel;

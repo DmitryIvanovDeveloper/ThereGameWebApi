@@ -23,6 +23,7 @@ public interface IThereGameDataService
     DbSet<WordModel> Words { get; set; }
     DbSet<WordTrasnalteModel> WordTranslates { get; set; }
     DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
+    DbSet<QuizlGameModel> QuizlGame { get; set; }
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);

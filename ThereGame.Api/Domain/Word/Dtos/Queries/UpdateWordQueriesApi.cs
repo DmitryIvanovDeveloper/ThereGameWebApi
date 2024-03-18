@@ -5,7 +5,6 @@ namespace ThereGame.Api.Domain.Student.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ThereGame.Api.Domain.Student;
 using ThereGame.Business.Domain.Student.UseCases;
 using ThereGame.Business.Domain.Word;
 
@@ -49,8 +48,9 @@ public static class UpdateWordQueriesApi
                 Id = Word.Id,
                 Word = Word.Word,
                 Translates = translates,
-                SpeechPart = Word.SpeechPart,
-                Pictures = Word.Pictures
+                SpeechParts = Word.SpeechParts,
+                Pictures = Word.Pictures,
+                Forms = Word.Forms,
             };
 
             return word;

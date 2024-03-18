@@ -33,6 +33,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<WordModel> Words { get; set; }
     public DbSet<WordTrasnalteModel> WordTranslates { get; set; }
     public DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
+    public DbSet<QuizlGameModel> QuizlGame { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -241,6 +242,11 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(sd => sd.DialogueHistories)
             .HasForeignKey(sd => sd.StudentDialogueStatisticId)
         ;
+        // <-- dialogueHistory -->
+
+        // <-- quizlGameModel -->
+          var quizleGameBuilders = modelBuilder.Entity<QuizlGameModel>();
+          quizleGameBuilders.HasKey(qg => qg.Id);
         // <-- dialogueHistory -->
     }
 

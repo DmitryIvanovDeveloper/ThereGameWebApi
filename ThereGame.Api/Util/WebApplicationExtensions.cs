@@ -1,6 +1,8 @@
 using ThereGame.Api.Domain.Answer.Queries;
+using ThereGame.Api.Domain.QuizlGame.Queries;
 using ThereGame.Api.Domain.Student.Queries;
 using ThereGame.Api.Domain.StudentDialogueStatistic.Queries;
+using ThereGame.Business.Domain.QuizlGame.UseCases;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -60,6 +62,12 @@ public static class WebApplicationExtensions
         wordsGroup.MapPost("/", CreateWordQueriesApi.Handler);
         wordsGroup.MapPut("/", UpdateWordQueriesApi.Handler);
         wordsGroup.MapGet("/", GetWordsQueriesApi.Handler);
+
+        var quizlGroup = apiGroup.MapGroup("/quizlGames");
+        quizlGroup.MapGet("/", GetQuizlGameByWordIdQueriesApi.Handler);
+        // quizlGroup.MapPut("/", UpdateStudentVocabularyBlockQueryApi.Handler);
+        quizlGroup.MapPost("/", CreateQuizlGameQueriesApi.Handler);
+        // quizlGroup.MapDelete("/", DeleteStudentVocabularyBlockQueryApi.Handler);
 
         var audioDataGroup = apiGroup.MapGroup("/audioData");
         audioDataGroup.MapGet("/", GetAudioDataQueriesApi.Handler);

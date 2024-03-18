@@ -2,8 +2,11 @@ public class WordModelDto
 {
     public Guid Id { get; set; } = new Guid();
     public string Word { get; set; } = "";
-    public SpeechPart SpeechPart { get; set; } = SpeechPart.Unknown;
+    public SpeechPart[] SpeechParts { get; set; } = [];
     public string[] Pictures { get; set; } = [];
+    public string Forms { get; set; } = "";
+    public List<Guid> QuizlGamesId { get; set; } = new List<Guid>();
+
     required public WordTrasnalteDto[] TranslatesData { get; set; } = [];
 }
 

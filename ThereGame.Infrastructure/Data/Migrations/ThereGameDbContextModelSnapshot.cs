@@ -82,6 +82,27 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("DialogueHistories");
                 });
 
+            modelBuilder.Entity("QuizlGameModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("HiddenWordId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuizlGame");
+                });
+
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -326,38 +347,27 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("WordModelId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WordModelId");
-
-                    b.ToTable("WordCategory");
-                });
-
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Forms")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string[]>("Pictures")
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<int>("SpeechPart")
-                        .HasColumnType("integer");
+                    b.Property<List<Guid>>("QuizlGamesId")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
+
+                    b.Property<int[]>("SpeechParts")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("Word")
                         .IsRequired()
@@ -518,13 +528,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("ThereGame.Business.Domain.Word.WordCategory", b =>
-                {
-                    b.HasOne("ThereGame.Business.Domain.Word.WordModel", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("WordModelId");
-                });
-
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordTrasnalteModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Word.WordModel", "Word")
@@ -586,8 +589,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ThereGame.Business.Domain.Word.WordModel", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("Translates");
                 });
 #pragma warning restore 612, 618

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ThereGame.Business.Domain.Word;
@@ -7,11 +8,10 @@ public class WordModel
     public Guid Id { get; set; } = new Guid();
     public string Word { get; set; } = "";
     public string[] Pictures { get; set; } = [];
-    public SpeechPart SpeechPart { get; set; } = SpeechPart.Unknown;
+    public SpeechPart[] SpeechParts { get; set; } = [];
+    public string Forms { get; set; } = "";
     public List<WordTrasnalteModel> Translates { get; set; } = new List<WordTrasnalteModel>();
-
-    [JsonIgnore]
-    public ICollection<WordCategory> Categories{ get; set; } = new List<WordCategory>();
+    public List<Guid> QuizlGamesId { get; set; } = new List<Guid>();
 }
 
 public class WordTrasnalteModel {

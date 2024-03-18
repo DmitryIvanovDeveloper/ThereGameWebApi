@@ -26,8 +26,9 @@ public class UpdateWord(IThereGameDataService dataService) : IRequestHandler<Upd
             return; // TODO: Return an error about unexisting word
         }
         expectedWord.Word = request.Word.Word;
-        expectedWord.SpeechPart = request.Word.SpeechPart;
+        expectedWord.SpeechParts = request.Word.SpeechParts;
         expectedWord.Pictures = request.Word.Pictures;
+        expectedWord.Forms = request.Word.Forms;
         
         await UpdateTranslates(request.Word.Translates);
       

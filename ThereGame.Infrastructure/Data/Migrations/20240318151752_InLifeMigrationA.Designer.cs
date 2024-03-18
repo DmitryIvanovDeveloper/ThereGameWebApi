@@ -13,7 +13,7 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20240315202206_InLifeMigrationA")]
+    [Migration("20240318151752_InLifeMigrationA")]
     partial class InLifeMigrationA
     {
         /// <inheritdoc />
@@ -83,6 +83,27 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasIndex("StudentDialogueStatisticId");
 
                     b.ToTable("DialogueHistories");
+                });
+
+            modelBuilder.Entity("QuizlGameModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("HiddenWordId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuizlGame");
                 });
 
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>
@@ -335,9 +356,21 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Forms")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string[]>("Pictures")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<List<Guid>>("QuizlGamesId")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
+
+                    b.Property<int[]>("SpeechParts")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("Word")
                         .IsRequired()

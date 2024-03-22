@@ -5,7 +5,7 @@
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InLifeMigrationA : Migration
+    public partial class InLifeMigrationB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -3,18 +3,19 @@ namespace ThereGame.Api.Domain.Answer.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ThereGame.Business.Domain.QuizlGame.UseCases;
 
-public static class GetQuizlGameByWordIdQueriesApi
+public static class GetQuizlGameByIdsQueriesApi
 {
     public static async Task<IResult> Handler(
-        [FromQuery] Guid Id,
+        [FromQuery] string Ids,
         [FromServices] IMapper mapper,
         [FromServices] IMediator mediator
     ) {
         
         var quizlGame = await mediator.Send(new GetQuizlGameByIdRequest() {
-            Id = Id
+            Ids = JsonConvert.DeserializeObject<List<Guid>>(Ids)
         });
         
         if (quizlGame == null)

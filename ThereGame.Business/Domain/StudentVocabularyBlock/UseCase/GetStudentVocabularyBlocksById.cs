@@ -2,6 +2,7 @@ namespace ThereGame.Business.Domain.Student.UseCases;
 
 using ThereGame.Business.Util.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 public class GetStudenVocabularyBlockByIdRequest : IRequest<List<StudentVocabularyBlockModel>>
 {
@@ -19,6 +20,10 @@ public class GetStudenVocabularyBlockById(IThereGameDataService dataService) : I
             return [];
         }
 
-        return _dataService.StudentsVocabularyBlocks.Where(vb => vb.StudentId == request.Id).ToList();
+        return _dataService.StudentsVocabularyBlocks
+            .Include(sv => sv.QuizlGameStatistics)
+            .Where(vb => vb.StudentId == request.Id)
+            .ToList()
+        ;
     }
 }

@@ -13,8 +13,8 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    [Migration("20240318151752_InLifeMigrationA")]
-    partial class InLifeMigrationA
+    [Migration("20240322100233_InLifeMigrationB")]
+    partial class InLifeMigrationB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,32 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuizlGame");
+                });
+
+            modelBuilder.Entity("QuizlGameStatisticModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<List<string>>("Answers")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("QuizlGameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VocabularyBlockId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VocabularyBlockId");
+
+                    b.ToTable("QuizlGameStatistics");
                 });
 
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>
@@ -449,6 +475,17 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("StudentDialogueStatistic");
                 });
 
+            modelBuilder.Entity("QuizlGameStatisticModel", b =>
+                {
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", "VocabularyBlock")
+                        .WithMany("QuizlGameStatistics")
+                        .HasForeignKey("VocabularyBlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("VocabularyBlock");
+                });
+
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>
                 {
                     b.HasOne("ThereGame.Business.Domain.Student.StudentModel", "Student")
@@ -581,6 +618,11 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("DialoguesStatistic");
 
                     b.Navigation("VocabularyBlocks");
+                });
+
+            modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", b =>
+                {
+                    b.Navigation("QuizlGameStatistics");
                 });
 
             modelBuilder.Entity("ThereGame.Business.Domain.Teacher.TeacherModel", b =>

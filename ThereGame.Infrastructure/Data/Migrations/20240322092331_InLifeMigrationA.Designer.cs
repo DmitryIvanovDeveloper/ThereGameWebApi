@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322092331_InLifeMigrationA")]
+    partial class InLifeMigrationA
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,26 +85,7 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.ToTable("DialogueHistories");
                 });
 
-            modelBuilder.Entity("QuizlGameModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("HiddenWordId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("QuizlGame");
-                });
+         
 
             modelBuilder.Entity("QuizlGameStatisticModel", b =>
                 {
@@ -119,12 +103,15 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<Guid>("QuizlGameId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("StudentVocabularyBlockModelId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("VocabularyBlockId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VocabularyBlockId");
+                    b.HasIndex("StudentVocabularyBlockModelId");
 
                     b.ToTable("QuizlGameStatistics");
                 });
@@ -474,13 +461,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("QuizlGameStatisticModel", b =>
                 {
-                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", "VocabularyBlock")
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", null)
                         .WithMany("QuizlGameStatistics")
-                        .HasForeignKey("VocabularyBlockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("VocabularyBlock");
+                        .HasForeignKey("StudentVocabularyBlockModelId");
                 });
 
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>

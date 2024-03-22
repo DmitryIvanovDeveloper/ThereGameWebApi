@@ -34,6 +34,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<WordTrasnalteModel> WordTranslates { get; set; }
     public DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
     public DbSet<QuizlGameModel> QuizlGame { get; set; }
+    public DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -247,7 +248,19 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         // <-- quizlGameModel -->
           var quizleGameBuilders = modelBuilder.Entity<QuizlGameModel>();
           quizleGameBuilders.HasKey(qg => qg.Id);
-        // <-- dialogueHistory -->
+
+        // <-- quizlGameModel -->
+
+
+        
+        var quizlGameStatisticBuilder = modelBuilder.Entity<QuizlGameStatisticModel>();
+            quizlGameStatisticBuilder.HasKey(sv => sv.Id);
+
+            quizlGameStatisticBuilder
+                .HasOne(qg => qg.VocabularyBlock)
+                .WithMany(vb => vb.QuizlGameStatistics)
+                .HasForeignKey(qg => qg.VocabularyBlockId)
+            ;
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)

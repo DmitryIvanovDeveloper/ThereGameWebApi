@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class GetWordsByIdRequest : IRequest<List<WordModel>>
 {
+    public List<Guid> Ids { get; set; } = new List<Guid>();
 }
 
 public class GetWordsById(IThereGameDataService dataService) : IRequestHandler<GetWordsByIdRequest, List<WordModel>>
@@ -15,6 +16,10 @@ public class GetWordsById(IThereGameDataService dataService) : IRequestHandler<G
     
     public async Task<List<WordModel>> Handle(GetWordsByIdRequest request, CancellationToken cancellationToken)
     {   
-        return await _dataService.Words.Include(w => w.Translates).ToListAsync(cancellationToken);
+        return await _dataService.Words
+            .Include(w => w.Translates)
+            .Where(w => request.Ids.Contains(w.Id))
+            .ToListAsync(cancellationToken)
+        ;
     }
 }

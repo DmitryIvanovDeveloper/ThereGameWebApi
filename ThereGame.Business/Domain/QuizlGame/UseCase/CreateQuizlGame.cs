@@ -20,12 +20,9 @@ public class CreateQuizlGame(IThereGameDataService dataService) : IRequestHandle
             return;
         }
 
-
-
         await _dataService.QuizlGame.AddAsync(request.QuizlGame, cancellationToken);
 
         var expectedWord = await _dataService.Words.FindAsync(request.QuizlGame.HiddenWordId);
-        Console.WriteLine($"========={expectedWord == null}==========");
 
         if (expectedWord == null) {
             return;

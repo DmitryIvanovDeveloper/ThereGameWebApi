@@ -13,4 +13,5 @@ public class StudentVocabularyBlockModel
 
     [JsonIgnore]
     public StudentModel? Student { get; }
+    public ICollection<QuizlGameStatisticModel> QuizlGameStatistics { get; } = new List<QuizlGameStatisticModel>();
 }

@@ -54,6 +54,6 @@ public class CreateWord(IThereGameDataService dataService) : IRequestHandler<Cre
 
     private string RemoveExtraSymbols(string text)
     {
-        return string.Concat(text.ToLower().Where(char.IsLetter)).Trim();
+        return string.Concat(text.ToLower().Where(char.IsLetter));
     }
 }

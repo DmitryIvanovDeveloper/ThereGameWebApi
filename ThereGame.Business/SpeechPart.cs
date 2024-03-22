@@ -16,4 +16,5 @@ public enum SpeechPart {
     Preposition,
     Pronouns,
     Verb,
+    PhrasalVerb
 }

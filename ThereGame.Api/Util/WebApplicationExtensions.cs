@@ -73,6 +73,9 @@ public static class WebApplicationExtensions
         var translateWordsGameStatisticGroup = apiGroup.MapGroup("/translateWordsGameStatistics");
         translateWordsGameStatisticGroup.MapPost("/", CreateTranslateWordsGameStatisticQueriesApi.Handler);
 
+        var buildWordsGameStatisticGroup = apiGroup.MapGroup("/buildWordsGameStatistics");
+        buildWordsGameStatisticGroup.MapPost("/", CreateBuildWordGameStatisticQueriesApi.Handler);
+
         var audioDataGroup = apiGroup.MapGroup("/audioData");
         audioDataGroup.MapGet("/", GetAudioDataQueriesApi.Handler);
 

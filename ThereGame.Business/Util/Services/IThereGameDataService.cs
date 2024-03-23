@@ -26,6 +26,7 @@ public interface IThereGameDataService
     DbSet<QuizlGameModel> QuizlGame { get; set; }
     DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
     DbSet<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; set; }
+    DbSet<BuildWordsGameStatisticModel> BuildWordsGameStatistics { get; set; }
     
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);

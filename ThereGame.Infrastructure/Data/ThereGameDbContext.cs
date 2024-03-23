@@ -36,6 +36,7 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<QuizlGameModel> QuizlGame { get; set; }
     public DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
     public DbSet<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; set; }
+    public DbSet<BuildWordsGameStatisticModel> BuildWordsGameStatistics { get; set; }
 
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
@@ -270,6 +271,15 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .WithMany(vb => vb.TranslateWordsGameStatistics)
             .HasForeignKey(tw => tw.VocabularyBlockId)
         ;
+
+        var buildWordsGameStatisticBuilder = modelBuilder.Entity<BuildWordsGameStatisticModel>();
+        buildWordsGameStatisticBuilder.HasKey(sv => sv.Id);
+
+        buildWordsGameStatisticBuilder
+            .HasOne(bw => bw.VocabularyBlock)
+            .WithMany(vb => vb.BuildWordsGameStatistics)
+            .HasForeignKey(bw => bw.VocabularyBlockId)
+        ;
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)
@@ -434,7 +444,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         {
             return;
         }
-
 
         await RemovePhraseCascade(dialogue.PhraseId, cancellationToken);
         await RemoveStudentDialogueStatistic(dialogue.Id, cancellationToken);

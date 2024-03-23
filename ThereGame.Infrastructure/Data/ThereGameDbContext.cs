@@ -35,6 +35,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
     public DbSet<QuizlGameModel> QuizlGame { get; set; }
     public DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
+    public DbSet<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; set; }
+
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -246,21 +248,28 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         // <-- dialogueHistory -->
 
         // <-- quizlGameModel -->
-          var quizleGameBuilders = modelBuilder.Entity<QuizlGameModel>();
-          quizleGameBuilders.HasKey(qg => qg.Id);
+        var quizleGameBuilders = modelBuilder.Entity<QuizlGameModel>();
+        quizleGameBuilders.HasKey(qg => qg.Id);
 
         // <-- quizlGameModel -->
 
-
-        
         var quizlGameStatisticBuilder = modelBuilder.Entity<QuizlGameStatisticModel>();
-            quizlGameStatisticBuilder.HasKey(sv => sv.Id);
+        quizlGameStatisticBuilder.HasKey(sv => sv.Id);
 
-            quizlGameStatisticBuilder
-                .HasOne(qg => qg.VocabularyBlock)
-                .WithMany(vb => vb.QuizlGameStatistics)
-                .HasForeignKey(qg => qg.VocabularyBlockId)
-            ;
+        quizlGameStatisticBuilder
+            .HasOne(qg => qg.VocabularyBlock)
+            .WithMany(vb => vb.QuizlGameStatistics)
+            .HasForeignKey(qg => qg.VocabularyBlockId)
+        ;
+
+        var translateWordsGameStatisticBuilder = modelBuilder.Entity<TranslateWordsGameStatisticModel>();
+        translateWordsGameStatisticBuilder.HasKey(sv => sv.Id);
+
+        translateWordsGameStatisticBuilder
+            .HasOne(tw => tw.VocabularyBlock)
+            .WithMany(vb => vb.TranslateWordsGameStatistics)
+            .HasForeignKey(tw => tw.VocabularyBlockId)
+        ;
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)

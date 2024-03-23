@@ -22,6 +22,7 @@ public class GetStudenVocabularyBlockById(IThereGameDataService dataService) : I
 
         return _dataService.StudentsVocabularyBlocks
             .Include(sv => sv.QuizlGameStatistics)
+            .Include(sv => sv.TranslateWordsGameStatistics)
             .Where(vb => vb.StudentId == request.Id)
             .ToList()
         ;

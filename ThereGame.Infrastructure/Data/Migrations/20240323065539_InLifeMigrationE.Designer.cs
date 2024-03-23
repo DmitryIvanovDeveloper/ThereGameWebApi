@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323065539_InLifeMigrationE")]
+    partial class InLifeMigrationE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,15 +466,18 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("VocabularyBlockId")
+                    b.Property<Guid?>("StudentVocabularyBlockModelId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("WordId")
+                    b.Property<Guid>("TranslateWordsGameGameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VocabularyBlockId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VocabularyBlockId");
+                    b.HasIndex("StudentVocabularyBlockModelId");
 
                     b.ToTable("TranslateWordsGameStatistics");
                 });
@@ -615,13 +621,9 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("TranslateWordsGameStatisticModel", b =>
                 {
-                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", "VocabularyBlock")
+                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", null)
                         .WithMany("TranslateWordsGameStatistics")
-                        .HasForeignKey("VocabularyBlockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("VocabularyBlock");
+                        .HasForeignKey("StudentVocabularyBlockModelId");
                 });
 
             modelBuilder.Entity("StudentDialogueStatisticModel", b =>

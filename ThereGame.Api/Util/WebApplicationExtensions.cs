@@ -70,6 +70,9 @@ public static class WebApplicationExtensions
         var quizlStatisticGroup = apiGroup.MapGroup("/quizlGameStatistics");
         quizlStatisticGroup.MapPost("/", CreateQuizlGameStatisticQueriesApi.Handler);
 
+        var translateWordsGameStatisticGroup = apiGroup.MapGroup("/translateWordsGameStatistics");
+        translateWordsGameStatisticGroup.MapPost("/", CreateTranslateWordsGameStatisticQueriesApi.Handler);
+
         var audioDataGroup = apiGroup.MapGroup("/audioData");
         audioDataGroup.MapGet("/", GetAudioDataQueriesApi.Handler);
 

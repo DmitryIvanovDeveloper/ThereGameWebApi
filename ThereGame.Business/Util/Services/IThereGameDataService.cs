@@ -25,6 +25,8 @@ public interface IThereGameDataService
     DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
     DbSet<QuizlGameModel> QuizlGame { get; set; }
     DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
+    DbSet<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; set; }
+    
     
     Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken);
     Task<PhraseModel?> GetFullPhraseById(Guid id, CancellationToken cancellationToken);

@@ -65,7 +65,10 @@ public static class WebApplicationExtensions
 
         var quizlGroup = apiGroup.MapGroup("/quizlGames");
         quizlGroup.MapGet("/", GetQuizlGameByIdsQueriesApi.Handler);
+        quizlGroup.MapGet("/word", GetQuizlGamesByWordIdQueriesApi.Handler);
         quizlGroup.MapPost("/", CreateQuizlGameQueriesApi.Handler);
+        quizlGroup.MapPut("/", UpdateQuizlGameQueriesApi.Handler);
+        quizlGroup.MapDelete("/", DeleteQuizlGameQueriesApi.Handler);
 
         var quizlStatisticGroup = apiGroup.MapGroup("/quizlGameStatistics");
         quizlStatisticGroup.MapPost("/", CreateQuizlGameStatisticQueriesApi.Handler);

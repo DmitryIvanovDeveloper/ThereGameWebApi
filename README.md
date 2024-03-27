@@ -10,4 +10,3 @@
 ```
 # IMPORTANT: run from project root
 > ./deploy/create-and-apply-migrations.sh <migration-name>
-```

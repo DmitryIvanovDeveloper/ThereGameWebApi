@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThereGame.Infrastructure.Data;
@@ -12,9 +13,11 @@ using ThereGame.Infrastructure.Data;
 namespace ThereGame.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ThereGameDbContext))]
-    partial class ThereGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323072200_InLifeMigrationG")]
+    partial class InLifeMigrationG
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,32 +53,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("AudioSettings");
-                });
-
-            modelBuilder.Entity("BuildWordsGameStatisticModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<List<string>>("Answers")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("VocabularyBlockId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("WordId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VocabularyBlockId");
-
-                    b.ToTable("BuildWordsGameStatistics");
                 });
 
             modelBuilder.Entity("DialogueHistory", b =>
@@ -513,17 +490,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
                     b.Navigation("ParentPhrase");
                 });
 
-            modelBuilder.Entity("BuildWordsGameStatisticModel", b =>
-                {
-                    b.HasOne("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", "VocabularyBlock")
-                        .WithMany("BuildWordsGameStatistics")
-                        .HasForeignKey("VocabularyBlockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("VocabularyBlock");
-                });
-
             modelBuilder.Entity("DialogueHistory", b =>
                 {
                     b.HasOne("StudentDialogueStatisticModel", "StudentDialogueStatistic")
@@ -693,8 +659,6 @@ namespace ThereGame.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ThereGame.Business.Domain.Student.StudentVocabularyBlockModel", b =>
                 {
-                    b.Navigation("BuildWordsGameStatistics");
-
                     b.Navigation("QuizlGameStatistics");
 
                     b.Navigation("TranslateWordsGameStatistics");

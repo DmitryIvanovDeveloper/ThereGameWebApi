@@ -8,6 +8,7 @@ using ThereGame.Business.Domain.Dialogue;
 using ThereGame.Business.Domain.Phrase;
 using ThereGame.Business.Domain.Student;
 using ThereGame.Business.Domain.Teacher;
+using ThereGame.Business.Domain.Word;
 using ThereGame.Business.Util.Services;
 
 public class ThereGameDbContext : DbContext, IThereGameDataService
@@ -29,6 +30,14 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
     public DbSet<StudentModel> Students { get; set; }
     public DbSet<StudentDialogueStatisticModel> StudentDialoguesStatistics { get; set; }
     public DbSet<DialogueHistory> DialogueHistories { get; set; }
+    public DbSet<WordModel> Words { get; set; }
+    public DbSet<WordTrasnalteModel> WordTranslates { get; set; }
+    public DbSet<StudentVocabularyBlockModel> StudentsVocabularyBlocks { get; set; }
+    public DbSet<QuizlGameModel> QuizlGame { get; set; }
+    public DbSet<QuizlGameStatisticModel> QuizlGameStatistics { get; set; }
+    public DbSet<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; set; }
+    public DbSet<BuildWordsGameStatisticModel> BuildWordsGameStatistics { get; set; }
+
 
     public async Task<DialogueModel?> GetFullDialogueById(Guid id, CancellationToken cancellationToken)
     {
@@ -103,6 +112,13 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .IsRequired(false)
         ;
 
+        studentBuilder
+            .HasMany(s => s.VocabularyBlocks)
+            .WithOne(vb => vb.Student)
+            .HasForeignKey(s => s.StudentId)
+            .IsRequired()
+        ;
+
         // <-- Student -->
 
         // <-- Dialogue -->
@@ -162,19 +178,29 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
 
         // <-- MistakeExplanations -->
         var mistakeExplanationBuilder = modelBuilder.Entity<MistakeExplanationModel>();
-
         mistakeExplanationBuilder.HasKey(m => m.Id);
         // </- MistakeExplanations -->
 
         // <-- Translates -->
         var transaleBuilder = modelBuilder.Entity<TranslateModel>();
-
         transaleBuilder.HasKey(m => m.Id);
         // </- Translates -->
 
+        // </- Words -->
+        var wordsBuilder = modelBuilder.Entity<WordModel>();
+        wordsBuilder.HasKey(w => w.Id);
+
+        wordsBuilder
+            .HasMany(w => w.Translates)
+            .WithOne(wt => wt.Word)
+            .HasForeignKey(w => w.WordId)
+            .IsRequired()
+        ;       
+
+        // </- Words -->
+
         // <-- Answer -->
         var answerBuilder = modelBuilder.Entity<AnswerModel>();
-
         answerBuilder.HasKey(a => a.Id);
 
         answerBuilder
@@ -221,7 +247,39 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
             .HasForeignKey(sd => sd.StudentDialogueStatisticId)
         ;
         // <-- dialogueHistory -->
-        
+
+        // <-- quizlGameModel -->
+        var quizleGameBuilders = modelBuilder.Entity<QuizlGameModel>();
+        quizleGameBuilders.HasKey(qg => qg.Id);
+
+        // <-- quizlGameModel -->
+
+        var quizlGameStatisticBuilder = modelBuilder.Entity<QuizlGameStatisticModel>();
+        quizlGameStatisticBuilder.HasKey(sv => sv.Id);
+
+        quizlGameStatisticBuilder
+            .HasOne(qg => qg.VocabularyBlock)
+            .WithMany(vb => vb.QuizlGameStatistics)
+            .HasForeignKey(qg => qg.VocabularyBlockId)
+        ;
+
+        var translateWordsGameStatisticBuilder = modelBuilder.Entity<TranslateWordsGameStatisticModel>();
+        translateWordsGameStatisticBuilder.HasKey(sv => sv.Id);
+
+        translateWordsGameStatisticBuilder
+            .HasOne(tw => tw.VocabularyBlock)
+            .WithMany(vb => vb.TranslateWordsGameStatistics)
+            .HasForeignKey(tw => tw.VocabularyBlockId)
+        ;
+
+        var buildWordsGameStatisticBuilder = modelBuilder.Entity<BuildWordsGameStatisticModel>();
+        buildWordsGameStatisticBuilder.HasKey(sv => sv.Id);
+
+        buildWordsGameStatisticBuilder
+            .HasOne(bw => bw.VocabularyBlock)
+            .WithMany(vb => vb.BuildWordsGameStatistics)
+            .HasForeignKey(bw => bw.VocabularyBlockId)
+        ;
     }
 
     private async Task<DialogueModel[]> BuildDialogues(DBModels dbModel)
@@ -386,7 +444,6 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
         {
             return;
         }
-
 
         await RemovePhraseCascade(dialogue.PhraseId, cancellationToken);
         await RemoveStudentDialogueStatistic(dialogue.Id, cancellationToken);

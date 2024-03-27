@@ -15,6 +15,11 @@ public class GetQuizlGameById(IThereGameDataService dataService) : IRequestHandl
 
     public async Task<List<QuizlGameModel>> Handle(GetQuizlGameByIdRequest request, CancellationToken cancellationToken)
     {
+        if (request.Ids.Count == 0)
+        {
+            return  await _dataService.QuizlGame.ToListAsync(cancellationToken);
+        }
+
         return await _dataService.QuizlGame
             .Where(w => request.Ids.Contains(w.Id))
             .ToListAsync(cancellationToken)

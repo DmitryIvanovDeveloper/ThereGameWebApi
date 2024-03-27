@@ -21,11 +21,6 @@ public class GetQuizlGamesByWordId(IThereGameDataService dataService) : IRequest
             return [];
         }
 
-        Console.WriteLine(expectedWord.Word);
-
-        return await _dataService.QuizlGame
-            .Where(quizleGame => expectedWord.QuizlGamesId.Contains(request.Id))
-            .ToListAsync(cancellationToken)
-        ;
+        return await _dataService.QuizlGame.ToListAsync(cancellationToken);
     }
 }

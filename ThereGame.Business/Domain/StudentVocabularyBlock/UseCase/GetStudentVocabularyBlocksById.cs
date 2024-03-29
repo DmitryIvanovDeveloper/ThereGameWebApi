@@ -20,12 +20,12 @@ public class GetStudenVocabularyBlockById(IThereGameDataService dataService) : I
             return [];
         }
 
-        return _dataService.StudentsVocabularyBlocks
+        return await _dataService.StudentsVocabularyBlocks
             .Include(sv => sv.QuizlGameStatistics)
             .Include(sv => sv.TranslateWordsGameStatistics)
             .Include(sv => sv.BuildWordsGameStatistics)
             .Where(vb => vb.StudentId == request.Id)
-            .ToList()
+            .ToListAsync(cancellationToken);
         ;
     }
 }

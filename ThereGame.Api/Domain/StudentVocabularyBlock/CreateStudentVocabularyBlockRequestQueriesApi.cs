@@ -33,6 +33,7 @@ public static class CreateStudentVocabularyBlockQueryApi
                 Id = studentVocabularyBlockModelDto.Id,
                 StudentId = studentVocabularyBlockModelDto.StudentId,
                 Name = studentVocabularyBlockModelDto.Name,
+                WordsId = studentVocabularyBlockModelDto.WordsId,
                 CreatedAt = DateTime.UtcNow
             };
 

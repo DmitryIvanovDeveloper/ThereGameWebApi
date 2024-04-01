@@ -21,6 +21,7 @@ public static class DialogueMapping
             PhraseId = dialogueDto.Phrase.Id,
             Phrase = Request(dialogueDto.Phrase),
             StudentsId = dialogueDto.StudentsId,
+            VocabularyWordsId = dialogueDto.VocabularyWordsId,
         };
     }
 
@@ -48,6 +49,7 @@ public static class DialogueMapping
             Name = dialogueDto.Name,
             PhraseId = dialogueDto.PhraseId,
             StudentsId = dialogueDto.StudentsId,
+            VocabularyWordsId = dialogueDto.VocabularyWordsId,
         };
     }
 
@@ -197,6 +199,7 @@ public static class DialogueMapping
             IsPublished = dialogue.IsPublished,
             VoiceSettings = dialogue.VoiceSettings,
             StudentsId = dialogue.StudentsId,
+            VocabularyWordsId = dialogue.VocabularyWordsId,
             Name = dialogue.Name,
             Phrase = Response(dialogue.Phrase)
         };

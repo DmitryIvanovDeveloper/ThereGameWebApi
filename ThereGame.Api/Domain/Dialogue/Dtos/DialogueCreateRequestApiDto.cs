@@ -13,4 +13,5 @@ public class DialogueCreateRequestApiDto
     public string Name { get; set; } = "";
     public PhraseCreateRequestApiDto Phrase { get; set; } = null!;
     public List<Guid> StudentsId { get; set; } = new List<Guid>();
+    public List<Guid> VocabularyWordsId { get; set; } = new List<Guid>();
 }

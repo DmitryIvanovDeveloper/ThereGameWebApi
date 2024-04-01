@@ -22,6 +22,7 @@ public static class UpdateDialogueQueryApi
             IsPublished = dialogueUpdateRequestApiDto.IsPublished,
             PhraseId = dialogueUpdateRequestApiDto.PhraseId,
             StudentsId = dialogueUpdateRequestApiDto.StudentsId,
+            VocbularyWordsId =  dialogueUpdateRequestApiDto.VocabularyWordsId,
         });
         
         return TypedResults.Ok();

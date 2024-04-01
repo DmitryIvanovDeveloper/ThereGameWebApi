@@ -19,4 +19,5 @@ public class DialogueModel
     public PhraseModel Phrase { get; set; } = null!;
     
     public List<Guid> StudentsId { get; set; } = new List<Guid>();
+    public List<Guid> VocabularyWordsId { get; set; } = new List<Guid>();
 }

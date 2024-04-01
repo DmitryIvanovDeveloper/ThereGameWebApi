@@ -13,4 +13,5 @@ public class DialogueUpdateRequestApiDto
     public string Name { get; set; } = "";
     public Guid PhraseId { get; set; }
     public List<Guid> StudentsId { get; set; } = new List<Guid>();
+    public List<Guid> VocabularyWordsId { get; set; } = new List<Guid>();
 }

@@ -13,6 +13,8 @@ public class StudentVocabularyBlockModel
 
     [JsonIgnore]
     public StudentModel? Student { get; }
+    public Guid DialogueId { get; }
+
     public ICollection<QuizlGameStatisticModel> QuizlGameStatistics { get; } = new List<QuizlGameStatisticModel>();
     public ICollection<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; } = new List<TranslateWordsGameStatisticModel>();
     public ICollection<BuildWordsGameStatisticModel> BuildWordsGameStatistics { get; } = new List<BuildWordsGameStatisticModel>();

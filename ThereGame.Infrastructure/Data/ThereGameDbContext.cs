@@ -298,7 +298,8 @@ public class ThereGameDbContext : DbContext, IThereGameDataService
                 IsPublished = dialogue.IsPublished,
                 VoiceSettings = dialogue.VoiceSettings,
                 Phrase = await RecursiveLoad(dialogue.Phrase, dbModel),
-                StudentsId = dialogue.StudentsId
+                StudentsId = dialogue.StudentsId,
+                VocabularyWordsId = dialogue.VocabularyWordsId,
             };
 
             buildedDialogues.Add(buildedDialogue);

@@ -11,9 +11,10 @@ public class StudentVocabularyBlockModel
     
     public List<Guid> WordsId { get; set; } = new List<Guid>();
 
+    public Guid DialogueId { get; set; }
+
     [JsonIgnore]
     public StudentModel? Student { get; }
-    public Guid DialogueId { get; }
 
     public ICollection<QuizlGameStatisticModel> QuizlGameStatistics { get; } = new List<QuizlGameStatisticModel>();
     public ICollection<TranslateWordsGameStatisticModel> TranslateWordsGameStatistics { get; } = new List<TranslateWordsGameStatisticModel>();
